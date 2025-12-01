@@ -13,6 +13,9 @@ DB_USER = os.environ.get('DB_USER', 'selfservice')
 DB_PASSWORD = os.environ.get('DB_PASSWORD', 'password')
 DB_NAME = os.environ.get('DB_NAME', 'sandbox')
 
+# other config
+FLASK_PORT = int(os.environ.get('PORT', 5000))
+
 
 def get_db_connection():
     """Establishes a connection to the database."""
@@ -67,4 +70,4 @@ if __name__ == '__main__':
     # TODO: we could add some things here to automatically run migrations, etc.
     # later problems... y'know once we *have* a database schema.
     # my favorite <3
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=FLASK_PORT)

@@ -39,6 +39,25 @@ def get_db_connection():
 def hello_world():
     return 'Hello, Flask!'
 
+@app.get('/api/details/<int:course_id>')
+def get_course_details(course_id):
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed"}), 500
+    cursor = conn.cursor(dictionary=True)
+    
+    # check if the course actually exists
+    try:
+        cursor.execute("SELECT * FROM COURSE_DATA WHERE KEYCODE = ?;", (course_id,))
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Course not found"}), 404
+        course = cursor.fetchone()
+        return jsonify(course)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        conn.close()
+        cursor.close()
 
 @app.route('/internal/mariadb-sample')
 def mariadb_sample():

@@ -24,7 +24,8 @@ function SignIn() {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025
-            const response = await fetch('/', {
+            // End
+            const response = await fetch('http://localhost:5000/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok){
-
+                //be aware the name of data ChihiroKawase 12/2/2025
                 if (data.success){
                     console.log("Login successful.", data)
                     return navigate('/HomePage')

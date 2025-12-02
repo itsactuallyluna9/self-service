@@ -1,6 +1,6 @@
 import os
 import mariadb
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -34,12 +34,44 @@ def get_db_connection():
         # oh well, it works, doesn't it?
         return None
 
+def get_courses(filterlist):
+    #query = [year,department,semester,instructors,seats,fees,credits,coursetypes]
+    year = filterlist[0]
 
-@app.route('/')
-def hello_world():
-    return 'Hello, Flask!'
+    try:
+        conn = mariadb.connect(
+            user = DB_USER,
+            password = DB_PASSWORD,
+            host = DB_HOST,
+            port = DB_PORT,
+            database = DB_NAME
+        )
+
+        cursor = conn.cursor
+        query = f'SELECT * FROM COURSES WHERE academic_year = {year}'
+        cursor.execute(query)
+        courses = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        return(courses)
+
+    except mariadb.error as e:
+        print(f'Error connecting to the database: {e}')
+        return None
 
 
+
+@app.route('/', methods = ['GET','POST'])
+def courses():
+    data = request._get_json()
+    searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
+                    data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
+    print(searchfilter)
+
+    courses = get_courses(searchfilter)
+    return courses
+    
 @app.route('/internal/mariadb-sample')
 def mariadb_sample():
     # this is a simple endpoint to test connectivity to the MariaDB database

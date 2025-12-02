@@ -1,8 +1,11 @@
 import os
 import mariadb
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+#enable CORS in Flask
+CORS(app) 
 
 # database configuration - these can be loaded from environment variables!
 # by default, we'll use localhost and the sandbox database with the selfservice user.
@@ -34,10 +37,33 @@ def get_db_connection():
         # oh well, it works, doesn't it?
         return None
 
+def check_user_credentials(username, password):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    query = "SELECT * FROM USERS WHERE userName = ? AND pswd = ?"
+    cur.execute(query, (username, password))
+
+    result = cur.fetchone() 
+    cur.close()
+    conn.close()
+
+    return bool(result)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, Flask!'
+    return "Hello, Flask!"
+
+@app.route('/login', methods=["POST"])
+def login():
+    data = request.get_json()
+
+    username = data.get("username")
+    password = data.get("password")
+    print(f"From frontend, Username: {username}, password: {password}")
+
+    result = check_user_credentials(username, password)
+
+    return jsonify({"success": result})
 
 
 @app.route('/internal/mariadb-sample')

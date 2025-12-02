@@ -1,5 +1,6 @@
+-- Course Data Table
 CREATE TABLE COURSE_DATA(
-    KEYCODE INT PRIMARY KEY AUTO_INCREMENT,  -- Primary Key. Randomized Integer? #Digits?
+    KEYCODE INT PRIMARY KEY AUTO_INCREMENT,
     -- These Columns are information required for a course, so they cannot be NULL values and must be provided, or pass default values.
     ACADEMICYEAR SMALLINT NOT NULL, 
     SEATS TINYINT NOT NULL,

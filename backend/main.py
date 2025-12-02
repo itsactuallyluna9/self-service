@@ -1,6 +1,6 @@
 import os
 import mariadb
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -34,10 +34,43 @@ def get_db_connection():
         # oh well, it works, doesn't it?
         return None
 
+def check_user_credentials(username, password):
+  try:
+    conn = mariadb.connect(
+        user=DB_USER,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT,
+        database=DB_NAME
+    )
 
-@app.route('/')
-def hello_world():
-    return 'Hello, Flask!'
+    cur = conn.cursor
+    query = "SELECT * FROM USERS WHERE userName = ? AND pswd = ?"
+    cur.execute(query, (username, password))
+
+    result = cur.fetchone() 
+    cur.close()
+    conn.close()
+
+    return bool(result)
+  
+  except mariadb.Error as e:
+    print(f"MariaDB conncetion error: {e}")
+
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    data = request.get_json()
+
+    username = data.get("username")
+    password = data.get("password")
+
+    result = check_user_credentials(username, password)
+    
+    if result:
+        return jsonify({"result": True})
+    else:
+        return jsonify({"result": False})
 
 
 @app.route('/internal/mariadb-sample')

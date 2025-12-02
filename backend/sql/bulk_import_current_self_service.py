@@ -59,7 +59,7 @@ def process_class(conn, file: Path):
 
         title = course_data.get("eventName", "N/A")
 
-        instructors = course_data.get("instructors", [])
+        instructors = course_data.get("instructors") or []
         professor = ", ".join([i["fullName"] for i in instructors if i.get("fullName")]) or "N/A"
 
         credits_str = course_data.get("credits", "0")
@@ -79,10 +79,12 @@ def process_class(conn, file: Path):
                     fee = None
         
         description = course_data.get("description")
-        prereqs = course_data.get("prerequisites")
+        # prereqs = course_data.get("prerequisites")
+        prereqs = "" # TBA
 
         credit_types_list = course_data.get("creditTypes", [])
-        course_types = ", ".join([ct["description"] for ct in credit_types_list if ct.get("description")])
+        # course_types = ", ".join([ct["description"] for ct in credit_types_list if ct.get("description")])
+        course_types = "" # TBA
 
         add_course(
             conn=conn,

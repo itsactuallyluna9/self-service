@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { createRoot } from "react-dom/client"
 import { useNavigate } from "react-router"
+import './SignIn.css'
 
 
 function SignIn() {
@@ -23,28 +24,29 @@ function SignIn() {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025
-            // const response = await fetch('TODO: Enter Login Endpoint', {
-            // method: 'POST',
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
-            // body: JSON.stringify({ username, password }),
-            // })
+            // End
+            const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+            })
             
             // Dummy response for testing. CarterLampe 12/1/2025
-            const response = {
-                ok: true,
-                json: async () => ({
-                    success: false,
-                    token: "test-token",
-                    message: "Login unsuccessful"
-                })
-            };
+            // const response = {
+            //     ok: true,
+            //     json: async () => ({
+            //         success: false,
+            //         token: "test-token",
+            //         message: "Login unsuccessful"
+            //     })
+            // };
 
             const data = await response.json();
 
             if (response.ok){
-
+                //be aware the name of data ChihiroKawase 12/2/2025
                 if (data.success){
                     console.log("Login successful.", data)
                     return navigate('/HomePage')
@@ -53,10 +55,9 @@ function SignIn() {
                 
                 else {
                 console.log("Login failed.", data);
-                setError("Login failed.", data)
+                setError("Login failed.")
+                }
             }
-            }
-            
         }
         catch (err) {
             setError('An error occurred. Please try again.');

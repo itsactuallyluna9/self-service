@@ -98,7 +98,7 @@ def get_courses(filterlist):
 
 @app.route('/', methods = ['GET','POST'])
 def courses():
-    data = request._get_json()
+    data = request.get_json()
     searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
                     data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
     print(searchfilter)

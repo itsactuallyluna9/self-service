@@ -2,6 +2,7 @@ import { useState } from "react"
 import { createRoot } from "react-dom/client"
 import { useNavigate } from "react-router"
 import './SignIn.css'
+import Logo from '../assets/Cornell_logo.png'
 
 
 function SignIn() {
@@ -69,31 +70,35 @@ function SignIn() {
 
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username:</label>
-            <input
-            type = "text"
-            name =  "username"
-            id = "username"
-            value = {username}
-            onChange = {(e) => setUsername(e.target.value)}
-            />
+        <div>
+            <img src={Logo} alt="Logo" />
 
-            <label htmlFor = "password"> Password</label>
-            <input
-            type = "password"
-            id = "password"
-            name =  "password"
-            value = {password}
-            onChange = {(e) => setPassword(e.target.value)}
-            />
-            
-            <div>
-            <button onClick={handleSubmit}>Submit</button>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="username">Username</label>
+                <input
+                type = "text"
+                name =  "username"
+                id = "username"
+                value = {username}
+                onChange = {(e) => setUsername(e.target.value)}
+                />
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-        </form>
+                <label htmlFor = "password"> Password</label>
+                <input
+                type = "password"
+                id = "password"
+                name =  "password"
+                value = {password}
+                onChange = {(e) => setPassword(e.target.value)}
+                />
+                
+                <div className="button-container">
+                <button onClick={handleSubmit}>Submit</button>
+                </div>
+
+                {error && <p>{error}</p>}
+            </form>
+        </div>
         
     )
 }

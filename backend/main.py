@@ -37,29 +37,35 @@ def get_db_connection():
 def get_courses(filterlist):
     #query = [year,department,semester,professor,seats,fees,credits,coursetypes]
     year = filterlist[0]
-
     filters = ''
+
     department = filterlist[1]
     if department:
         filters += f' AND department = {department}'
+
     semester = filterlist[2]
     if semester:
         if semester == "Fall":
             filters += ' AND BLOCKNUM IN ("1", "2", "3", "4", "Adjunct Fall")'
         elif semester == "Spring":
             filters += ' AND BLOCKNUM IN ("5", "6", "7", "8", "Adjunct Spring")'
+
     professor = filterlist[3]
     if professor:
         filters += f'AND PROFESSOR = {professor}'
+    
     seats = filterlist[4]
     if seats:
         filters += ' AND SEATS > 0'
+
     fees = filterlist[5]
     if fees:
         filters += ' AND FEES > 0'
+
     credits = filterlist[6]
     if credits:
         filters += f' AND CREDITS = {credits}'
+
     coursetypes = filterlist[7]
     if coursetypes:
         filters += f' AND COURSETYPES = {coursetypes}'

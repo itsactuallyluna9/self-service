@@ -1,134 +1,110 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
+import './CourseInformationPage.css'
+import {useNavigate} from 'react-router'
+import Logo from '../assets/Cornell_logo.png'
 
 interface CourseData {
-  id: number;
-  code: string;
-  title: string;
-  professor: string;
-  year: string;
-  block: string;
-  seats: number;
-  department: string;
-  credits: number;
-  fees: number;
+  KEYCODE: number;
+  DEPARTMENT: string;
+  TITLE: string;
+  PROFESSOR: string;
+  ACADEMICYEAR: string;
+  BLOCKNUM: string;
+  SEATS: number;
+  CREDITS: number;
+  FEE: number;
+  COURSECODE: number;
 }
 
-interface CoursePageTemplateProps {
-    courseData: CourseData;
-}
-const testClasses = [
+const testClasses: CourseData[] = [
   {
-    id: 1,
-    code: 'CSC318',
-    title: 'Software Development Processes',
-    professor: 'Ajit Chavan',
-    year: '2025',
-    block: '4',
-    seats: 10,
-    department: 'Computer Science',
-    credits: 1.00,
-    fees: 0.00,
+    KEYCODE: 1,
+    DEPARTMENT: 'CSC',
+    TITLE: 'Software Development Processes',
+    PROFESSOR: 'Ajit Chavan',
+    ACADEMICYEAR: '2025',
+    BLOCKNUM: '4',
+    SEATS: 10,
+    CREDITS: 1.00,
+    FEE: 0.00,
+    COURSECODE: 318
   },
   {
-    id: 2,
-    code: 'MAT101',
-    title: 'Calculus I',
-    professor: 'Dr. Smith',
-    year: '2025',
-    block: '2',
-    seats: 25,
-    department: 'Mathematics',
-    credits: 0.75,
-    fees: 50.00,
+    KEYCODE: 2,
+    DEPARTMENT: 'MAT',
+    TITLE: 'Calculus I',
+    PROFESSOR: 'Dr. Smith',
+    ACADEMICYEAR: '2025',
+    BLOCKNUM: '2',
+    SEATS: 25,
+    CREDITS: 0.75,
+    FEE: 50.00,
+    COURSECODE: 101
   },
 ];
 
 
-const CoursesPageTemplate: React.FC<CoursePageTemplateProps> = ({ courseData }) => {
-  const {id, code, title, professor, block, year, seats, department, credits, fees } = courseData;
-
-  return (
-    <div>
-      <h2>{code} {title}</h2>
-      <p>Professor: {professor}</p>
-      <p>Department: {department}</p>
-      <p>Year: {year}</p>
-      <p>Block: {block}</p>
-      <p>Seats: {seats}</p>
-      <p>Credits: {credits}</p>
-      <p>Fees: ${fees}</p>
-    </div>
-  );
-};
-
-/*
- export default function CoursePageLoader() {
-    return (
-        <main>
-          {testClasses.map((courseData) => (
-            <CoursesPageTemplate key={courseData.id} courseData={courseData} />
-          ))}
-        </main>
-
-
-
-        )
-  */
-        
 function DisplayCourses() {
     const [courses, setCourses] = useState<CourseData[]>([])
-    const [courseID, setCourseID] = useState<string>("");
 
-    useEffect(() => {
-export default function CoursePageLoader() {
+    const nav = useNavigate()
   
-  const [courses, setCourses] = useState<CourseData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+    const toCourseInfo = (KEYCODE: number) => {
+      nav('/CourseInfo',{state:{code:KEYCODE}})
+    }
+
   useEffect(() => {
     async function loadCourses() {
       try {
-        const response = await fetch('/'); 
+        //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
+        const response = await fetch('https://10.101.128.56:6020/');
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`); 
+          throw new Error(`HTTP error! status: ${response.status}`); 
         }
-        
-        const data = await response.json();
 
-        setCourses(data.courses || testClasses); // Use testClasses as fallback
-        
+        const data = await response.json();
+        setCourses(data.courses || testClasses);
+            
+    
       } catch (e: any) {
         console.error("Error fetching courses:", e);
-        setError(`Failed to load courses: ${e.message}`);
         setCourses(testClasses);
-      } finally {
-        setIsLoading(false);
+    
       }
     }
     loadCourses();
-  }, []);
+    }, []);
 
-  if (isLoading) {
-    return <p>Loading courses...</p>;
-  }
+    return (
+    <div className='display'>
+      <img src={Logo} alt="Logo" />
+      <h1> All Courses</h1>
+    
+      {courses.length === 0 ? (
+        <p>Loading courses...</p>
+      ) : (
+        courses.map((course: CourseData) => (
+          <div key={course.KEYCODE} className = 'course-card'>
+            <h2>{course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}</h2>
+            <p>Professor: {course.PROFESSOR}</p>
+            <p>Academic Year: {course.ACADEMICYEAR}</p>
+            <p>Block: {course.BLOCKNUM}</p>
+            <p>Seats Available: {course.SEATS}</p>
+            <p>Credits: {course.CREDITS}</p>
+            {course.FEE !== null && (
+                    <p>Fees: ${course.FEE}</p>
+                )}
+                {course.FEE == null && (
+                    <p>No Fees</p>
+                )}
+            <button onClick={()=>{toCourseInfo(course.KEYCODE)}}>More</button>
+       </div>
+      ))
+    )}
 
-  if (error) {
-    return <p className="error">Error: {error} | Displaying mock data.</p>;
-  }
-
-  if (courses.length === 0) {
-    return <p>No courses found.</p>;
-  }
-
-  return (
-    <main className="course-grid">
-      {/* Map over the fetched courses array */}
-      {courses.map((courseData) => (
-        // Key prop is essential for list rendering
-        <CoursesPageTemplate key={courseData.id} courseData={courseData} />
-      ))}
-    </main>
+    </div>
   );
 }
+
+export default DisplayCourses

@@ -10,22 +10,22 @@ import CourseInformationPage from './pages/CourseInformationPage'
 
 const router = createBrowserRouter([
   {
-    path: '/HomePage',
-    element: <HomePage/>,
-  }, 
-  {
     path: '/',
     element: <SignIn/>,
     errorElement: <h1>Error 404: Page Not Found</h1>,
   },
-{
+  {
     path: '/CourseInformationPage',
     element: <CourseInformationPage/>,
   },
   {
     path: '/CourseInfo',
     element: <IndividualCourseInfo/>
-  }
+  },
+  {
+    path: '/HomePage',
+    element: <HomePage/>,
+  }, 
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -5,68 +5,63 @@ import { useLocation } from 'react-router';
 
 
 interface CourseProps {
-    name: string
-    year: string
-    seats: string
-    code: string
-    block: string
-    professor: string
-    department: string
-    credits: string
-    feeAmount: string
-    description: string
-    prereqs: string
-    type: string
+    ACADEMICYEAR: number,
+    BLOCKNUM: string,
+    COURSECODE: string,
+    COURSETYPES: string,
+    CREDITS: number,
+    DEPARTMENT: string,
+    DESCR: string,
+    FEE: null | number,
+    PROFESSOR: string,
+    KEYCODE: number,
+    PREREQS: string,
+    SEATS: number,
+    TITLE: string
 }
 
-
 function IndividualCourseInfo() {
-    const location = useLocation()
-    const courseID = useState(location.state.code);
+    const { state } = useLocation()
+    const courseID = state.code;
     const [myData, setMyData] = useState<any>(null);
     const [error, setError] = useState('');
     const [course, setCourse] = useState()
-    
 
     
         useEffect(() => {
             try {
                 const fetchCourse =  async () => {
-                    
                     console.log("Page has loaded.");
-                //   Fetch call to backend login API endpoint. CarterLampe 12/1/2025
-                   const response = await fetch('TODO: Enter Course Info Endpoint', {
-                   method: 'POST',
-                   headers: {
-                   'Content-Type': 'application/json',
-                   },
-                   body: JSON.stringify({ courseID }),
-                 })
+
+                    //  Fetch call to backend indivdual course info API endpoint. CarterLampe 12/1/2025
+                    const response = await fetch(`https://10.101.128.56:6020/api/details/${courseID}`, {})
+                
      
      
                     
                     // Dummy response for testing. CarterLampe 12/1/2025
-                    /*const response = {
-                        ok: true,
-                        json: async () => ({
-                            success: true,
-                            name: 'Software Development Processes',
-                            year: '2025-2026',
-                            seats: '9',
-                            code: 'CSC 318',
-                            block: '4',
-                            professor: 'Ajit Chavan',
-                            department: 'Computer Science',
-                            credits: '1',
-                            feeAmount: '0',
-                            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                            prereqs: 'none',
-                            type: 'none'
-                                            })
-                    };
-                    */
+                    // const response = {
+                    //     ok: true,
+                    //     json: async () => ({
+                    //         success: true,
+                    //         ACADEMICYEAR: 2023,
+                    //         BLOCKNUM:  "4",
+                    //         COURSECODE: "CS101",
+                    //         COURSETYPES: "ExampleType",
+                    //         CREDITS: 3,
+                    //         DEPARTMENT: "Computer Science",
+                    //         DESCR: "An introductory course to computer science.",
+                    //         FEE: null,
+                    //         INSTRUCTORS: "Dr. Smith",
+                    //         KEYCODE: 12345,
+                    //         PREREQS: "None",
+                    //         SEATS: 50,
+                    //         TITLE: "Introduction to Computer Science",
+                    //                         })
+                    // };
+                    
                     const data = await response.json();
-     
+                    // Check if course was found successfully. Store CarterLampe 12/1/2025
                         if (data.success){
                             console.log("Course found succesfully.", data)
                             setMyData(data)
@@ -76,36 +71,36 @@ function IndividualCourseInfo() {
                         setError("Course ID not found")
                         console.log(myData.name)
                         }
-                    }
+                }
                 
                 fetchCourse();
-            } catch (err) {
+            } 
+            catch (err) {
                 setError('An error occurred. Please try again.');
                 console.error('Course id error:', err);
             }
-            
-            
-        })
+        }, [])
     if (!myData) {
-        return <div>Loading Course Info...</div>
+        return <div className='ind'><form><h1>Course not found. ERROR 404.</h1></form></div>
     }
     const courseInfo: CourseProps = {
-        name: myData.name,
-        year: myData.year,
-        seats: myData.seats,
-        code: myData.code,
-        block: myData.block,
-        professor: myData.professor,
-        department: myData.department,
-        credits: myData.credits,
-        feeAmount: myData.feeAmount,
-        description: myData.description,
-        prereqs: myData.prereqs,
-        type: myData.type};
+        ACADEMICYEAR: myData.ACADEMICYEAR,
+        BLOCKNUM: myData.BLOCKNUM,
+        COURSECODE: myData.COURSECODE,
+        COURSETYPES: myData.COURSETYPES,
+        CREDITS: myData.CREDITS,
+        DEPARTMENT: myData.DEPARTMENT,
+        DESCR: myData.DESCR,
+        FEE: myData.FEE,
+        PROFESSOR: myData.PROFESSOR,
+        KEYCODE: myData.KEYCODE,
+        PREREQS: myData.PREREQS,
+        SEATS: myData.SEATS,
+        TITLE: myData.TITLE};
     return (
         <IndividualCourseTemplate {...courseInfo}/>
     );
     
-}
+} 
 
 export default IndividualCourseInfo;

@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { createRoot } from "react-dom/client"
 import { useNavigate } from "react-router"
 import './SignIn.css'
 import Logo from '../assets/Cornell_logo.png'
@@ -12,23 +11,24 @@ function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false);
+
 
     const navigate = useNavigate()
     
     const handleSubmit = async (e: React.FormEvent) => {
+        // Prevent default form submission behavior. CarterLampe 12/1/2025
         e.preventDefault()
         setError('')
-        setLoading(true);
-        
+    
+
+        // Simple check to ensure both username and password are not empty. CarterLampe 12/1/2025
         if (!username || !password) {
         setError('Please enter both username and password.')
         return
         }
 
         try{
-            // Fetch call to backend login API endpoint. CarterLampe 12/1/2025
-            // End
+            // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
             const response = await fetch('https://10.101.128.56:6010/login', {
             method: 'POST',
             headers: {
@@ -37,7 +37,7 @@ function SignIn() {
             body: JSON.stringify({ username, password }),
             })
             
-            // Dummy response for testing. CarterLampe 12/1/2025
+            // Dummy response for testing. CarterLampe 12/1/2025.
             // const response = {
             //     ok: true,
             //     json: async () => ({
@@ -50,17 +50,16 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok){
-
+                
                 if (data.success){
                     console.log("Login successful.", data)
-                    const userName= createContext(username)
-                    return navigate('/HomePage')
+                    const userName = createContext(username)
+                    return navigate('/CourseInformationPage')
         
                 }
-                
                 else {
                 console.log("Login failed.", data);
-                setError("Login failed.")
+                setError("Username or password is incorrect.")
                 }
             }
         }
@@ -68,14 +67,10 @@ function SignIn() {
             setError('An error occurred. Please try again.');
             console.error('Login error:', err);
         }
-        finally {
-            setLoading(false);
-        }
     }
 
-
     return (
-        <div>
+        <div className="signin">
             <img src={Logo} alt="Logo" />
 
             <form onSubmit={handleSubmit}>
@@ -86,6 +81,7 @@ function SignIn() {
                 id = "username"
                 value = {username}
                 onChange = {(e) => setUsername(e.target.value)}
+                autoComplete="off"
                 />
 
                 <label htmlFor = "password"> Password</label>
@@ -95,6 +91,7 @@ function SignIn() {
                 name =  "password"
                 value = {password}
                 onChange = {(e) => setPassword(e.target.value)}
+                autoComplete="off"
                 />
                 
                 <div className="button-container">

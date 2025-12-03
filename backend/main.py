@@ -72,11 +72,12 @@ def get_course_details(course_id):
     try:
         cursor.execute("SELECT * FROM COURSE_DATA WHERE KEYCODE = ?;", (course_id,))
         if cursor.rowcount == 0:
-            return jsonify({"error": "Course not found"}), 404
+            return jsonify({"error": "Course not found", "success": False}), 404
         course = cursor.fetchone()
+        course['success'] = True
         return jsonify(course)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e), "success": False}), 500
     finally:
         conn.close()
         cursor.close()

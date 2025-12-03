@@ -1,8 +1,11 @@
 import os
 import mariadb
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+#enable CORS in Flask
+CORS(app) 
 
 # database configuration - these can be loaded from environment variables!
 # by default, we'll use localhost and the sandbox database with the selfservice user.
@@ -34,11 +37,120 @@ def get_db_connection():
         # oh well, it works, doesn't it?
         return None
 
+def check_user_credentials(username, password):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    query = "SELECT * FROM USERS WHERE userName = ? AND pswd = ?"
+    cur.execute(query, (username, password))
 
-@app.route('/')
-def hello_world():
-    return 'Hello, Flask!'
+    result = cur.fetchone() 
+    cur.close()
+    conn.close()
 
+    return bool(result)
+
+@app.route('/login', methods=["POST"])
+def login():
+    data = request.get_json()
+
+    username = data.get("username")
+    password = data.get("password")
+    print(f"From frontend, Username: {username}, password: {password}")
+
+    result = check_user_credentials(username, password)
+
+    return jsonify({"success": result})
+
+@app.get('/api/details/<int:course_id>')
+def get_course_details(course_id):
+    conn = get_db_connection()
+    if conn is None:
+        return jsonify({"error": "Database connection failed"}), 500
+    cursor = conn.cursor(dictionary=True)
+    
+    # check if the course actually exists
+    try:
+        cursor.execute("SELECT * FROM COURSE_DATA WHERE KEYCODE = ?;", (course_id,))
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Course not found", "success": False}), 404
+        course = cursor.fetchone()
+        course['success'] = True
+        return jsonify(course)
+    except Exception as e:
+        return jsonify({"error": str(e), "success": False}), 500
+    finally:
+        conn.close()
+        cursor.close()
+
+
+def get_courses():
+    #filterlist = [year,department,semester,professor,seats,fees,credits,coursetypes]
+    '''
+    year = filterlist[0]
+    filters = ''
+
+    department = filterlist[1]
+    if department:
+        filters += f' AND department = {department}'
+
+    semester = filterlist[2]
+    if semester:
+        if semester == "Fall":
+            filters += ' AND BLOCKNUM IN ("1", "2", "3", "4", "Adjunct Fall")'
+        elif semester == "Spring":
+            filters += ' AND BLOCKNUM IN ("5", "6", "7", "8", "Adjunct Spring")'
+
+    professor = filterlist[3]
+    if professor:
+        filters += f'AND PROFESSOR = {professor}'
+    
+    seats = filterlist[4]
+    if seats:
+        filters += ' AND SEATS > 0'
+
+    fees = filterlist[5]
+    if fees:
+        filters += ' AND FEES > 0'
+
+    credits = filterlist[6]
+    if credits:
+        filters += f' AND CREDITS = {credits}'
+
+    coursetypes = filterlist[7]
+    if coursetypes:
+        filters += f' AND COURSETYPES = {coursetypes}'
+    '''
+    try:
+        conn = mariadb.connect(
+            user = DB_USER,
+            password = DB_PASSWORD,
+            host = DB_HOST,
+            port = DB_PORT,
+            database = DB_NAME
+        )
+
+        cursor = conn.cursor(dictionary=True)
+        query = 'SELECT KEYCODE, ACADEMICYEAR, SEATS, COURSECODE, BLOCKNUM, TITLE, PROFESSOR, CREDITS, DEPARTMENT, FEE FROM COURSE_DATA'
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        
+        cursor.close()
+        conn.close()
+
+        return(rows)
+
+    except mariadb.Error as e:
+        print(f'Error connecting to the database: {e}')
+        return None
+
+@app.route('/', methods = ['GET'])
+def courses():
+    # data = request.get_json()
+    #searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
+                    #data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
+    
+    courses = get_courses()
+    return jsonify({"courses": courses})
 
 @app.route('/internal/mariadb-sample')
 def mariadb_sample():

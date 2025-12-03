@@ -7,7 +7,7 @@ CREATE TABLE COURSE_DATA(
     COURSECODE SMALLINT NOT NULL,
     BLOCKNUM VARCHAR(15) NOT NULL, -- The Block is a string, so that it may support Adjunct Fall/Spring
     TITLE VARCHAR(255) NOT NULL,
-    PROFESSOR VARCHAR(255) NOT NULL, --If Multiple, Comma Seperated Instructors
+    PROFESSOR VARCHAR(255) NOT NULL, -- If Multiple, Comma Seperated Instructors
     CREDITS FLOAT NOT NULL,
     DEPARTMENT VARCHAR(255) NOT NULL,
     -- These Columns aren't necessarily required for a course, so they can be NULL values if not provided.

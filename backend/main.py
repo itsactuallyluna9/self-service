@@ -82,12 +82,12 @@ def get_courses(filterlist):
         cursor = conn.cursor
         query = f'SELECT TITLE, COURSECODE, PROFESSOR, SEATS, BLOCKNUM, CREDITS, FEE FROM COURSE_DATA WHERE academic_year = {year}{filters}'
         cursor.execute(query)
-        courses = cursor.fetchall()
+        rows = cursor.fetchall()
         
         cursor.close()
         conn.close()
 
-        return(courses)
+        return(rows)
 
     except mariadb.error as e:
         print(f'Error connecting to the database: {e}')
@@ -102,7 +102,8 @@ def courses():
                     data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
     print(searchfilter)
 
-    courses = get_courses(searchfilter)
+    rows = get_courses(searchfilter)
+    courses = [dict(row) for row in rows]
     return jsonify({"courses": courses})
     
 @app.route('/internal/mariadb-sample')

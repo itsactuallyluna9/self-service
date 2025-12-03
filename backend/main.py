@@ -46,7 +46,7 @@ def get_courses(filterlist):
     if semester:
         if semester == "Fall":
             filters += ' AND BLOCKNUM IN ("1", "2", "3", "4", "Adjunct Fall")'
-        if semester == "Spring":
+        elif semester == "Spring":
             filters += ' AND BLOCKNUM IN ("5", "6", "7", "8", "Adjunct Spring")'
     professor = filterlist[3]
     if professor:

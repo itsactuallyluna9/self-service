@@ -139,7 +139,7 @@ def get_courses():
 
         return(rows)
 
-    except mariadb.error as e:
+    except mariadb.Error as e:
         print(f'Error connecting to the database: {e}')
         return None
 

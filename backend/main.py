@@ -143,9 +143,9 @@ def get_courses():
         print(f'Error connecting to the database: {e}')
         return None
 
-@app.route('/', methods = ['GET','POST'])
+@app.route('/', methods = ['GET'])
 def courses():
-    data = request.get_json()
+    # data = request.get_json()
     #searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
                     #data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
     

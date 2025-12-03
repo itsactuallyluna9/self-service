@@ -129,7 +129,7 @@ def get_courses():
             database = DB_NAME
         )
 
-        cursor = conn.cursor
+        cursor = conn.cursor()
         query = 'SELECT KEYCODE, ACADEMICYEAR, SEATS, COURSECODE, BLOCKNUM, TITLE, PROFESSOR, CREDITS, DEPARTMENT, FEE FROM COURSE_DATA'
         cursor.execute(query)
         rows = cursor.fetchall()

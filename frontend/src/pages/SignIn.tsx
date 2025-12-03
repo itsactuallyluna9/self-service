@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client"
 import { useNavigate } from "react-router"
 import './SignIn.css'
 import Logo from '../assets/Cornell_logo.png'
+import { createContext } from 'react'
 
 
 function SignIn() {
@@ -49,6 +50,7 @@ function SignIn() {
 
                 if (data.success){
                     console.log("Login successful.", data)
+                    const userName= createContext(username)
                     return navigate('/HomePage')
         
                 }
@@ -102,4 +104,4 @@ function SignIn() {
         
     )
 }
-export default SignIn
+export default SignIn() 

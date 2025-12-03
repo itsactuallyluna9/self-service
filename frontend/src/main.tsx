@@ -6,7 +6,7 @@ import './index.css'
 import SignIn from './pages/SignIn'
 import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
-//import CourseInformationPage from './pages/CourseInformationPage'
+import CourseInformationPage from './pages/CourseInformationPage'
 
 const router = createBrowserRouter([
   {

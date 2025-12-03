@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams, Link, useNavigate, Navigate } from 'react-router'
 //import { createBrowserRouter } from "react-router";
 //import { RouterProvider } from "react-router/dom";
 //import  BrowserRouter from 'react-router-dom'
@@ -7,24 +7,17 @@ import { useParams } from 'react-router'
 function App() {
   const params = useParams();
   console.log(params)
-  const [count, setCount] = useState(0)
+  const nav = useNavigate()
+  
+  const toCourseInfo = () => {
+    nav('/CourseInfo',{state:{code: String}})
+  }
 
   return (
     <>
       <div>
+        <a onClick={()=>{toCourseInfo()}}>CourseInfo</a>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

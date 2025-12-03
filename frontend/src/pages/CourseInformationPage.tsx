@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 
 const [courseID, setCourseID] = useState('')
 
-const CoursesPageTemplate = (courseData) => {
+
+const CoursesPageTemplate = (courseData: any) => {
   const { code, title, professor, block, seats, department, credits, fees } = courseData;
     
     return (
@@ -20,8 +21,6 @@ const CoursesPageTemplate = (courseData) => {
         </div>
     )
 }
-
-function DisplayCourses
     
 }
 export default CoursesPageTemplate

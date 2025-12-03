@@ -35,7 +35,7 @@ def get_db_connection():
         return None
 
 def get_courses(filterlist):
-    #query = [year,department,semester,professor,seats,fees,credits,coursetypes]
+    #filterlist = [year,department,semester,professor,seats,fees,credits,coursetypes]
     year = filterlist[0]
     filters = ''
 

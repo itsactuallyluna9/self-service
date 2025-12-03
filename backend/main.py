@@ -129,7 +129,7 @@ def get_courses():
             database = DB_NAME
         )
 
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=True)
         query = 'SELECT KEYCODE, ACADEMICYEAR, SEATS, COURSECODE, BLOCKNUM, TITLE, PROFESSOR, CREDITS, DEPARTMENT, FEE FROM COURSE_DATA'
         cursor.execute(query)
         rows = cursor.fetchall()
@@ -149,8 +149,7 @@ def courses():
     #searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
                     #data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
     
-    rows = get_courses()
-    courses = [dict(row) for row in rows]
+    courses = get_courses()
     return jsonify({"courses": courses})
 
 @app.route('/internal/mariadb-sample')

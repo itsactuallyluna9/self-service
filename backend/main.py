@@ -80,7 +80,7 @@ def get_courses(filterlist):
         )
 
         cursor = conn.cursor
-        query = f'SELECT * FROM COURSE_DATA WHERE academic_year = {year}{filters}'
+        query = f'SELECT TITLE, COURSECODE, PROFESSOR, SEATS, BLOCKNUM, CREDITS, FEE FROM COURSE_DATA WHERE academic_year = {year}{filters}'
         cursor.execute(query)
         courses = cursor.fetchall()
         

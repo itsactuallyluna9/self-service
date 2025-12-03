@@ -10,13 +10,13 @@ function App() {
   const nav = useNavigate()
   
   const toCourseInfo = () => {
-    nav('/CourseInfo',{state:{code: String}})
+    nav('/CourseInfo',{state:{code:30}})
   }
 
   return (
     <>
       <div>
-        <a onClick={()=>{toCourseInfo()}}>CourseInfo</a>
+        <h1 onClick={()=>{toCourseInfo()}}>CourseInfo</h1>
       </div>
     </>
   )

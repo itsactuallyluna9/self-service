@@ -62,7 +62,8 @@ const CoursesPageTemplate: React.FC<CoursePageTemplateProps> = ({ courseData }) 
   );
 };
 
-export default function CoursePageLoader() {
+/*
+ export default function CoursePageLoader() {
     return (
         <main>
           {testClasses.map((courseData) => (
@@ -73,10 +74,10 @@ export default function CoursePageLoader() {
 
 
         )
-        }
+  */
         
 function DisplayCourses() {
-    const [courseID, setCourseID] = useState<CourseData[]>([])
+    const [courses, setCourses] = useState<CourseData[]>([])
     const [courseID, setCourseID] = useState<string>("");
 
     useEffect(() => {
@@ -96,3 +97,21 @@ function DisplayCourses() {
     loadCourses();
     }, []);
 
+    return (
+    <div>
+      <h2>{code} {title}</h2>
+      <p>Professor: {professor}</p>
+      <p>Department: {department}</p>
+      <p>Year: {year}</p>
+      <p>Block: {block}</p>
+      <p>Seats: {seats}</p>
+      <p>Credits: {credits}</p>
+      <p>Fees: ${fees}</p>
+    </div>
+  );
+
+  }
+
+  
+
+  export default DisplayCourses

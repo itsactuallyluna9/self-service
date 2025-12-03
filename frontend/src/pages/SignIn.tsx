@@ -5,7 +5,9 @@ import './SignIn.css'
 import Logo from '../assets/Cornell_logo.png'
 import { createContext } from 'react'
 
-
+//TESTING LOGIN FOR STUDENT : 
+//user: ckawase25
+//password: password123
 function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')

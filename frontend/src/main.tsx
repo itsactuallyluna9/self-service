@@ -18,10 +18,10 @@ const router = createBrowserRouter([
     element: <SignIn/>,
     errorElement: <h1>Error 404: Page Not Found</h1>,
   },
-/*  {
+{
     path: '/CourseInformationPage',
     element: <CourseInformationPage/>,
-  },*/
+  },
   {
     path: '/CourseInfo',
     element: <IndividualCourseInfo/>

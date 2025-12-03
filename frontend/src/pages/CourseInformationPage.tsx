@@ -21,6 +21,4 @@ const CoursesPageTemplate = (courseData: any) => {
         </div>
     )
 }
-    
-}
 export default CoursesPageTemplate

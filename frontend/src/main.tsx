@@ -6,7 +6,7 @@ import './index.css'
 import SignIn from './pages/SignIn'
 import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
-//import CourseInformationPage from './pages/CourseInformationPage'
+import CourseInformationPage from './pages/CourseInformationPage'
 
 const router = createBrowserRouter([
   {
@@ -18,10 +18,10 @@ const router = createBrowserRouter([
     element: <SignIn/>,
     errorElement: <h1>Error 404: Page Not Found</h1>,
   },
-/*  {
+{
     path: '/CourseInformationPage',
     element: <CourseInformationPage/>,
-  },*/
+  },
   {
     path: '/CourseInfo',
     element: <IndividualCourseInfo/>

@@ -81,37 +81,54 @@ function DisplayCourses() {
     const [courseID, setCourseID] = useState<string>("");
 
     useEffect(() => {
+export default function CoursePageLoader() {
+  
+  const [courses, setCourses] = useState<CourseData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
     async function loadCourses() {
-        try {
-            const response = await fetch('/');
-            const data = await response.json();
-
-        if (response.ok){
-            setCourses(data.courses);
+      try {
+        const response = await fetch('/'); 
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`); 
         }
-            
-    } catch (error) {
-        console.error("Error fetching courses:", error);
-    }
+        
+        const data = await response.json();
+
+        setCourses(data.courses || testClasses); // Use testClasses as fallback
+        
+      } catch (e: any) {
+        console.error("Error fetching courses:", e);
+        setError(`Failed to load courses: ${e.message}`);
+        setCourses(testClasses);
+      } finally {
+        setIsLoading(false);
+      }
     }
     loadCourses();
-    }, []);
+  }, []);
 
-    return (
-    <div>
-      <h2>{code} {title}</h2>
-      <p>Professor: {professor}</p>
-      <p>Department: {department}</p>
-      <p>Year: {year}</p>
-      <p>Block: {block}</p>
-      <p>Seats: {seats}</p>
-      <p>Credits: {credits}</p>
-      <p>Fees: ${fees}</p>
-    </div>
-  );
-
+  if (isLoading) {
+    return <p>Loading courses...</p>;
   }
 
-  
+  if (error) {
+    return <p className="error">Error: {error} | Displaying mock data.</p>;
+  }
 
-  export default DisplayCourses
+  if (courses.length === 0) {
+    return <p>No courses found.</p>;
+  }
+
+  return (
+    <main className="course-grid">
+      {/* Map over the fetched courses array */}
+      {courses.map((courseData) => (
+        // Key prop is essential for list rendering
+        <CoursesPageTemplate key={courseData.id} courseData={courseData} />
+      ))}
+    </main>
+  );
+}

@@ -35,8 +35,34 @@ def get_db_connection():
         return None
 
 def get_courses(filterlist):
-    #query = [year,department,semester,instructors,seats,fees,credits,coursetypes]
+    #query = [year,department,semester,professor,seats,fees,credits,coursetypes]
     year = filterlist[0]
+
+    filters = ''
+    department = filterlist[1]
+    if department:
+        filters += f' AND department = {department}'
+    semester = filterlist[2]
+    if semester:
+        if semester == "Fall":
+            filters += ' AND BLOCKNUM IN ("1", "2", "3", "4", "Adjunct Fall")'
+        if semester == "Spring":
+            filters += ' AND BLOCKNUM IN ("5", "6", "7", "8", "Adjunct Spring")'
+    professor = filterlist[3]
+    if professor:
+        filters += f'AND PROFESSOR = {professor}'
+    seats = filterlist[4]
+    if seats:
+        filters += ' AND SEATS > 0'
+    fees = filterlist[5]
+    if fees:
+        filters += ' AND FEES > 0'
+    credits = filterlist[6]
+    if credits:
+        filters += f' AND CREDITS = {credits}'
+    coursetypes = filterlist[7]
+    if coursetypes:
+        filters += f' AND COURSETYPES = {coursetypes}'
 
     try:
         conn = mariadb.connect(
@@ -48,9 +74,11 @@ def get_courses(filterlist):
         )
 
         cursor = conn.cursor
-        query = f'SELECT * FROM COURSES WHERE academic_year = {year}'
+        query = f'SELECT * FROM COURSE_DATA WHERE academic_year = {year}{filters}'
         cursor.execute(query)
         courses = cursor.fetchall()
+
+
         cursor.close()
         conn.close()
 
@@ -70,7 +98,7 @@ def courses():
     print(searchfilter)
 
     courses = get_courses(searchfilter)
-    return courses
+    return jsonify({"courses": courses})
     
 @app.route('/internal/mariadb-sample')
 def mariadb_sample():

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client"
 import { useNavigate } from "react-router"
 import './SignIn.css'
 import Logo from '../assets/Cornell_logo.png'
+import { createContext } from 'react'
 
 
 function SignIn() {
@@ -26,7 +27,7 @@ function SignIn() {
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025
             // End
-            const response = await fetch('http://localhost:5000/login', {
+            const response = await fetch('https://10.101.128.56:6010/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,9 +48,10 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok){
-                //be aware the name of data ChihiroKawase 12/2/2025
+
                 if (data.success){
                     console.log("Login successful.", data)
+                    const userName= createContext(username)
                     return navigate('/HomePage')
         
                 }

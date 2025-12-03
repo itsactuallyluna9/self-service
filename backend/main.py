@@ -82,8 +82,9 @@ def get_course_details(course_id):
         cursor.close()
 
 
-def get_courses(filterlist):
+def get_courses():
     #filterlist = [year,department,semester,professor,seats,fees,credits,coursetypes]
+    '''
     year = filterlist[0]
     filters = ''
 
@@ -117,7 +118,7 @@ def get_courses(filterlist):
     coursetypes = filterlist[7]
     if coursetypes:
         filters += f' AND COURSETYPES = {coursetypes}'
-
+    '''
     try:
         conn = mariadb.connect(
             user = DB_USER,
@@ -128,7 +129,7 @@ def get_courses(filterlist):
         )
 
         cursor = conn.cursor
-        query = f'SELECT TITLE, COURSECODE, PROFESSOR, SEATS, BLOCKNUM, CREDITS, FEE FROM COURSE_DATA WHERE academic_year = {year}{filters}'
+        query = 'SELECT KEYCODE, ACADEMICYEAR, SEATS, COURSECODE, BLOCKNUM, TITLE, PROFESSOR, CREDITS, DEPARTMENT, FEE FROM COURSE_DATA'
         cursor.execute(query)
         rows = cursor.fetchall()
         
@@ -144,11 +145,10 @@ def get_courses(filterlist):
 @app.route('/', methods = ['GET','POST'])
 def courses():
     data = request.get_json()
-    searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
-                    data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
-    print(searchfilter)
-
-    rows = get_courses(searchfilter)
+    #searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
+                    #data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
+    
+    rows = get_courses()
     courses = [dict(row) for row in rows]
     return jsonify({"courses": courses})
 

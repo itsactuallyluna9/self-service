@@ -49,10 +49,6 @@ def check_user_credentials(username, password):
 
     return bool(result)
 
-@app.route('/')
-def hello_world():
-    return "Hello, Flask!"
-
 @app.route('/login', methods=["POST"])
 def login():
     data = request.get_json()
@@ -84,6 +80,77 @@ def get_course_details(course_id):
     finally:
         conn.close()
         cursor.close()
+
+
+def get_courses(filterlist):
+    #filterlist = [year,department,semester,professor,seats,fees,credits,coursetypes]
+    year = filterlist[0]
+    filters = ''
+
+    department = filterlist[1]
+    if department:
+        filters += f' AND department = {department}'
+
+    semester = filterlist[2]
+    if semester:
+        if semester == "Fall":
+            filters += ' AND BLOCKNUM IN ("1", "2", "3", "4", "Adjunct Fall")'
+        elif semester == "Spring":
+            filters += ' AND BLOCKNUM IN ("5", "6", "7", "8", "Adjunct Spring")'
+
+    professor = filterlist[3]
+    if professor:
+        filters += f'AND PROFESSOR = {professor}'
+    
+    seats = filterlist[4]
+    if seats:
+        filters += ' AND SEATS > 0'
+
+    fees = filterlist[5]
+    if fees:
+        filters += ' AND FEES > 0'
+
+    credits = filterlist[6]
+    if credits:
+        filters += f' AND CREDITS = {credits}'
+
+    coursetypes = filterlist[7]
+    if coursetypes:
+        filters += f' AND COURSETYPES = {coursetypes}'
+
+    try:
+        conn = mariadb.connect(
+            user = DB_USER,
+            password = DB_PASSWORD,
+            host = DB_HOST,
+            port = DB_PORT,
+            database = DB_NAME
+        )
+
+        cursor = conn.cursor
+        query = f'SELECT TITLE, COURSECODE, PROFESSOR, SEATS, BLOCKNUM, CREDITS, FEE FROM COURSE_DATA WHERE academic_year = {year}{filters}'
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        
+        cursor.close()
+        conn.close()
+
+        return(rows)
+
+    except mariadb.error as e:
+        print(f'Error connecting to the database: {e}')
+        return None
+
+@app.route('/', methods = ['GET','POST'])
+def courses():
+    data = request.get_json()
+    searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
+                    data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
+    print(searchfilter)
+
+    rows = get_courses(searchfilter)
+    courses = [dict(row) for row in rows]
+    return jsonify({"courses": courses})
 
 @app.route('/internal/mariadb-sample')
 def mariadb_sample():

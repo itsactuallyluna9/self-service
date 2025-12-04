@@ -34,7 +34,7 @@ function IndividualCourseInfo() {
                     console.log("Page has loaded.");
 
                     //  Fetch call to backend indivdual course info API endpoint. CarterLampe 12/1/2025
-                    const response = await fetch(`https://10.101.128.56:6020/api/details/${courseID}`, {})
+                    const response = await fetch(`https://10.101.128.56:6001/api/details/${courseID}`, {})
                 
      
      

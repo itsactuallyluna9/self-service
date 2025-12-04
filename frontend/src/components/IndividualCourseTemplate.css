@@ -5,10 +5,10 @@ body {
     padding: 0 2rem;
     background-color: #fff;
     display: flex;
-    justify-content: center;   /* center horizontally */
-    align-items: center;       /* center vertically */
-    min-height: 100vh;         /* full page height */
-    background-color: #fff;    /* if you want white background */
+    justify-content: center;
+    align-items: center; 
+    min-height: 100vh; 
+    background-color: #fff;    
 }
 
 .ind img { 

@@ -55,6 +55,7 @@ function SignIn() {
                 if (data.success){
                     console.log("Login successful.", data)
                     LoginID.id = username
+                    Object.freeze(LoginID)
                     return navigate('/CourseInformationPage/')
         
                 }

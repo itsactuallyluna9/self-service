@@ -3,6 +3,8 @@ import './IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
 
+import UserID from '../components/LoginID'
+
 interface CourseProps {
     ACADEMICYEAR: number,
     BLOCKNUM: string,

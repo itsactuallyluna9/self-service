@@ -1,4 +1,4 @@
-INSERT INTO USERS (username, password, usertype) VALUES 
+INSERT INTO 'USERS' (username, password, usertype) VALUES 
 ("ckawase25", "password123", "STUDENT"),
 ('asantos27', 'password123', 'STUDENT'),
 ('clampe27', 'password123', 'STUDENT'),

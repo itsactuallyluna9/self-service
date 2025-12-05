@@ -1,3 +1,4 @@
+--Many-to-Many Relationships Table between COURSE_DATA and COURSE_OFFER tables
 CREATE TABLE COURSES_REL(
     courseid SMALLINT NOT NULL,
     offerid SMALLINT NOT NULL,

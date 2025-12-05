@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import IndividualCourseTemplate from '../components/IndividualCourseTemplate';
 import { useLocation } from 'react-router';
+import './IndivdualCoursePage.css';
+import Navbar from '../components/Navbar';
 
 
 interface CourseProps {
@@ -98,7 +100,12 @@ function IndividualCourseInfo() {
         SEATS: myData.SEATS,
         TITLE: myData.TITLE};
     return (
-        <IndividualCourseTemplate {...courseInfo}/>
+        <>
+        <Navbar />
+        <div className='individual-course-info-page'>
+            <IndividualCourseTemplate {...courseInfo}/>
+        </div>
+        </>
     );
     
 } 

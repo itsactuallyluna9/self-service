@@ -1,13 +1,16 @@
 
-.signin body {
-  overflow-x: hidden;
-  padding: 0;
+.signin {
+  max-width: none;
   width: 100%;
-  height: 100vh; 
+  margin: 0 auto;
+  padding: 0 2rem;
+  background-color: #fff;
   display: flex;
-  justify-content: center; 
-  align-items: center;    
-  margin: 0;  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  min-height: 100vh; 
+  background-color: #fff;   
 }
 
 .signin img { 

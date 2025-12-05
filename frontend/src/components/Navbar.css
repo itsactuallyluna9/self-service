@@ -46,6 +46,10 @@
     display: flex;
     gap: 1rem;
 }
+.navbar-center .nav-links img{
+    height: 24px;           
+    display: block;         
+}
 
 
 .navbar-right .signout-button {

@@ -52,7 +52,6 @@ function DisplayCourses() {
     const toCourseInfo = (KEYCODE: number) => {
       nav('/CourseInfo',{state:{code:KEYCODE}})
     }
-
   useEffect(() => {
     async function loadCourses() {
       try {

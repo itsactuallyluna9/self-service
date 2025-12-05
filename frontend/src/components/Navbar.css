@@ -1,0 +1,59 @@
+/* container */
+.navbar {
+    position: fixed;    
+    display: flex;
+    width: 100%;
+    max-width: none;
+    background-color: #ffffff;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    margin: 0;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+.navbar-left,
+.navbar-center,
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-center {
+    flex: 1;                
+    justify-content: center;
+}
+
+.navbar-left .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #fff;
+}
+.navbar-left .logo img {
+    height: 48px;           
+    display: block;         
+}
+
+.navbar-center .nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+
+.navbar-right .signout-button {
+    margin-left: 1rem;
+    background: #6b3aa6;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+}

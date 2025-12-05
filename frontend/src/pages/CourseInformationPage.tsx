@@ -3,6 +3,8 @@ import './CourseInformationPage.css'
 import {useNavigate} from 'react-router'
 import Logo from '../assets/Cornell_logo.png'
 
+import Navbar from '../components/Navbar' 
+
 interface CourseData {
   KEYCODE: number;
   DEPARTMENT: string;
@@ -52,7 +54,6 @@ function DisplayCourses() {
     const toCourseInfo = (KEYCODE: number) => {
       nav('/CourseInfo',{state:{code:KEYCODE}})
     }
-
   useEffect(() => {
     async function loadCourses() {
       try {
@@ -77,8 +78,10 @@ function DisplayCourses() {
     }, []);
 
     return (
+    <>
+    <Navbar />
     <div className='display'>
-      <img src={Logo} alt="Logo" />
+      
       <h1> All Courses</h1>
     
       {courses.length === 0 ? (
@@ -104,6 +107,7 @@ function DisplayCourses() {
     )}
 
     </div>
+    </>
   );
 }
 

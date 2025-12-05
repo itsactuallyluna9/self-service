@@ -7,8 +7,4 @@ CREATE TABLE COURSE_OFFER(
     professor VARCHAR(255) NOT NULL, -- If Multiple, Comma Seperated Instructors
 );
 
-CREATE TABLE COURSES_REL(
-    courseid SMALLINT NOT NULL
-    offerID SMALLINT NOT NULL
-);
 

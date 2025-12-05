@@ -1,0 +1,4 @@
+SELECT COURSE_DATA.title, COURSE_OFFER.academicyear
+FROM COURSE_DATA
+INNER JOIN COURSE_OFFER ON COURSE_DATA.id = COURSE_OFFER.courseid
+WHERE COURSE_DATA.session IN ("1", "2", "3", "4", "Adjunct Fall");

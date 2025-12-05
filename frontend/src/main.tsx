@@ -7,6 +7,7 @@ import SignIn from './pages/SignIn'
 import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
+import Test from './pages/Test'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     path: '/SignIn',
     element: <SignIn/>
   }
+/*  {
+    path: '/test',
+    element: <Test/>
+  },*/
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

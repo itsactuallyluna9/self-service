@@ -79,9 +79,10 @@ function DisplayCourses() {
     }, []);
 
     return (
+    <>
+    <Navbar />
     <div className='display'>
-      <Navbar />
-      <img src={Logo} alt="Logo" />
+      
       <h1> All Courses</h1>
     
       {courses.length === 0 ? (
@@ -107,6 +108,7 @@ function DisplayCourses() {
     )}
 
     </div>
+    </>
   );
 }
 

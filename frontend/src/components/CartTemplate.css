@@ -1,47 +1,36 @@
 .cartDisplay h2 { 
-    color: #000000;
+    color: #2478B0;
  }
 .cartDisplay form {
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 600px;
     margin: 10px auto;
-    padding: 5px;
+    padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #f9f9f9;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
-.cartDisplay button {
-    padding: 10px 20px;
-    background-color: #523178; 
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-    width: 100%;
-}
+
 .cartDisplay h1 {
     text-align: center;
     color: #000000;
-
 }
-.cartDisplay form {
-    width: 100%;
-    height: 100%;
+.courseBlock .courseDisplay form {
+    width: 300px;
+    height: 100px;
     margin: 10px auto;
-    padding: 5px;
+    padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #f9f9f9;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-}
-.cartDisplay button {
+    flex-direction: row;
+    }
+.courseDisplay button {
     padding: 10px 20px;
     background-color: #523178; 
     color: #fff;
@@ -50,5 +39,21 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.2s;
-    width: 100%;
+    width: 100px;
+}
+.courseBlock form {
+    width: 350px;
+    height: 400px;
+    margin: 10px auto;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: visible;
+
 }

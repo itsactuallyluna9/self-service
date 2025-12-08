@@ -16,7 +16,7 @@ interface CourseData {
 const CartCourseTemplate = (course: CourseData) => {
 
     return (
-        <div key={course.KEYCODE} className = 'course-card'>
+        <div key={course.KEYCODE} className = 'cartTemplate'>
                 <form><h2>{course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}</h2></form>
         </div>
 )}

@@ -39,7 +39,9 @@ const CartTemplate = () => {
                   {course.DEPARTMENT}
                   {course.COURSECODE}: {course.TITLE}
                   </h2>
-              <button onClick={() => RemoveCourseFromCart(course.COURSECODE)}>Remove</button>
+              <div className="buttonRow">
+                <button onClick={() => RemoveCourseFromCart(course.COURSECODE)}>Remove</button>
+              </div>
             </form>
             </div>
           </div>

@@ -1,0 +1,11 @@
+INSERT INTO USERS (username, password, usertype) VALUES ("ckawase25", "password123", "STUDENT");
+INSERT INTO USERS (username, password, usertype) VALUES ('asantos27', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('clampe27', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('echesnut26', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES  ('eweber26', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('jtressel27', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('jwaughon27', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('ksaho27', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('mryan27', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('msmith26', 'password123', 'STUDENT');
+INSERT INTO USERS (username, password, usertype) VALUES ('achavan', 'password123', 'FACULTY');

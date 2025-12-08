@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './CourseInformationPage.css'
-import {useNavigate} from 'react-router'
+import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
 import CartTemplate from '../components/CartTemplate'
@@ -55,10 +55,21 @@ const testClasses: CourseData[] = [
   },
 ];
 
+
 function DisplayCourses() {
-  const [courses, setCourses] = useState<CourseData[]>([]);
-  const { AddCourseToCart } = useCart();
-  const nav = useNavigate();
+    const [courses, setCourses] = useState<CourseData[]>([])
+    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
+    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [canAddCart, setCanAddCart] = useState(true) 
+    const nav = useNavigate()
+
+    const handleClearFilter = () => {
+      // Reload the page to clear filters
+      window.location.reload();
+    }
+    const toCourseInfo = (KEYCODE: number) => {
+      nav('/CourseInfo',{state:{code:KEYCODE}})
+    }
 
   const handleAdd = (data: CourseData) => {
     const cartData: CartProps = {
@@ -71,77 +82,101 @@ function DisplayCourses() {
     AddCourseToCart(cartData);
   };
 
+    
   useEffect(() => {
-    async function loadCourses() {
-      try {
-        const response = await fetch("https://10.101.128.56:6001/api/courses");
-        if (!response.ok) throw new Error();
+    // If navigated from filter page
+    if (location.state && (location.state as any).classes) {
+      setCourses((location.state as any).classes);
+    } else {
+    
+    // Otherwise, load all courses
+      async function loadCourses() {
+        try {
+        //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
+        const response = await fetch('https://10.101.128.56:6001/api/courses');
+        
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
         const data = await response.json();
         setCourses(data.courses || testClasses);
-      } catch {
-        setCourses(testClasses);
+    
+        } catch (e) {
+          console.error("Error fetching courses:", e);
+          setCourses(testClasses);
+        }
       }
+      loadCourses();
     }
-    loadCourses();
-  }, []);
+  }, [location.state]);
+
+  const toCourseInfo = (KEYCODE: number) => {
+    nav('/CourseInfo',{state:{code:KEYCODE}});
+  };
 
   return (
     <>
-      <Navbar />
-
-      <div className="display">
-        
-        {/* LEFT SIDE: COURSES */}
-        <div className="course-left">
-          {courses.length === 0 ? (
-            <p>Loading courses...</p>
-          ) : (
-            courses.map((course) => (
-              <div key={course.KEYCODE} className="course-card">
-
-                <div className="card-left">
-                  <h2
-                    onClick={() => nav("/CourseInfo", { state: { code: course.KEYCODE } })}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
-                  </h2>
-                  <p>Year: {course.ACADEMICYEAR}</p>
+    <Navbar />
+    
+    <div className='display'>
+      <div className= "filter-button-container">
+        <button className= "filter-button" onClick={() => nav("/Filter") }>Filter Courses</button>
+        <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
+      </div>
+      <div className="courses">
+        {courses.length === 0 ? (
+          <p>Loading courses...</p>
+        ) : (
+          courses.map((course: CourseData) => (
+            <div key={course.KEYCODE} className = 'course-card'>
+              <div className ='card-left'>
+                <h2
+                onClick={() => toCourseInfo(course.KEYCODE)}
+                style={{ cursor: "pointer"}}
+                >
+                  {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+                </h2>
+                <p>Year: {course.ACADEMICYEAR} |
+                
+                  Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
+                  ? "Fall"
+                  : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
+                  ? "Spring"
+                  : course.BLOCKNUM.includes("Fall")
+                  ? "Fall"
+                  : course.BLOCKNUM.includes("Spring")
+                  ? "Spring"
+                  : ""}
+                </p>
+                {course.BLOCKNUM !== null && (
                   <p>Block: {course.BLOCKNUM}</p>
-                </div>
+                )}
 
-                <div className="card-right">
-                  <div className="card-column">
-                    <p>{course.PROFESSOR}</p>
-                  </div>
-                  <div className="card-column">
-                    <h3>{course.CREDITS}</h3>
-                    <p>Credits</p>
-                  </div>
-                  <div className="card-column">
-                    <h3>{course.SEATS}</h3>
-                    <p>Seats Left</p>
-                  </div>
-                  <div className="card-column">
-                    <h3>${course.FEE}</h3>
-                    <p>Applicable fees</p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleAdd(course)}
-                  >
-                    Add Course To Cart
-                  </button>
-                </div>
               </div>
-            ))
-          )}
-        </div>
-        <div className="course-right">
-          <CartTemplate />
-        </div>
+              <div className = 'card-right'>
+                    <div className='card-column'>
+                      <p>{course.PROFESSOR}</p>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.CREDITS}</h3> 
+                      <p>Credits</p>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.SEATS}</h3> 
+                      <p>Seats Left</p>
+                    </div>
+                    <div className='card-column'>
+                      {course.FEE !== null && (
+                        <div>
+                          <h3>${course.FEE}</h3> 
+                          <p>Applicable fees</p>
+                        </div>
+                      )}
+                    </div>
+              </div>
+            </div>
+        ))
+      )}
+      </div>
 
       </div>
     </>

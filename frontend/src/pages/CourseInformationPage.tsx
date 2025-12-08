@@ -80,9 +80,6 @@ function DisplayCourses() {
     AddCourseToCart(cartData);
   };
 
-  const nav = useNavigate();
-  const location = useLocation();
-  const [courses, setCourses] = useState<CourseData[]| null>(null);
     
     
 

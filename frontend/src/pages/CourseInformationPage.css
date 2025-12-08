@@ -1,79 +1,36 @@
-.display {
-  width: 80%;
-  padding: 5px;
-  height: auto;
-  margin: 110px auto;
+.split {
   display: flex;
   flex-direction: row;
+  margin: 100px auto;
+
+}
+
+.display {
+  gap :10px;
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
   overflow: visible;
   align-items: center;
-  background-color: #ffffff;
-  align-items: flex-start;
+  
   justify-content: space-between;
-  gap: 5px;
-}
-
-.course-page-split {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem;           /* space between left and right */
-  width: 100%;
-}
-
-/* Left and right take up half each (ish) */
-.course-left {
-  width: 50%;
-}
-
-.course-right {
-  position: fixed;
-  width: 50%;
-}
-
-/* Optional: make content not stretch too wide */
-.course-left .ind,
-.course-right {
-  max-width: 800px;
 }
 
 
 .courses {
-  width: 90%;
+  width: 80%;
   height: auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   overflow: visible;
   align-items: center;
-  background-color: #ffffff;
+  
   align-items: flex-start;
   justify-content: space-between;
   gap: 5px;
 }
 
-.course-page-split {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem;           /* space between left and right */
-  width: 100%;
-}
-
-/* Left and right take up half each (ish) */
-.course-left {
-  width: 50%;
-}
-
-.course-right {
-  position: fixed;
-  width: 50%;
-}
-
-/* Optional: make content not stretch too wide */
-.course-left .ind,
-.course-right {
-  max-width: 800px;
-}
 
 .courses img { 
   display: block;
@@ -147,12 +104,11 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.2s;
-  width: 200px;
+  width: 100px;
   text-align: center;
-  display: block;
-  margin: 0px auto 0 auto;
-  float: right;
-}.filter-button-container {
+}
+
+.filter-button-container {
   width: 45%;
   height: auto;
   margin-top: 110px auto;
@@ -160,7 +116,7 @@
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-  background-color: #fff;
+  
 }
 
 .filter-button-container button {
@@ -172,4 +128,20 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.2s;
+}
+
+.course-left {
+  width: 60%;
+}
+
+.course-right {
+  width: 40%;
+  height: auto;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  margin-right: 110px;
+
 }

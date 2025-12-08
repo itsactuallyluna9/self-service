@@ -1,63 +1,75 @@
-//import "./Cart.css";
-import { useCart } from "./CartContext"; // adjust path
-// import UserID from "./LoginID" // if you still need this
-import './CartTemplate.css'
+import { useState } from "react";
+import { useCart } from "./CartContext";
+import "./CartTemplate.css";
+import { useNavigate } from "react-router";
 
-interface CartProps { // edit later to have full info
-    KEYCODE : string,
-    TITLE : string,
-    DEPARTMENT : string,
-    COURSECODE : string,
+interface CartProps {
+  KEYCODE: number;
+  TITLE: string;
+  DEPARTMENT: string;
+  COURSECODE: number;
 }
 
 const CartTemplate = () => {
-  const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
+  const { cartCourses, RemoveCourseFromCart } = useCart();
+  const nav = useNavigate();
+  const [removingIds, setRemovingIds] = useState<number[]>([]);
 
-  
+  const toCourseInfo = (KEYCODE: number) => {
+    nav("/CourseInfo", { state: { code: KEYCODE } });
+  };
+
+  const handleRemove = (courseCode: number, keyCode: number) => {
+    // mark as "removing" so we can animate it
+    setRemovingIds(prev => [...prev, keyCode]);
+
+    // wait for CSS animation to finish, THEN actually remove from cart
+    setTimeout(() => {
+      RemoveCourseFromCart(courseCode);
+      setRemovingIds(prev => prev.filter(code => code !== keyCode));
+    }, 300); // this timeout must match your CSS animation duration
+  };
 
   return (
     <div className="cartDisplay">
       <form>
-      <h1>Cart</h1>
+        <h1>Cart</h1>
+        <div className="courseBlock">
+          <form>
+            {cartCourses.length === 0 && <p>No courses in cart.</p>}
 
-      {cartCourses.length === 0 && <p>No courses in cart.</p>}
-
-      {cartCourses.map(course => (
-        <div key={course.KEYCODE}>
-            <form>
-            <h2>{course.DEPARTMENT}
-            {course.COURSECODE}: 
-            {course.TITLE}</h2>
-            <button onClick={() => RemoveCourseFromCart(course.COURSECODE)}>Remove</button>
-            </form>
-          </div>
-      ))}
+            {cartCourses.map(course => (
+              <div key={course.KEYCODE}>
+                <div
+                  className={`courseDisplay ${
+                    removingIds.includes(course.KEYCODE) ? "removing" : ""
+                  }`}
+                >
+                  <form>
+                    <h2
+                      onClick={() => toCourseInfo(course.COURSECODE)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {course.DEPARTMENT}
+                      {course.COURSECODE}: {course.TITLE}
+                    </h2>
+                    <div className="buttonRow">
+                      <button
+                        type="button"
+                        onClick={() => handleRemove(course.COURSECODE, course.KEYCODE)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            ))}
+          </form>
+        </div>
       </form>
     </div>
   );
 };
 
 export default CartTemplate;
-
-
-
-/*return (
-        <div className="cartDisplay">
-            {setcoursesInCart(localStorage.getItem(""))}
-            <h1>Cart</h1>
-            {coursesInCart.length === 0 && <p>No courses in cart.</p>}
-            <button onClick={() => addExampleCourse()}>
-              Remove
-            </button>
-            {coursesInCart.map(course => (
-          <div key={course.COURSECODE}>
-            <p>{course.TITLE}</p>
-            <p>{course.PROFESSOR}</p>
-            <button onClick={() => removeCourseFromCart(course.COURSECODE)}>
-              Remove
-            </button>
-            <hr />
-          </div>
-        ))}
-        </div>
-    );*/

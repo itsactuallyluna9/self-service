@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 interface CourseProps {
     ACADEMICYEAR: number,
     BLOCKNUM: string,
-    COURSECODE: string,
+    COURSECODE: number,
     COURSETYPES: string,
     CREDITS: number,
     DEPARTMENT: string,
@@ -25,6 +25,7 @@ interface CourseProps {
 function IndividualCourseInfo() {
     const { state } = useLocation()
     const courseID = state.code;
+    const prevRoute = state.route
     const [myData, setMyData] = useState<any>(null);
     const [error, setError] = useState('');
     const [course, setCourse] = useState()

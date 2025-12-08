@@ -1134,5 +1134,3 @@ INSERT INTO `COURSE_OFFER` VALUES
 (707,2025,25,'Block 8','Jonathon Dreeze',541),
 (708,2025,25,'Adjunct Fall','Tyler Carrington',473),
 (709,2025,25,'Block 4','Melanie King',542);
-/*!40000 ALTER TABLE `COURSE_OFFER` ENABLE KEYS */;
-UNLOCK TABLES;

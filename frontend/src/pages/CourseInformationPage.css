@@ -1,13 +1,14 @@
 
 .display {
+  width: 90%;
   height: auto;
-  width: 800px;
-  margin: 20px auto;
+  margin: 110px auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
   overflow: visible;
   align-items: center;
+  background-color: #fff;
 }
 
 .display img { 
@@ -18,14 +19,14 @@
 }
 
 .course-card {
-  width: 500px;
+  width: 50%;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   display: flex;
-  flex-direction: column;    
+  flex-direction: row;    
 }
 
 .display h1 {
@@ -42,30 +43,35 @@
   font-size: 1rem;
   font-weight: 600;
   text-align: left;
+  color: #2478B0;;
 }
 
 .display p {
   margin: 2px 0;
   color: #444;
+  font-size: 0.8rem;
+}
+
+.display h3 {
+  margin: 0;
   font-size: 0.9rem;
+  font-weight: normal;
+  text-align: center;
+  color: #1a1a1a;
 }
 
-
-.display button {
-  width: 80px;
-  height: 40px;
-  padding: 10px 20px;
-  background-color: #523178; 
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
-  margin-left: -5px;
-  margin-top: 20px;
+.card-left {
+  width: 40%;
 }
 
-.display button:hover {
-  background-color: #3d2460; 
+.card-right {
+  display: flex; 
+  width: 60%;
 }
+
+.card-column {
+  width: 25%;
+  text-align: center;
+  margin-left: 20px;
+}
+

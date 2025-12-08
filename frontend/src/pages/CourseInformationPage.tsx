@@ -17,6 +17,15 @@ interface CourseData {
   COURSECODE: number;
 }
 
+interface CartProps { // edit later to have full info
+    KEYCODE : number,
+    TITLE : string,
+    DEPARTMENT : string,
+    COURSECODE : string,
+
+}
+
+
 const testClasses: CourseData[] = [
   {
     KEYCODE: 1,
@@ -56,9 +65,6 @@ function DisplayCourses() {
       nav('/CourseInfo',{state:{code:KEYCODE}})
     }
 
-
-    
-
      const [cartData, setCartData] = useState<CartProps>(
   {
     KEYCODE: data.KEYCODE,
@@ -66,7 +72,10 @@ function DisplayCourses() {
     TITLE: data.TITLE,
     DEPARTMENT: data.DEPARTMENT,
   }
-);
+  );
+    
+
+    
   useEffect(() => {
     async function loadCourses() {
       try {

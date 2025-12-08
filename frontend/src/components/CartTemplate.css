@@ -41,6 +41,13 @@
     transition: background-color 0.2s;
     width: 100px;
 }
+.buttonRow {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* pushes buttons to the right */
+  gap: 10px; /* space between buttons if multiple */
+}
+
 .courseBlock form {
     width: 350px;
     height: 400px;
@@ -52,7 +59,6 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;
     overflow-y: auto;
     overflow-x: visible;
 

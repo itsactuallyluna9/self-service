@@ -3,6 +3,8 @@ import './CourseInformationPage.css'
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
+import CartTemplate from '../components/CartTemplate'
+
 
 interface CourseData {
   KEYCODE: number;
@@ -21,7 +23,7 @@ interface CartProps { // edit later to have full info
     KEYCODE : number,
     TITLE : string,
     DEPARTMENT : string,
-    COURSECODE : string,
+    COURSECODE : number,
 
 }
 
@@ -54,19 +56,31 @@ const testClasses: CourseData[] = [
 ];
 
 
-
 function DisplayCourses() {
+    const [courses, setCourses] = useState<CourseData[]>([])
+    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
+    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [canAddCart, setCanAddCart] = useState(true) 
+    const nav = useNavigate()
+
     const handleClearFilter = () => {
       // Reload the page to clear filters
       window.location.reload();
     }
+    const toCourseInfo = (KEYCODE: number) => {
+      nav('/CourseInfo',{state:{code:KEYCODE}})
+    }
 
+  const handleAdd = (data: CourseData) => {
+    const cartData: CartProps = {
+      KEYCODE: data.KEYCODE,
+      COURSECODE: data.COURSECODE,
+      TITLE: data.TITLE,
+      DEPARTMENT: data.DEPARTMENT,
+    };
 
-  const nav = useNavigate();
-  const location = useLocation();
-  const [courses, setCourses] = useState<CourseData[]>([]);
-    
-    
+    AddCourseToCart(cartData);
+  };
 
     
   useEffect(() => {
@@ -99,7 +113,7 @@ function DisplayCourses() {
     nav('/CourseInfo',{state:{code:KEYCODE}});
   };
 
-    return (
+  return (
     <>
     <Navbar />
     
@@ -164,9 +178,9 @@ function DisplayCourses() {
       )}
       </div>
 
-    </div>
+      </div>
     </>
   );
 }
 
-export default DisplayCourses
+export default DisplayCourses;

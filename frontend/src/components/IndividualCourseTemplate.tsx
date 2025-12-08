@@ -89,6 +89,7 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                 </div>
                 <div className="button-container">
                     <button className="back-button" onClick={()=>{returnToHome()}}>Back</button>
+                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd()}}>{cartButtonText}</button>
                 </div>
             </form>
         </div>

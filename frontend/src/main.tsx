@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router'
+import { CartContextProvider } from './components/CartContext'
 
 import './index.css'
 import SignIn from './pages/SignIn'
@@ -8,7 +9,8 @@ import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
-
+import CartTestPage from './pages/CartTestPage'
+import RegisteredCourses from './pages/RegisteredCourses'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -31,18 +33,29 @@ const router = createBrowserRouter([
     path: '/SignIn',
     element: <SignIn/>
   },
+  {
+    path: 'Filter',
+    element: <FilterPage/>,
+  },
+  {
+    path: '/CartTestPage',
+    element: <CartTestPage/>,
+  }, 
+  {
+    path: '/RegisteredCourses',
+    element: <RegisteredCourses/>
+  }
 /*  {
     path: '/test',
     element: <Test/>
   },*/
-  {
-    path: 'Filter',
-    element: <FilterPage/>,
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <CartContextProvider>
+      <RouterProvider router={router} />
+    </CartContextProvider>
+    
   </React.StrictMode>
 )

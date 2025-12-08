@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './CourseInformationPage.css'
 import {useNavigate} from 'react-router'
 import Navbar from '../components/Navbar' 
+import { useCart } from '../components/CartContext';
 
 interface CourseData {
   KEYCODE: number;
@@ -15,6 +16,15 @@ interface CourseData {
   FEE: number;
   COURSECODE: number;
 }
+
+interface CartProps { // edit later to have full info
+    KEYCODE : number,
+    TITLE : string,
+    DEPARTMENT : string,
+    COURSECODE : string,
+
+}
+
 
 const testClasses: CourseData[] = [
   {
@@ -45,17 +55,32 @@ const testClasses: CourseData[] = [
 
 
 function DisplayCourses() {
-    const [courses, setCourses] = useState<CourseData[]>([])  
+    const [courses, setCourses] = useState<CourseData[]>([])
+    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
+    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [canAddCart, setCanAddCart] = useState(true) 
     const nav = useNavigate()
   
     const toCourseInfo = (KEYCODE: number) => {
       nav('/CourseInfo',{state:{code:KEYCODE}})
     }
+
+     const [cartData, setCartData] = useState<CartProps>(
+  {
+    KEYCODE: data.KEYCODE,
+    COURSECODE: data.COURSECODE,
+    TITLE: data.TITLE,
+    DEPARTMENT: data.DEPARTMENT,
+  }
+  );
+    
+
+    
   useEffect(() => {
     async function loadCourses() {
       try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/');
+        const response = await fetch('https://10.101.128.56:6001/api/courses');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); 

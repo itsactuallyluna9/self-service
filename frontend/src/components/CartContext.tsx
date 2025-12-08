@@ -6,14 +6,14 @@ export interface CartProps { // edit later to have full info
     KEYCODE : number,
     TITLE : string,
     DEPARTMENT : string,
-    COURSECODE : string,
+    COURSECODE : number,
 
 }
 
 interface CartContextType {
   cartCourses: CartProps[];
   AddCourseToCart: (course: CartProps) => boolean;
-  RemoveCourseFromCart: (code: string) => void;
+  RemoveCourseFromCart: (code: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -50,7 +50,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   };
 
 
-  const RemoveCourseFromCart = (code: string) => {
+  const RemoveCourseFromCart = (code: number) => {
     setCartCourses(prev => prev.filter(c => c.COURSECODE !== code));
   };
 

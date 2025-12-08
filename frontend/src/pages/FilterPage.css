@@ -1,16 +1,11 @@
 .filter-page {
-    width: 600px;
+    max-width: 800px;
+    width: 90%;
     background: #fafafa;
     border-radius: 12px;
     border: 1px solid #e0e0e0;
-    padding: 15px;
-}
-
-.button-container {
-  margin-top: auto;           /* push to bottom */
-  display: flex;
-  justify-content: flex-end;  /* right align */
-  gap: 12px;                  /* space between buttons */
+    padding: 30px;
+    margin: 120px auto 40px;
 }
 
 
@@ -28,3 +23,4 @@
 .filter-page button:hover {
   background-color: #3d2460; 
 }
+

@@ -1,19 +1,15 @@
 from flask import Blueprint, jsonify, request
 
-from backend.db import get_db
+from ..db import get_db
 
 bp = Blueprint('login', __name__)
 
 def check_user_credentials(username, password):
-    conn = get_db()
-    cur = conn.cursor()
-    query = "SELECT * FROM USERS WHERE userName = ? AND pswd = ?"
-    cur.execute(query, (username, password))
-
-    result = cur.fetchone() 
-    cur.close()
-
-    return bool(result)
+    with get_db().cursor() as cur:
+        query = "SELECT * FROM USERS WHERE userName = ? AND pswd = ?"
+        cur.execute(query, (username, password))
+        result = cur.fetchone() 
+        return bool(result)
 
 @bp.post('/login')
 def login():

@@ -1,4 +1,9 @@
 import os
+import sys
+
+# allow absolute imports from the backend directory
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from backend import db
 from backend.routes import all_courses, auth, user_courses
 from flask import Flask

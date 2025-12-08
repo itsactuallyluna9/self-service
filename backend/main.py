@@ -20,6 +20,16 @@ def create_app():
     @app.get('/')
     def index():
         return jsonify({'success': True})
+    
+    # handle thrown errors globally
+    # return {"success": False, "error": str(e)}...
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        response = {
+            "success": False,
+            "error": str(e)
+        }
+        return jsonify(response), 500
 
     db.init_app(app)
     

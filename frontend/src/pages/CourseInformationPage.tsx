@@ -44,7 +44,14 @@ const testClasses: CourseData[] = [
 ];
 
 
+
 function DisplayCourses() {
+    const handleClearFilter = () => {
+      // Reload the page to clear filters
+      window.location.reload();
+    }
+
+
     const [courses, setCourses] = useState<CourseData[]>([])  
     const nav = useNavigate()
   
@@ -77,60 +84,67 @@ function DisplayCourses() {
     return (
     <>
     <Navbar />
-    <div className='display'>    
-      {courses.length === 0 ? (
-        <p>Loading courses...</p>
-      ) : (
-        courses.map((course: CourseData) => (
-          <div key={course.KEYCODE} className = 'course-card'>
-            <div className ='card-left'>
-              <h2
-              onClick={() => toCourseInfo(course.KEYCODE)}
-              style={{ cursor: "pointer"}}
-              >
-                {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
-              </h2>
-              <p>Year: {course.ACADEMICYEAR} |
-              
-                Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
-                ? "Fall"
-                : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
-                ? "Spring"
-                : course.BLOCKNUM.includes("Fall")
-                ? "Fall"
-                : course.BLOCKNUM.includes("Spring")
-                ? "Spring"
-                : ""}
-              </p>
-              {course.BLOCKNUM !== null && (
-                <p>Block: {course.BLOCKNUM}</p>
-              )}
+    
+    <div className='display'>
+      <div className= "filter-button-container">
+        <button className= "filter-button" onClick={() => nav("/Filter") }>Filter Courses</button>
+        <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
+      </div>
+      <div className="courses">
+        {courses.length === 0 ? (
+          <p>Loading courses...</p>
+        ) : (
+          courses.map((course: CourseData) => (
+            <div key={course.KEYCODE} className = 'course-card'>
+              <div className ='card-left'>
+                <h2
+                onClick={() => toCourseInfo(course.KEYCODE)}
+                style={{ cursor: "pointer"}}
+                >
+                  {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+                </h2>
+                <p>Year: {course.ACADEMICYEAR} |
+                
+                  Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
+                  ? "Fall"
+                  : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
+                  ? "Spring"
+                  : course.BLOCKNUM.includes("Fall")
+                  ? "Fall"
+                  : course.BLOCKNUM.includes("Spring")
+                  ? "Spring"
+                  : ""}
+                </p>
+                {course.BLOCKNUM !== null && (
+                  <p>Block: {course.BLOCKNUM}</p>
+                )}
 
+              </div>
+              <div className = 'card-right'>
+                    <div className='card-column'>
+                      <p>{course.PROFESSOR}</p>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.CREDITS}</h3> 
+                      <p>Credits</p>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.SEATS}</h3> 
+                      <p>Seats Left</p>
+                    </div>
+                    <div className='card-column'>
+                      {course.FEE !== null && (
+                        <div>
+                          <h3>${course.FEE}</h3> 
+                          <p>Applicable fees</p>
+                        </div>
+                      )}
+                    </div>
+              </div>
             </div>
-            <div className = 'card-right'>
-                  <div className='card-column'>
-                    <p>{course.PROFESSOR}</p>
-                  </div>
-                  <div className='card-column'>
-                    <h3>{course.CREDITS}</h3> 
-                    <p>Credits</p>
-                  </div>
-                  <div className='card-column'>
-                    <h3>{course.SEATS}</h3> 
-                    <p>Seats Left</p>
-                  </div>
-                  <div className='card-column'>
-                    {course.FEE !== null && (
-                      <div>
-                        <h3>${course.FEE}</h3> 
-                        <p>Applicable fees</p>
-                      </div>
-                    )}
-                  </div>
-            </div>
-          </div>
-      ))
-    )}
+        ))
+      )}
+      </div>
 
     </div>
     </>

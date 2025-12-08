@@ -80,6 +80,12 @@ function DisplayCourses() {
     AddCourseToCart(cartData);
   };
 
+  const nav = useNavigate();
+  const location = useLocation();
+  const [courses, setCourses] = useState<CourseData[]| null>(null);
+    
+    
+
     
   useEffect(() => {
     // If navigated from filter page
@@ -122,9 +128,11 @@ function DisplayCourses() {
           <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
         </div> {/* filter-button-container */}
         <div className="courses">
-          {courses.length === 0 ? (
+          {courses === null ? (
             <p>Loading courses...</p>
-          ) : (
+          ) : courses.length === 0 ? (
+          <p>No results found</p>
+        ) : (
             courses.map((course: CourseData) => (
               <div key={course.KEYCODE} className = 'course-card'>
                 <div className ='card-left'>

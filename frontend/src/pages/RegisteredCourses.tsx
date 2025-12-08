@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './CourseInformationPage.css'
 import {useNavigate} from 'react-router'
 
-
 import Navbar from '../components/Navbar' 
 
 interface CourseData {
@@ -43,10 +42,22 @@ const testClasses: CourseData[] = [
     FEE: 50.00,
     COURSECODE: 101
   },
+  {
+    KEYCODE: 3,
+    DEPARTMENT: 'ENG',
+    TITLE: 'Writing Seminar',
+    PROFESSOR: 'Ms. Jones',
+    ACADEMICYEAR: '2025',
+    BLOCKNUM: '1',
+    SEATS: 15,
+    CREDITS: 1.00,
+    FEE: 0.00,
+    COURSECODE: 150
+ },
 ];
 
 
-function DisplayCourses() {
+function DisplayRegisteredCourses() {
     const [courses, setCourses] = useState<CourseData[]>([])
 
     const nav = useNavigate()
@@ -54,8 +65,22 @@ function DisplayCourses() {
     const toCourseInfo = (KEYCODE: number) => {
       nav('/CourseInfo',{state:{code:KEYCODE}})
     }
+
+    const sortByBlockNum = (courseList: CourseData[]): CourseData[] => {
+        return courseList.slice().sort((a,b) => {
+            const blockA = parseInt(a.BLOCKNUM);
+            const blockB = parseInt(b.BLOCKNUM);
+
+        if (isNaN(blockA) || isNaN(blockB)) {
+                return a.BLOCKNUM.localeCompare(b.BLOCKNUM);
+        }
+        return blockA - blockB;
+    });
+    };
+
   useEffect(() => {
     async function loadCourses() {
+        let fetchedData: CourseData[] = [];
       try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
         const response = await fetch('https://10.101.128.56:6001/');
@@ -65,14 +90,15 @@ function DisplayCourses() {
         }
 
         const data = await response.json();
-        setCourses(data.courses || testClasses);
-            
+        fetchedData = testClasses;      
     
       } catch (e: any) {
         console.error("Error fetching courses:", e);
-        setCourses(testClasses);
+        fetchedData = testClasses;
     
-      }
+    }
+    const sortedCourses = sortByBlockNum(fetchedData);
+    setCourses(sortedCourses);
     }
     loadCourses();
     }, []);
@@ -89,10 +115,10 @@ function DisplayCourses() {
       ) : (
         courses.map((course: CourseData) => (
           <div key={course.KEYCODE} className = 'course-card'>
+            <h1>Block {course.BLOCKNUM}</h1>
             <h2>{course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}</h2>
             <p>Instructor: {course.PROFESSOR}</p>
             <p>Academic Year: {course.ACADEMICYEAR}</p>
-            <p>Block: {course.BLOCKNUM}</p>
             <p>Seats Available: {course.SEATS}</p>
             <p>Credits: {course.CREDITS}</p>
             {course.FEE !== null && (
@@ -111,4 +137,4 @@ function DisplayCourses() {
   );
 }
 
-export default DisplayCourses
+export default DisplayRegisteredCourses

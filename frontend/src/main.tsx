@@ -7,7 +7,7 @@ import SignIn from './pages/SignIn'
 import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
-
+import RegisteredCourses from './pages/RegisteredCourses'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/SignIn',
     element: <SignIn/>
+  },
+  {
+    path: '/RegisteredCourses',
+    element: <RegisteredCourses/>
   }
 /*  {
     path: '/test',

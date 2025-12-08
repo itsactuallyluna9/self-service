@@ -31,7 +31,7 @@ function SignIn() {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
-            const response = await fetch('https://10.101.128.56:6001/login', {
+            const response = await fetch('https://10.101.128.56:6001/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

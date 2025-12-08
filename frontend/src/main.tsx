@@ -10,7 +10,7 @@ import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
 import CartTestPage from './pages/CartTestPage'
-
+import RegisteredCourses from './pages/RegisteredCourses'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -41,6 +41,14 @@ const router = createBrowserRouter([
     path: '/CartTestPage',
     element: <CartTestPage/>,
   }, 
+  {
+    path: '/RegisteredCourses',
+    element: <RegisteredCourses/>
+  }
+/*  {
+    path: '/test',
+    element: <Test/>
+  },*/
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

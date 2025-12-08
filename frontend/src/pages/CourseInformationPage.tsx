@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import './CourseInformationPage.css'
 import {useNavigate} from 'react-router'
-
-
 import Navbar from '../components/Navbar' 
 
 interface CourseData {
@@ -47,8 +45,7 @@ const testClasses: CourseData[] = [
 
 
 function DisplayCourses() {
-    const [courses, setCourses] = useState<CourseData[]>([])
-
+    const [courses, setCourses] = useState<CourseData[]>([])  
     const nav = useNavigate()
   
     const toCourseInfo = (KEYCODE: number) => {
@@ -80,29 +77,58 @@ function DisplayCourses() {
     return (
     <>
     <Navbar />
-    <div className='display'>
-      
-      <h1> All Courses</h1>
-    
+    <div className='display'>    
       {courses.length === 0 ? (
         <p>Loading courses...</p>
       ) : (
         courses.map((course: CourseData) => (
           <div key={course.KEYCODE} className = 'course-card'>
-            <h2>{course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}</h2>
-            <p>Instructor: {course.PROFESSOR}</p>
-            <p>Academic Year: {course.ACADEMICYEAR}</p>
-            <p>Block: {course.BLOCKNUM}</p>
-            <p>Seats Available: {course.SEATS}</p>
-            <p>Credits: {course.CREDITS}</p>
-            {course.FEE !== null && (
-                    <p>Fees: ${course.FEE}</p>
-                )}
-                {course.FEE == null && (
-                    <p>No Fees</p>
-                )}
-            <button onClick={()=>{toCourseInfo(course.KEYCODE)}}>More</button>
-       </div>
+            <div className ='card-left'>
+              <h2
+              onClick={() => toCourseInfo(course.KEYCODE)}
+              style={{ cursor: "pointer"}}
+              >
+                {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+              </h2>
+              <p>Year: {course.ACADEMICYEAR} |
+              
+                Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
+                ? "Fall"
+                : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
+                ? "Spring"
+                : course.BLOCKNUM.includes("Fall")
+                ? "Fall"
+                : course.BLOCKNUM.includes("Spring")
+                ? "Spring"
+                : ""}
+              </p>
+              {course.BLOCKNUM !== null && (
+                <p>Block: {course.BLOCKNUM}</p>
+              )}
+
+            </div>
+            <div className = 'card-right'>
+                  <div className='card-column'>
+                    <p>{course.PROFESSOR}</p>
+                  </div>
+                  <div className='card-column'>
+                    <h3>{course.CREDITS}</h3> 
+                    <p>Credits</p>
+                  </div>
+                  <div className='card-column'>
+                    <h3>{course.SEATS}</h3> 
+                    <p>Seats Left</p>
+                  </div>
+                  <div className='card-column'>
+                    {course.FEE !== null && (
+                      <div>
+                        <h3>${course.FEE}</h3> 
+                        <p>Applicable fees</p>
+                      </div>
+                    )}
+                  </div>
+            </div>
+          </div>
       ))
     )}
 

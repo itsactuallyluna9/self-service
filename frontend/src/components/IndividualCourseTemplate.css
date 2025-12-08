@@ -104,6 +104,6 @@
     margin: 20px auto 0 auto;
     float: right;
 }
-.ind h2 {
+.ind h2, p {
     color: #000000;
 }

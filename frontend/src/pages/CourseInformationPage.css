@@ -39,7 +39,7 @@
   height: auto; 
 }
 
-.course-card {
+.courses .course-card {
   width: 100%;
   padding: 20px;
   border: 1px solid #ddd;

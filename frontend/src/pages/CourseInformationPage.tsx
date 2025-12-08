@@ -107,8 +107,8 @@ function DisplayCourses() {
     }
   }, [location.state]);
 
-  const toCourseInfo = (KEYCODE: number) => {
-    nav('/CourseInfo',{state:{code:KEYCODE}});
+  const toCourseInfo = (KEYCODE: number, page: string) => {
+    nav('/CourseInfo',{state:{code:KEYCODE, route: page}});
   };
 
   return (
@@ -129,7 +129,7 @@ function DisplayCourses() {
               <div key={course.KEYCODE} className = 'course-card'>
                 <div className ='card-left'>
                   <h2
-                  onClick={() => toCourseInfo(course.KEYCODE)}
+                  onClick={() => toCourseInfo(course.KEYCODE, '/CourseInformationPage')}
                   style={{ cursor: "pointer"}}
                   >
                     {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}

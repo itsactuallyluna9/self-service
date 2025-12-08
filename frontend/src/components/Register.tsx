@@ -1,46 +1,36 @@
-import { useState } from "react"
+// register.ts
+export const register = async (
+    username: string,
+    courseIDs: number[]
+): Promise<boolean> => {
+    console.log("Registering for courses...");
 
-export const register = async (courseIDs: number[]) => {
-    console.log("Registering for courses")
+    try {
+        // Replace with real API call
+        // const response = await fetch('YOUR_REGISTER_API', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ username, courseIDs }),
+        // });
 
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+        // Fake response for testing
+        const response = {
+            ok: true,
+            json: async () => ({ success: true })
+        };
 
-    const [error, setError] = useState('')
+        const data = await response.json();
 
-    try{
-                // Fetch call to backend Register API endpoint. CarterLampe 12/1/2025.
+        if (response.ok && data.success) {
+            return true;
+        }
 
-                // const response = await fetch('TODO: Put register API here.', {
-                // method: 'POST',
-                // headers: {
-                //     'Content-Type': 'application/json',
-                // },
-                // body: JSON.stringify({ username, courseIDs }),
-                // })
-                
-                
-                const response = {
-                    ok: true,
-                    json: async () => ({
-                        success: true
-                    })
-                };
+        console.error("Registration failed:", data);
+        return false;
+    } catch (err) {
+        console.error("Registration error:", err);
+        return false;
+    }
+};
 
-                const data = await response.json();
-    
-                if (response.ok){
-                    if (data.success){
-                        return true
-                    }
-                    else {
-                    console.log("Registration failed.", data);
-                    setError("Registration failed.")
-                    }
-                }
-            }
-            catch (err) {
-                setError('An error occurred. Please try again.');
-                console.error('Registration Error', err);
-            }
-}
+export default register;

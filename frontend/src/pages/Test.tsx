@@ -15,23 +15,23 @@ interface CourseData {
     COURSECODE: number;
 }
 
-// function Test() {
-//     const CourseInfo: CourseData = {
-//         KEYCODE: 12345,
-//         DEPARTMENT: 'CSC',
-//         TITLE: '',
-//         PROFESSOR: string,
-//         ACADEMICYEAR: string,
-//         BLOCKNUM: string,
-//         SEATS: number,
-//         CREDITS: number,
-//         FEE: number,
-//         COURSECODE: number,
-//     }
-//     return (
-//         <div className='test'>
-            
-//         </div>
-//     )
-// }
-// export default Test
+function Test() {
+    const CourseInfo: CourseData = {
+        KEYCODE: 12345,
+        DEPARTMENT: 'tst',
+        TITLE: 'test',
+        PROFESSOR: 'test',
+        ACADEMICYEAR: 'test',
+        BLOCKNUM: 'test',
+        SEATS: 12,
+        CREDITS: 1,
+        FEE: 0,
+        COURSECODE: 123,
+    }
+    return (
+        <div className='test'>
+            <form><CartCourseTemplate {...CourseInfo}></CartCourseTemplate></form>
+        </div>
+    )
+}
+export default Test

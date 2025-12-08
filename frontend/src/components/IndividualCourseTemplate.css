@@ -1,14 +1,10 @@
 .ind {
-    max-width: none;
     width: 100%;
     margin: 0 auto;
-    padding: 0 2rem;
     background-color: #fff;
     display: flex;
-    justify-content: center;
-    align-items: center; 
-    min-height: 100vh; 
-    background-color: #fff;    
+    background-color: #fff;   
+    flex-direction: column;
 }
 
 .ind img { 
@@ -18,7 +14,7 @@
     height: auto; 
   }
 
-  .ind form {
+.ind form {
     width: 80%;
     height: 100%;
     margin: 50px auto;
@@ -31,30 +27,69 @@
     flex-direction: column;
     
   }
-
-.ind h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    font-weight: 700;
-    color: #111;
-    line-height: 1.25;
+.ind .course-info {
+    box-sizing: border-box;
+    padding: 0 2rem;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
-.ind h1, h2, h3, h4, h5 {
-    text-align: center;
+
+.ind .course-info-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    gap: 10px;
 }
 
-.ind h6 {
-    color: #616161
+
+.ind .course-info-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap: 10px;
 }
 
-.ind h1 { font-size: 2.2rem; margin-bottom: 1rem; }
-.ind h2 { font-size: 1.8rem; margin-bottom: 0.9rem; }
-.ind h3 { font-size: 1.5rem; margin-bottom: 0.8rem; }
-.ind h4 { font-size: 1.25rem; margin-bottom: 0.7rem; }
-.ind h5 { font-size: 1.1rem; margin-bottom: 0.6rem; }
-.ind h6 { font-size: 1rem; margin-bottom: 0.5rem; color: #444; }
+.ind .course-info-right .seats {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    text-align: right;
+    margin-right: 10px;
+}
 
-.ind button {
+
+.ind .instructor-label {
+    box-sizing: border-box;
+    padding: 0 2rem;
+    width: 13%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.ind .button-container {
+
+}
+
+.ind .back-button {
     padding: 10px 20px;
     background-color: #523178; 
     color: #fff;
@@ -67,4 +102,8 @@
     text-align: center;
     display: block;
     margin: 20px auto 0 auto;
+    float: right;
+}
+.ind h2, p {
+    color: #000000;
 }

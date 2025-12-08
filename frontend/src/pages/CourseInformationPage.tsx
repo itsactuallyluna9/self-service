@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './CourseInformationPage.css'
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
+import { useCart } from '../components/CartContext';
 
 interface CourseData {
   KEYCODE: number;
@@ -15,6 +16,15 @@ interface CourseData {
   FEE: number;
   COURSECODE: number;
 }
+
+interface CartProps { // edit later to have full info
+    KEYCODE : number,
+    TITLE : string,
+    DEPARTMENT : string,
+    COURSECODE : string,
+
+}
+
 
 const testClasses: CourseData[] = [
   {
@@ -44,10 +54,20 @@ const testClasses: CourseData[] = [
 ];
 
 
+
 function DisplayCourses() {
+    const handleClearFilter = () => {
+      // Reload the page to clear filters
+      window.location.reload();
+    }
+
+
   const nav = useNavigate();
   const location = useLocation();
-  const [courses, setCourses] = useState<CourseData[]>([]);  
+  const [courses, setCourses] = useState<CourseData[]>([]);
+    
+    
+
     
   useEffect(() => {
     // If navigated from filter page
@@ -59,7 +79,7 @@ function DisplayCourses() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/');
+        const response = await fetch('https://10.101.128.56:6001/api/courses');
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
@@ -82,66 +102,67 @@ function DisplayCourses() {
     return (
     <>
     <Navbar />
-    <div className='display'> 
-      {/* <h1
-        onClick={() => nav('/Filter')}
-        style={{ cursor: "pointer"}}
-        >
-        Advanced Search
-      </h1>   */}
+    
+    <div className='display'>
+      <div className= "filter-button-container">
+        <button className= "filter-button" onClick={() => nav("/Filter") }>Filter Courses</button>
+        <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
+      </div>
+      <div className="courses">
+        {courses.length === 0 ? (
+          <p>Loading courses...</p>
+        ) : (
+          courses.map((course: CourseData) => (
+            <div key={course.KEYCODE} className = 'course-card'>
+              <div className ='card-left'>
+                <h2
+                onClick={() => toCourseInfo(course.KEYCODE)}
+                style={{ cursor: "pointer"}}
+                >
+                  {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+                </h2>
+                <p>Year: {course.ACADEMICYEAR} |
+                
+                  Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
+                  ? "Fall"
+                  : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
+                  ? "Spring"
+                  : course.BLOCKNUM.includes("Fall")
+                  ? "Fall"
+                  : course.BLOCKNUM.includes("Spring")
+                  ? "Spring"
+                  : ""}
+                </p>
+                {course.BLOCKNUM !== null && (
+                  <p>Block: {course.BLOCKNUM}</p>
+                )}
 
-      {courses.length === 0 ? (
-        <p>Loading courses...</p>
-      ) : (
-        courses.map((course: CourseData) => (
-          <div key={course.KEYCODE} className = 'course-card'>
-            <div className ='card-left'>
-              <h2
-              onClick={() => toCourseInfo(course.KEYCODE)}
-              style={{ cursor: "pointer"}}
-              >
-                {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
-              </h2>
-              <p>Year: {course.ACADEMICYEAR} |
-              
-                Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
-                ? "Fall"
-                : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
-                ? "Spring"
-                : course.BLOCKNUM.includes("Fall")
-                ? "Fall"
-                : course.BLOCKNUM.includes("Spring")
-                ? "Spring"
-                : ""}
-              </p>
-              <p>Block: {course.BLOCKNUM}</p>
-          
-
+              </div>
+              <div className = 'card-right'>
+                    <div className='card-column'>
+                      <p>{course.PROFESSOR}</p>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.CREDITS}</h3> 
+                      <p>Credits</p>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.SEATS}</h3> 
+                      <p>Seats Left</p>
+                    </div>
+                    <div className='card-column'>
+                      {course.FEE !== null && (
+                        <div>
+                          <h3>${course.FEE}</h3> 
+                          <p>Applicable fees</p>
+                        </div>
+                      )}
+                    </div>
+              </div>
             </div>
-            <div className = 'card-right'>
-                  <div className='card-column'>
-                    <p>{course.PROFESSOR}</p>
-                  </div>
-                  <div className='card-column'>
-                    <h3>{course.CREDITS}</h3> 
-                    <p>Credits</p>
-                  </div>
-                  <div className='card-column'>
-                    <h3>{course.SEATS}</h3> 
-                    <p>Seats Left</p>
-                  </div>
-                  <div className='card-column'>
-                    {course.FEE !== null && (
-                      <div>
-                        <h3>${course.FEE}</h3> 
-                        <p>Applicable fees</p>
-                      </div>
-                    )}
-                  </div>
-            </div>
-          </div>
-      ))
-    )}
+        ))
+      )}
+      </div>
 
     </div>
     </>

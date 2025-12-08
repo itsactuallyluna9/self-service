@@ -64,7 +64,7 @@ function DisplayCourses() {
 
   const nav = useNavigate();
   const location = useLocation();
-  const [courses, setCourses] = useState<CourseData[]>([]);
+  const [courses, setCourses] = useState<CourseData[]| null>(null);
     
     
 
@@ -109,8 +109,10 @@ function DisplayCourses() {
         <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
       </div>
       <div className="courses">
-        {courses.length === 0 ? (
+        {courses === null ? (
           <p>Loading courses...</p>
+        ) : courses.length === 0 ? (
+          <p>No results found</p>
         ) : (
           courses.map((course: CourseData) => (
             <div key={course.KEYCODE} className = 'course-card'>

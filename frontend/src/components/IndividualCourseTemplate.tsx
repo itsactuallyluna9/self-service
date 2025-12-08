@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
+import { useCart } from "./CartContext";
 
 interface CourseProps {
     ACADEMICYEAR: number,
@@ -23,11 +24,33 @@ interface CourseProps {
 
 const IndividualCourseTemplate = (data: CourseProps) => {
 
+    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
+    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [canAddCart, setCanAddCart] = useState(true)
+
     const nav = useNavigate()
 
     const returnToHome = () =>  {
         return nav('/CourseInformationPage')
     }
+
+    const handleAdd = () => {
+    const result = AddCourseToCart(data); // must return true/false
+
+    if (result) {
+        setCartButtonText("Success");
+        setCanAddCart(false); // preventg double register
+    } else {
+        setCartButtonText("Failure");
+        setCanAddCart(false);
+
+        // revert after 5 seconds??
+        setTimeout(() => {
+        setCartButtonText("Add to cart");
+        setCanAddCart(true);
+        }, 5000);
+    }
+    };
 
     return(
         <div className='ind'>
@@ -57,7 +80,8 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                 {data.PREREQS == null && (
                     <h5>Prerequisites: None</h5>
                 )}
-                <button onClick={()=>{returnToHome()}}>Back</button>
+                <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd()}}>{cartButtonText}</button>
+                <button type="button" onClick={()=>{returnToHome()}}>Back</button>
             </form>
         </div>
     )

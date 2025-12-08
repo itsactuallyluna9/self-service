@@ -1,25 +1,18 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import "./Cart.css"; // you probably don't need CSS in the context file, but it's harmless
 
-export interface CourseProps {
-    ACADEMICYEAR: number,
-    BLOCKNUM: string,
-    COURSECODE: string,
-    COURSETYPES: null | string,
-    CREDITS: number,
-    DEPARTMENT: string,
-    DESCR: null | string,
-    FEE: null | number,
-    PROFESSOR: any,
-    KEYCODE: number,
-    PREREQS: null | string,
-    SEATS: number,
-    TITLE: string
+
+export interface CartProps { // edit later to have full info
+    KEYCODE : number,
+    TITLE : string,
+    DEPARTMENT : string,
+    COURSECODE : string,
+
 }
 
 interface CartContextType {
-  cartCourses: CourseProps[];
-  AddCourseToCart: (course: CourseProps) => boolean;
+  cartCourses: CartProps[];
+  AddCourseToCart: (course: CartProps) => boolean;
   RemoveCourseFromCart: (code: string) => void;
 }
 
@@ -31,11 +24,11 @@ interface CartContextProviderProps {
 
 export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   // initialize from localstorage ONCE
-  const [cartCourses, setCartCourses] = useState<CourseProps[]>(() => {
+  const [cartCourses, setCartCourses] = useState<CartProps[]>(() => {
     const stored = localStorage.getItem("cart");
     if (!stored) return [];
     try {
-      return JSON.parse(stored) as CourseProps[];
+      return JSON.parse(stored) as CartProps[];
     } catch {
       return [];
     }
@@ -47,7 +40,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
     localStorage.setItem("cart", JSON.stringify(cartCourses));
   }, [cartCourses]);
 
-  const AddCourseToCart = (course: CourseProps): boolean => {
+  const AddCourseToCart = (course: CartProps): boolean => {
     const exists = cartCourses.some(c => c.COURSECODE === course.COURSECODE);
 
     if (exists) return false;

@@ -34,7 +34,7 @@ const router = createBrowserRouter([
     element: <SignIn/>
   },
   {
-    path: 'Filter',
+    path: '/Filter',
     element: <FilterPage/>,
   },
   {

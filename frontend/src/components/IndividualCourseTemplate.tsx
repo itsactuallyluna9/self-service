@@ -4,8 +4,6 @@ import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
 
 import UserID from '../components/LoginID'
-import { useCart } from "./CartContext";
-import CartTemplate from './CartTemplate'
 
 interface CourseProps {
     ACADEMICYEAR: number,
@@ -35,14 +33,7 @@ interface CartProps { // edit later to have full info
 
 
 const IndividualCourseTemplate = (data: CourseProps) => {
-
-
-    const nav = useNavigate()
-
-    const returnToHome = () =>  {
-        return nav('/CourseInformationPage')
-    }
-
+const nav = useNavigate()
 
     return (
         <div className='ind'>
@@ -78,7 +69,11 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                     </div>
                 </div>
                 <div className="button-container">
-                    <button className="back-button" onClick={()=>{returnToHome()}}>Back</button>
+                    <button 
+                    type='button'
+                    className="back-button" 
+                    onClick={()=>nav(-1)}
+                    >Back</button>
                 </div>
             </form>
         </div>

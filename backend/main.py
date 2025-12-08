@@ -1,6 +1,6 @@
 import os
-from . import db
-from .routes import all_courses, auth, user_courses
+from backend import db
+from backend.routes import all_courses, auth, user_courses
 from flask import Flask
 from flask_cors import CORS
 

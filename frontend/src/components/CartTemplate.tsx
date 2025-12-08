@@ -1,13 +1,13 @@
-import "./Cart.css";
+//import "./Cart.css";
 import { useCart } from "./CartContext"; // adjust path
 // import UserID from "./LoginID" // if you still need this
-
+import './CartTemplate.css'
 
 interface CartProps { // edit later to have full info
-    COURSECODE : string,
+    KEYCODE : string,
     TITLE : string,
-    PROFESSOR : string,
-
+    DEPARTMENT : string,
+    COURSECODE : string,
 }
 
 const CartTemplate = () => {
@@ -17,31 +17,22 @@ const CartTemplate = () => {
 
   return (
     <div className="cartDisplay">
+      <form>
       <h1>Cart</h1>
-
-      
 
       {cartCourses.length === 0 && <p>No courses in cart.</p>}
 
       {cartCourses.map(course => (
-        <div key={course.KEYCODE} className = 'course-card'>
-            <h2>{course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}</h2>
-            <p>Professor: {course.PROFESSOR}</p>
-            <p>Academic Year: {course.ACADEMICYEAR}</p>
-            <p>Block: {course.BLOCKNUM}</p>
-            <p>Seats Available: {course.SEATS}</p>
-            <p>Credits: {course.CREDITS}</p>
-            {course.FEE !== null && (
-                    <p>Fees: ${course.FEE}</p>
-                )}
-                {course.FEE == null && (
-                    <p>No Fees</p>
-                )}
-            <button onClick={() => RemoveCourseFromCart(course.COURSECODE)}>
-            Remove
-          </button>
+        <div key={course.KEYCODE}>
+            <form>
+            <h2>{course.DEPARTMENT}
+            {course.COURSECODE}: 
+            {course.TITLE}</h2>
+            <button onClick={() => RemoveCourseFromCart(course.COURSECODE)}>Remove</button>
+            </form>
           </div>
       ))}
+      </form>
     </div>
   );
 };

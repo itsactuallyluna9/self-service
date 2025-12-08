@@ -1,184 +1,44 @@
 import os
-import mariadb
-from flask import Flask, jsonify, request
+import sys
+
+# allow absolute imports from the backend directory
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from backend import db
+from backend.routes import all_courses, auth, user_courses
+from flask import Flask, jsonify
 from flask_cors import CORS
 
-app = Flask(__name__)
-#enable CORS in Flask
-CORS(app) 
+def create_app():
+    app = Flask(__name__)
+    CORS(app) 
 
-# database configuration - these can be loaded from environment variables!
-# by default, we'll use localhost and the sandbox database with the selfservice user.
-# see sql/create_sandbox_user.sql to create this user and database.
-DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
-DB_PORT = int(os.environ.get('DB_PORT', 3306))
-DB_USER = os.environ.get('DB_USER', 'selfservice')
-DB_PASSWORD = os.environ.get('DB_PASSWORD', 'password')
-DB_NAME = os.environ.get('DB_NAME', 'sandbox')
+    app.register_blueprint(auth.bp, url_prefix='/api')
+    app.register_blueprint(all_courses.bp, url_prefix='/api')
+    app.register_blueprint(user_courses.bp, url_prefix='/api')
 
-# other config
-FLASK_PORT = int(os.environ.get('PORT', 5000))
-
-
-def get_db_connection():
-    """Establishes a connection to the database."""
-    try:
-        conn = mariadb.connect(
-            user=DB_USER,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=DB_PORT,
-            database=DB_NAME
-        )
-        return conn
-    except mariadb.Error as e:
-        print(f"Error connecting to the database: {e}")
-        # we should probably handle this more gracefully...
-        # oh well, it works, doesn't it?
-        return None
-
-def check_user_credentials(username, password):
-    conn = get_db_connection()
-    cur = conn.cursor()
-    query = "SELECT * FROM USERS WHERE userName = ? AND pswd = ?"
-    cur.execute(query, (username, password))
-
-    result = cur.fetchone() 
-    cur.close()
-    conn.close()
-
-    return bool(result)
-
-@app.route('/login', methods=["POST"])
-def login():
-    data = request.get_json()
-
-    username = data.get("username")
-    password = data.get("password")
-    print(f"From frontend, Username: {username}, password: {password}")
-
-    result = check_user_credentials(username, password)
-
-    return jsonify({"success": result})
-
-@app.get('/api/details/<int:course_id>')
-def get_course_details(course_id):
-    conn = get_db_connection()
-    if conn is None:
-        return jsonify({"error": "Database connection failed"}), 500
-    cursor = conn.cursor(dictionary=True)
+    @app.get('/')
+    def index():
+        return jsonify({'success': True})
     
-    # check if the course actually exists
-    try:
-        cursor.execute("SELECT * FROM COURSE_DATA WHERE KEYCODE = ?;", (course_id,))
-        if cursor.rowcount == 0:
-            return jsonify({"error": "Course not found", "success": False}), 404
-        course = cursor.fetchone()
-        course['success'] = True
-        return jsonify(course)
-    except Exception as e:
-        return jsonify({"error": str(e), "success": False}), 500
-    finally:
-        conn.close()
-        cursor.close()
+    # handle thrown errors globally
+    # return {"success": False, "error": str(e)}...
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        response = {
+            "success": False,
+            "error": str(e)
+        }
+        return jsonify(response), 500
 
-
-def get_courses():
-    #filterlist = [year,department,semester,professor,seats,fees,credits,coursetypes]
-    '''
-    year = filterlist[0]
-    filters = ''
-
-    department = filterlist[1]
-    if department:
-        filters += f' AND department = {department}'
-
-    semester = filterlist[2]
-    if semester:
-        if semester == "Fall":
-            filters += ' AND BLOCKNUM IN ("1", "2", "3", "4", "Adjunct Fall")'
-        elif semester == "Spring":
-            filters += ' AND BLOCKNUM IN ("5", "6", "7", "8", "Adjunct Spring")'
-
-    professor = filterlist[3]
-    if professor:
-        filters += f'AND PROFESSOR = {professor}'
+    db.init_app(app)
     
-    seats = filterlist[4]
-    if seats:
-        filters += ' AND SEATS > 0'
-
-    fees = filterlist[5]
-    if fees:
-        filters += ' AND FEES > 0'
-
-    credits = filterlist[6]
-    if credits:
-        filters += f' AND CREDITS = {credits}'
-
-    coursetypes = filterlist[7]
-    if coursetypes:
-        filters += f' AND COURSETYPES = {coursetypes}'
-    '''
-    try:
-        conn = mariadb.connect(
-            user = DB_USER,
-            password = DB_PASSWORD,
-            host = DB_HOST,
-            port = DB_PORT,
-            database = DB_NAME
-        )
-
-        cursor = conn.cursor(dictionary=True)
-        query = 'SELECT KEYCODE, ACADEMICYEAR, SEATS, COURSECODE, BLOCKNUM, TITLE, PROFESSOR, CREDITS, DEPARTMENT, FEE FROM COURSE_DATA'
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        
-        cursor.close()
-        conn.close()
-
-        return(rows)
-
-    except mariadb.Error as e:
-        print(f'Error connecting to the database: {e}')
-        return None
-
-@app.route('/', methods = ['GET'])
-def courses():
-    # data = request.get_json()
-    #searchfilter = [data.get("academic_year"), data.get("department"), data.get("semester"), data.get("professor"), 
-                    #data.get("seats"), data.get("fees"), data.get("credits"), data.get("attributes")]
-    
-    courses = get_courses()
-    return jsonify({"courses": courses})
-
-@app.route('/internal/mariadb-sample')
-def mariadb_sample():
-    # this is a simple endpoint to test connectivity to the MariaDB database
-    # this should NEVER be called. i plan to remove this later once there's actual functions.
-    # ~luna
-
-    conn = get_db_connection()
-    if conn is None:
-        # if we can't connect to the database, return an error
-        # in the style of <response>, <status code>
-        return jsonify({"error": "Database connection failed"}), 500
-    cursor = conn.cursor()
-    try:
-        cursor.execute("SELECT 'Hello from MariaDB!' AS message;")
-        result = cursor.fetchone()
-        return jsonify({"message": result[0]})
-    except mariadb.Error as e:
-        # if the query fails, return an error
-        print(f"Error: {e}")
-        return jsonify({"error": "Query failed"}), 500
-    finally:
-        # clean up database resources...
-        cursor.close()
-        conn.close()
-
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
+    # other config
+    FLASK_PORT = int(os.environ.get('PORT', 5000))
     # TODO: we could add some things here to automatically run migrations, etc.
     # later problems... y'know once we *have* a database schema.
     # my favorite <3

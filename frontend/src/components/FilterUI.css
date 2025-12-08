@@ -1,29 +1,35 @@
 .filter-ui {
   display: grid;
-  grid-template-columns: 1fr 1fr;   /* Two-column layout */
-  gap: 16px;
-  padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 100%;
+}
+
+.filter-ui h2 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+
+.filter-ui h3 {
+  margin: 0;
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1.2rem;
 }
 
 /* Label */
 .filter-ui label {
-  font-weight: 600;
   font-size: 16px;
-  margin-bottom: 4px;
-  display: block;
-  color: #333;
+  margin-left: ;
 }
 
 /* Select dropdowns */
 .filter-ui select {
-  width: 100%;
+  width: 300px; 
   padding: 8px 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: white;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -31,4 +37,19 @@
 .filter-ui label input[type="checkbox"] {
   margin-right: 6px;
   margin-top: 14px;
+}
+
+.filter-ui hr {
+  width: 100%;
+  height: 1px;          
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 16px;
+}
+
+.filter-column {
+    display: flex;
+    gap: 12px;
+    margin-bottom:  20px;
+    align-items: center;
 }

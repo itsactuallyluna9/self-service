@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './CourseInformationPage.css'
-import {useNavigate} from 'react-router'
+import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 
 interface CourseData {
@@ -45,39 +45,51 @@ const testClasses: CourseData[] = [
 
 
 function DisplayCourses() {
-    const [courses, setCourses] = useState<CourseData[]>([])  
-    const nav = useNavigate()
-  
-    const toCourseInfo = (KEYCODE: number) => {
-      nav('/CourseInfo',{state:{code:KEYCODE}})
-    }
+  const nav = useNavigate();
+  const location = useLocation();
+  const [courses, setCourses] = useState<CourseData[]>([]);  
+    
   useEffect(() => {
-    async function loadCourses() {
-      try {
+    // If navigated from filter page
+    if (location.state && (location.state as any).classes) {
+      setCourses((location.state as any).classes);
+    } else {
+    
+    // Otherwise, load all courses
+      async function loadCourses() {
+        try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
         const response = await fetch('https://10.101.128.56:6001/');
         
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`); 
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
         const data = await response.json();
         setCourses(data.courses || testClasses);
-            
     
-      } catch (e: any) {
-        console.error("Error fetching courses:", e);
-        setCourses(testClasses);
-    
+        } catch (e) {
+          console.error("Error fetching courses:", e);
+          setCourses(testClasses);
+        }
       }
+      loadCourses();
     }
-    loadCourses();
-    }, []);
+  }, [location.state]);
+
+  const toCourseInfo = (KEYCODE: number) => {
+    nav('/CourseInfo',{state:{code:KEYCODE}});
+  };
 
     return (
     <>
     <Navbar />
-    <div className='display'>    
+    <div className='display'> 
+      {/* <h1
+        onClick={() => nav('/Filter')}
+        style={{ cursor: "pointer"}}
+        >
+        Advanced Search
+      </h1>   */}
+
       {courses.length === 0 ? (
         <p>Loading courses...</p>
       ) : (
@@ -102,9 +114,8 @@ function DisplayCourses() {
                 ? "Spring"
                 : ""}
               </p>
-              {course.BLOCKNUM !== null && (
-                <p>Block: {course.BLOCKNUM}</p>
-              )}
+              <p>Block: {course.BLOCKNUM}</p>
+          
 
             </div>
             <div className = 'card-right'>

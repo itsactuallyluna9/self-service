@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
+import Test from './pages/Test'
 
 const router = createBrowserRouter([
   {
@@ -31,10 +32,10 @@ const router = createBrowserRouter([
     path: '/SignIn',
     element: <SignIn/>
   },
-/*  {
+  {
     path: '/test',
     element: <Test/>
-  },*/
+  },
   {
     path: 'Filter',
     element: <FilterPage/>,

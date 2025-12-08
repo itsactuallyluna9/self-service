@@ -11,3 +11,14 @@
     flex-direction: column;
     
   }
+  .cartTemplate {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    display: flex;
+    background-color: #fff;   
+    flex-direction: column;
+}
+.cartTemplate h2 {
+    color: #000000
+}

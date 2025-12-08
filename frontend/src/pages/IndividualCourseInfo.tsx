@@ -25,6 +25,7 @@ interface CourseProps {
 function IndividualCourseInfo() {
     const { state } = useLocation()
     const courseID = state.code;
+    const prevRoute = state.route
     const [myData, setMyData] = useState<any>(null);
     const [error, setError] = useState('');
     const [course, setCourse] = useState()

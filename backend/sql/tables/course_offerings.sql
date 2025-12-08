@@ -5,10 +5,11 @@ CREATE TABLE COURSE_OFFER(
     seats TINYINT NOT NULL,
     session VARCHAR(15),
     professor VARCHAR(255) NOT NULL, -- If Multiple, Comma Seperated Instructors
-    --One-To-Many Relationship
+    -- One-To-Many Relationship
     courseid SMALLINT NOT NULL,
     FOREIGN KEY (courseid) REFERENCES COURSE_DATA(id)
 );
+
 
 
 

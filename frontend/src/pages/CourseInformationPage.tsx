@@ -57,7 +57,7 @@ const testClasses: CourseData[] = [
 
 
 function DisplayCourses() {
-    const [courses, setCourses] = useState<CourseData[]>([])
+    const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
     const [cartButtonText, setCartButtonText] = useState("Add course to cart")
     const [canAddCart, setCanAddCart] = useState(true) 
@@ -79,13 +79,7 @@ function DisplayCourses() {
 
     AddCourseToCart(cartData);
   };
-
-  const nav = useNavigate();
-  const location = useLocation();
-  const [courses, setCourses] = useState<CourseData[]| null>(null);
-    
-    
-
+  
     
   useEffect(() => {
     // If navigated from filter page

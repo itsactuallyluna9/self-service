@@ -24,7 +24,9 @@ const Navbar = () => {
 
             <div className="navbar-center">
                 <ul className="nav-links">
-                {/* (empty for now) */}
+                {<><a href="/CourseInformationPage">Courses</a>
+                <a href="/RegisteredCourses">My Schedule</a></>}
+
                 </ul>
             </div>
             <div className="navbar-right">

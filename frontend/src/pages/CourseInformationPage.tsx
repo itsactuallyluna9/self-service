@@ -3,6 +3,8 @@ import './CourseInformationPage.css'
 import {useNavigate} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
+import CartTemplate from '../components/CartTemplate'
+
 
 interface CourseData {
   KEYCODE: number;
@@ -21,7 +23,7 @@ interface CartProps { // edit later to have full info
     KEYCODE : number,
     TITLE : string,
     DEPARTMENT : string,
-    COURSECODE : string,
+    COURSECODE : number,
 
 }
 
@@ -53,113 +55,97 @@ const testClasses: CourseData[] = [
   },
 ];
 
-
 function DisplayCourses() {
-    const [courses, setCourses] = useState<CourseData[]>([])
-    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
-    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
-    const [canAddCart, setCanAddCart] = useState(true) 
-    const nav = useNavigate()
-  
-    const toCourseInfo = (KEYCODE: number) => {
-      nav('/CourseInfo',{state:{code:KEYCODE}})
-    }
+  const [courses, setCourses] = useState<CourseData[]>([]);
+  const { AddCourseToCart } = useCart();
+  const nav = useNavigate();
 
-     const [cartData, setCartData] = useState<CartProps>(
-  {
-    KEYCODE: data.KEYCODE,
-    COURSECODE: data.COURSECODE,
-    TITLE: data.TITLE,
-    DEPARTMENT: data.DEPARTMENT,
-  }
-  );
-    
+  const handleAdd = (data: CourseData) => {
+    const cartData: CartProps = {
+      KEYCODE: data.KEYCODE,
+      COURSECODE: data.COURSECODE,
+      TITLE: data.TITLE,
+      DEPARTMENT: data.DEPARTMENT,
+    };
 
-    
+    AddCourseToCart(cartData);
+  };
+
   useEffect(() => {
     async function loadCourses() {
       try {
-        //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/courses');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`); 
-        }
+        const response = await fetch("https://10.101.128.56:6001/api/courses");
+        if (!response.ok) throw new Error();
 
         const data = await response.json();
         setCourses(data.courses || testClasses);
-            
-    
-      } catch (e: any) {
-        console.error("Error fetching courses:", e);
+      } catch {
         setCourses(testClasses);
-    
       }
     }
     loadCourses();
-    }, []);
+  }, []);
 
-    return (
+  return (
     <>
-    <Navbar />
-    <div className='display'>    
-      {courses.length === 0 ? (
-        <p>Loading courses...</p>
-      ) : (
-        courses.map((course: CourseData) => (
-          <div key={course.KEYCODE} className = 'course-card'>
-            <div className ='card-left'>
-              <h2
-              onClick={() => toCourseInfo(course.KEYCODE)}
-              style={{ cursor: "pointer"}}
-              >
-                {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
-              </h2>
-              <p>Year: {course.ACADEMICYEAR} |
-              
-                Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
-                ? "Fall"
-                : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
-                ? "Spring"
-                : course.BLOCKNUM.includes("Fall")
-                ? "Fall"
-                : course.BLOCKNUM.includes("Spring")
-                ? "Spring"
-                : ""}
-              </p>
-              {course.BLOCKNUM !== null && (
-                <p>Block: {course.BLOCKNUM}</p>
-              )}
+      <Navbar />
 
-            </div>
-            <div className = 'card-right'>
-                  <div className='card-column'>
+      <div className="display">
+        
+        {/* LEFT SIDE: COURSES */}
+        <div className="course-left">
+          {courses.length === 0 ? (
+            <p>Loading courses...</p>
+          ) : (
+            courses.map((course) => (
+              <div key={course.KEYCODE} className="course-card">
+
+                <div className="card-left">
+                  <h2
+                    onClick={() => nav("/CourseInfo", { state: { code: course.KEYCODE } })}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+                  </h2>
+                  <p>Year: {course.ACADEMICYEAR}</p>
+                  <p>Block: {course.BLOCKNUM}</p>
+                </div>
+
+                <div className="card-right">
+                  <div className="card-column">
                     <p>{course.PROFESSOR}</p>
                   </div>
-                  <div className='card-column'>
-                    <h3>{course.CREDITS}</h3> 
+                  <div className="card-column">
+                    <h3>{course.CREDITS}</h3>
                     <p>Credits</p>
                   </div>
-                  <div className='card-column'>
-                    <h3>{course.SEATS}</h3> 
+                  <div className="card-column">
+                    <h3>{course.SEATS}</h3>
                     <p>Seats Left</p>
                   </div>
-                  <div className='card-column'>
-                    {course.FEE !== null && (
-                      <div>
-                        <h3>${course.FEE}</h3> 
-                        <p>Applicable fees</p>
-                      </div>
-                    )}
+                  <div className="card-column">
+                    <h3>${course.FEE}</h3>
+                    <p>Applicable fees</p>
                   </div>
-            </div>
-          </div>
-      ))
-    )}
 
-    </div>
+                  <button
+                    type="button"
+                    onClick={() => handleAdd(course)}
+                  >
+                    Add Course To Cart
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        <div className="course-right">
+          <CartTemplate />
+        </div>
+
+      </div>
     </>
   );
 }
 
-export default DisplayCourses
+export default DisplayCourses;

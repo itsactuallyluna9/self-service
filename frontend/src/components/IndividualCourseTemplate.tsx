@@ -10,7 +10,7 @@ import CartTemplate from './CartTemplate'
 interface CourseProps {
     ACADEMICYEAR: number,
     BLOCKNUM: string,
-    COURSECODE: string,
+    COURSECODE: number,
     COURSETYPES: null | string,
     CREDITS: number,
     DEPARTMENT: string,
@@ -28,7 +28,7 @@ interface CartProps { // edit later to have full info
     KEYCODE : number,
     TITLE : string,
     DEPARTMENT : string,
-    COURSECODE : string,
+    COURSECODE : number,
 
 }
 

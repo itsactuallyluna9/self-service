@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 interface CourseProps {
     ACADEMICYEAR: number,
     BLOCKNUM: string,
-    COURSECODE: string,
+    COURSECODE: number,
     COURSETYPES: string,
     CREDITS: number,
     DEPARTMENT: string,

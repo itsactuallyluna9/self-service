@@ -7,7 +7,7 @@ interface CartProps { // edit later to have full info
     KEYCODE : string,
     TITLE : string,
     DEPARTMENT : string,
-    COURSECODE : string,
+    COURSECODE : number,
 }
 
 const CartTemplate = () => {
@@ -24,12 +24,12 @@ const CartTemplate = () => {
 
       {cartCourses.map(course => (
         <div key={course.KEYCODE}>
-            <form>
+          <div className= 'courseDisplay'>
             <h2>{course.DEPARTMENT}
             {course.COURSECODE}: 
             {course.TITLE}</h2>
             <button onClick={() => RemoveCourseFromCart(course.COURSECODE)}>Remove</button>
-            </form>
+            </div>
           </div>
       ))}
       </form>

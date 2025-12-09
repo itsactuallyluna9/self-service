@@ -9,9 +9,3 @@ CREATE TABLE COURSE_OFFER(
     courseid SMALLINT NOT NULL,
     FOREIGN KEY (courseid) REFERENCES COURSE_DATA(id)
 );
-
-
-
-
-
-

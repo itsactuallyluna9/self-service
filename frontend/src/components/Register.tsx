@@ -1,6 +1,6 @@
 // register.ts
 export const register = async (
-    username: string,
+    username: string | null,
     courseIDs: number[]
 ): Promise<boolean> => {
     console.log("Registering for courses...");

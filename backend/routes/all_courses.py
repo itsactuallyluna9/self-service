@@ -72,7 +72,7 @@ def get_filtered_courses():
                 cd.prereqs,
                 cd.coursetyps,
                     co.academicyear,
-                    co.session as blocknum
+                    co.session as blocknum,
                     co.professor,
                     co.openseats,
                     co.totalseats,

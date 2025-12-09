@@ -74,7 +74,9 @@ def get_filtered_courses():
                     co.academicyear,
                     co.session as blocknum
                     co.professor,
-                    co.seats
+                    co.openseats,
+                    co.totalseats,
+                    co.waitcount
                 FROM COURSE_DATA cd
                 LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid;
                 WHERE ?;

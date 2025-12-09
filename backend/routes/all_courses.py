@@ -41,7 +41,7 @@ def get_filtered_courses():
     #filter processing. Output should look something like filters = "session IN ("1", "2", "3", "4", "Adjunct Fall") AND department = "CSC" AND ..."
     filters = ""
     for key in sf:
-        if key:
+        if sf[key]:
             if key == "semester":
                 if sf[key] == 'Fall':
                     filters += 'session IN ("1", "2", "3", "4", "Adjunct Fall")'

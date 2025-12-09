@@ -32,7 +32,7 @@ def get_all_courses():
 def get_filtered_courses():
     data = request.get_json()
     #search_filter
-    sf = {"semester": data.get('SEMESTER'), "department": data.get('DEPARTMENT'), "professor": data.get('PROFESSOR'), "seats": data.get('AVAILABLE'), "fees": data.get('FEES'), "coursetypes": data.get('ATTRIBUTES'), "session": data.get('BLOCKNUM')}
+    sf = {"semester": data.get('semester'), "department": data.get('department'), "professor": data.get('professor'), "seats": data.get('available'), "fees": data.get('fees'), "coursetypes": data.get('attributes'), "session": data.get('session')}
     
     #check how many filters have been applied
     amount_filters = 0

@@ -4,7 +4,7 @@ import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
 import CartTemplate from '../components/CartTemplate'
-
+import UserID from '../components/LoginID'
 
 interface CourseData {
   KEYCODE: number;
@@ -188,6 +188,7 @@ function DisplayCourses() {
       </div> {/* display */}
       <div className='course-right'>
         <CartTemplate></CartTemplate>
+        <p>{UserID.id}</p>
       </div>
     </div> {/* split */}
     </>

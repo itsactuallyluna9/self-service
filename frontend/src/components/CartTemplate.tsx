@@ -5,7 +5,6 @@ import { useState } from "react";
 import './CartTemplate.css'
 import {useNavigate} from 'react-router'
 import register from './Register'
-import LoginID from "./LoginID";
 
 interface CartProps {
   KEYCODE: number;
@@ -18,7 +17,7 @@ interface CartProps {
 
 const CartTemplate = () => {
   const [error, setError] = useState('')
-
+  const userID = localStorage.getItem('UserID')
   const { cartCourses, RemoveCourseFromCart } = useCart();
   const nav = useNavigate();
   const [removingIds, setRemovingIds] = useState<number[]>([]);
@@ -28,7 +27,7 @@ const CartTemplate = () => {
   };
 const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();   // stops reload
-    if (await register(LoginID.id, cartCourses.map(course => course.KEYCODE))) {
+    if (await register(userID, cartCourses.map(course => course.KEYCODE))) {
       setError("Registration Successful!");
     } else {
       setError("Registration Failed. Please try again.");

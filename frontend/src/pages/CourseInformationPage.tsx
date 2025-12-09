@@ -5,7 +5,6 @@ import Navbar from '../components/Navbar'
 import { useCart } from '../components/CartContext';
 import CartTemplate from '../components/CartTemplate'
 
-
 interface CourseData {
   KEYCODE: number;
   DEPARTMENT: string;

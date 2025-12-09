@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import './RegisteredCoursesPage.css'
 import {useNavigate} from 'react-router'
-import LoginID from '../components/LoginID'
 
 import Navbar from '../components/Navbar' 
 
@@ -60,8 +59,7 @@ const testClasses: CourseData[] = [
 
 function DisplayRegisteredCourses() {
     useEffect(() => {
-        console.log("Current Logged In User ID:", LoginID.id);
-        // If the ID isn't set, navigate away, or handle the unauthorized state
+        console.log("Current Logged In User ID:", localStorage.getItem('UserID'));
     }, []);
 
     const [courses, setCourses] = useState<CourseData[]>([])

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import './RegisteredCoursesPage.css'
 import {useNavigate} from 'react-router'
-import UserID from '../components/LoginID'
 
 import Navbar from '../components/Navbar' 
 
@@ -60,7 +59,7 @@ const testClasses: CourseData[] = [
 
 function DisplayRegisteredCourses() {
     useEffect(() => {
-        console.log("Current Logged In User ID:", UserID.id);
+        console.log("Current Logged In User ID:", localStorage.getItem('UserID'));
     }, []);
 
     const [courses, setCourses] = useState<CourseData[]>([])
@@ -112,7 +111,6 @@ function DisplayRegisteredCourses() {
     <>
     <Navbar />
     <div className='display'>
-    <p>test {UserID.id}</p>
       <div className="courses">
         {courses.length === 0 ? (
           <p>Loading courses...</p>

@@ -47,8 +47,10 @@ def get_filtered_courses():
                     filters += 'session IN ("1", "2", "3", "4", "Adjunct Fall")'
                 else:
                     filters += 'session IN ("5", "6", "7", "8", "Adjunct Sprint")'
-            elif key == "fees" or key == "seats":
-                filters += f"{key} NOT NULL"
+            elif key == "fees":
+                filters +=" fees IS NOT NULL"
+            elif key == "seats":
+                filters += "seats > 0"
             else:
                 filters += f"{key} = {sf[key]}"
             if amount_filters > 1:

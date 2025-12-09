@@ -63,6 +63,8 @@ function DisplayRegisteredCourses() {
         console.log("Current Logged In User ID:", UserID.id);
     }, []);
 
+    const userID = sessionStorage.getItem('currentUserID')
+
     const [courses, setCourses] = useState<CourseData[]>([])
 
     const nav = useNavigate()
@@ -88,7 +90,7 @@ function DisplayRegisteredCourses() {
         let fetchedData: CourseData[] = [];
       try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/registered_courses/');
+        const response = await fetch(`https://10.101.128.56:6001/api/registered_courses/${userID}`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); 

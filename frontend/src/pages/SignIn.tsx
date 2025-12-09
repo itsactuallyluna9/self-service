@@ -57,6 +57,7 @@ function SignIn() {
                     console.log("Login successful.", data)
                     UserID.id = username
                     //Object.freeze(LoginID)
+                    sessionStorage.setItem('currentUserID', username)
                     return navigate('/CourseInformationPage/')
         
                 }

@@ -93,7 +93,7 @@ function FilterUI({ filters, setFilters/*, professors, departments, attributes*/
         </select>
       </div>
       
-      <div className='filter-column'>
+      <div className='checkbox-column'>
         <label>
           <input
             type="checkbox"

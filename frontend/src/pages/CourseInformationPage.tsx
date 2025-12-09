@@ -6,6 +6,7 @@ import { useCart } from '../components/CartContext';
 import CartTemplate from '../components/CartTemplate'
 import UserID from '../components/LoginID'
 
+
 interface CourseData {
   KEYCODE: number;
   DEPARTMENT: string;
@@ -57,6 +58,8 @@ const testClasses: CourseData[] = [
 
 
 function DisplayCourses() {
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupMessage, setPopupMessage] = useState("")
     const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
     const [cartButtonText, setCartButtonText] = useState("Add course to cart")
@@ -77,7 +80,19 @@ function DisplayCourses() {
       DEPARTMENT: data.DEPARTMENT,
     };
 
-    AddCourseToCart(cartData);
+    const result = AddCourseToCart(cartData);
+
+     if (result) {
+      setPopupMessage(`${data.DEPARTMENT}${data.COURSECODE} added to cart!`);
+      setShowPopup(true);
+
+      // Auto-close popup after 2 seconds
+      setTimeout(() => setShowPopup(false), 2000);
+    } else {
+      setPopupMessage(`Already in cart!`);
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+    }
   };
 
     
@@ -94,12 +109,13 @@ function DisplayCourses() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/courses');
+        //const response = await fetch('https://10.101.128.56:6001/api/courses');
         
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
+        //if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
-        const data = await response.json();
-        setCourses(data.courses || testClasses);
+        //const data = await response.json();
+        //setCourses(data.courses || testClasses);
+        setCourses(testClasses);
     
         } catch (e) {
           console.error("Error fetching courses:", e);
@@ -116,6 +132,11 @@ function DisplayCourses() {
 
   return (
     <>
+    {showPopup && (
+    <div className="popup-overlay">
+      {popupMessage}
+    </div>
+    )}
     <Navbar />
     
     <div className='split'>

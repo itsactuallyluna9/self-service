@@ -61,3 +61,7 @@
     border-radius: 6px;
     cursor: pointer;
 }
+
+.nav-links a {
+    color: #2478B0;
+}

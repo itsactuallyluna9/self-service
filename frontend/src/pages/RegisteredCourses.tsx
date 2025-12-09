@@ -58,8 +58,9 @@ const testClasses: CourseData[] = [
 
 
 function DisplayRegisteredCourses() {
+  const UserID = localStorage.getItem('UserID')
     useEffect(() => {
-        console.log("Current Logged In User ID:", localStorage.getItem('UserID'));
+        console.log("Current Logged In User ID:", UserID);
     }, []);
 
     const [courses, setCourses] = useState<CourseData[]>([])
@@ -87,7 +88,7 @@ function DisplayRegisteredCourses() {
         let fetchedData: CourseData[] = [];
       try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/registered_courses/');
+        const response = await fetch(`https://10.101.128.56:6001/api/registered_courses/${UserID}`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); 

@@ -1,7 +1,7 @@
 CREATE TABLE REGISTERED_COURSES(
     registeredID INT AUTO_INCREMENT PRIMARY KEY,
     username varchar(50) NOT NULL,
-    keycode INT NOT NULL,
+    keycode SMALLINT NOT NULL,
     enrollmentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (username) REFERENCES USERS(username)

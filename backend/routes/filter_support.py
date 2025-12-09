@@ -69,5 +69,22 @@ def get_blocks():
 
 @bp.get('/filter/options/professors')
 def get_professors():
-    # yeah no. not. not yet.
-    raise NotImplementedError
+    # get unique professors from COURSE_OFFER
+    # some courses have multiple professors separated by commas
+    # we need to split them up and get unique values
+    with get_db().cursor(dictionary=True) as cursor:
+        cursor.execute("""
+            SELECT DISTINCT professor
+            FROM COURSE_OFFER;
+        """)
+        professors = [row['professor'] for row in cursor.fetchall()]
+        unique_professors = set()
+        for prof_string in professors:
+            if prof_string:
+                profs = [prof.strip() for prof in prof_string.split(',')]
+                unique_professors.update(profs)
+        # sort by last name (split on space and use last part)
+        # this does make a lot of assumptions about names, but it's probably good enough for now
+        # hopefully.
+        professors = sorted(unique_professors, key=lambda name: name.split()[-1].lower())
+        return jsonify(professors)

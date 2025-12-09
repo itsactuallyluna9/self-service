@@ -36,14 +36,14 @@ const handleRegister = async (e: React.FormEvent) => {
 };
 
 
-  const handleRemove = (courseCode: number, keyCode: number) => {
+  const handleRemove = (courseCode: number) => {
     // mark as "removing" so we can animate it
-    setRemovingIds(prev => [...prev, keyCode]);
+    setRemovingIds(prev => [...prev, courseCode]);
 
     // wait for CSS animation to finish, THEN actually remove from cart
     setTimeout(() => {
       RemoveCourseFromCart(courseCode);
-      setRemovingIds(prev => prev.filter(code => code !== keyCode));
+      setRemovingIds(prev => prev.filter(code => code !== courseCode));
     }, 300); // this timeout must match your CSS animation duration
   };
 
@@ -56,12 +56,14 @@ const handleRegister = async (e: React.FormEvent) => {
             {cartCourses.length === 0 && <p>No courses in cart.</p>}
 
             {cartCourses.map(course => (
+              
               <div key={course.KEYCODE}>
                 <div
                   className={`courseDisplay ${
-                    removingIds.includes(course.KEYCODE) ? "removing" : ""
+                    removingIds.includes(course.COURSECODE) ? "removing" : ""
                   }`}
                 >
+                  
                   <form>
                     <h2
                       onClick={() => toCourseInfo(course.COURSECODE)}
@@ -73,7 +75,7 @@ const handleRegister = async (e: React.FormEvent) => {
                     <div className="buttonRow">
                       <button
                         type="button"
-                        onClick={() => handleRemove(course.COURSECODE, course.KEYCODE)}
+                        onClick={() => handleRemove(course.COURSECODE)}
                       >
                         Remove
                       </button>

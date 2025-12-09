@@ -6,27 +6,27 @@ import register from './Register'
 
 
 interface CourseProps {
-    ACADEMICYEAR: number,
-    BLOCKNUM: string,
-    COURSECODE: number,
-    COURSETYPES: null | string,
-    CREDITS: number,
-    DEPARTMENT: string,
+    academicyear: number,
+    blocknum: string,
+    coursecode: number,
+    coursetypes: null | string,
+    credits: number,
+    department: string,
     DESCR: null | string,
-    FEE: null | number,
-    PROFESSOR: any,
-    KEYCODE: number,
-    PREREQS: null | string,
-    SEATS: number,
-    TITLE: string
+    fee: null | number,
+    professor: any,
+    id: number,
+    prereqs: null | string,
+    seats: number,
+    title: string
 }
 
 
 interface CartProps { // edit later to have full info
-    KEYCODE : number,
-    TITLE : string,
-    DEPARTMENT : string,
-    COURSECODE : number,
+    id : number,
+    title : string,
+    department : string,
+    coursecode : number,
 
 }
 
@@ -50,22 +50,22 @@ const IndividualCourseTemplate = (data: CourseProps) => {
         <div className='ind'>
             <form>
                 <img src={Logo} alt="Logo" />
-                <h2>{data.DEPARTMENT}{data.COURSECODE}: {data.TITLE}</h2>
+                <h2>{data.department}{data.coursecode}: {data.title}</h2>
                 <div className="course-info">
                     <div className="course-info-left">
                         <p>
-                        Block: {data.BLOCKNUM} | Year: {data.ACADEMICYEAR}
+                        Block: {data.blocknum} | Year: {data.academicyear}
                         </p>
                     </div>
                     <div className="course-info-right">
-                        <p>Seats: {data.SEATS}</p>
+                        <p>Seats: {data.seats}</p>
                         <p>Seats Left: 0 </p>
                     </div>
                 </div>
                 <div className="instructor-info">
                     <p>Instructors:</p>
                     <div className="instructor-label">
-                        <p>{data.PROFESSOR}</p>
+                        <p>{data.professor}</p>
                     </div>
                 </div>
                 <div className="additional-course-info">
@@ -74,9 +74,10 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                         <p>{data.DESCR ? data.DESCR : 'None'}</p>
                     </div>
                     <div className="course-specs">
-                        <p>Prerequisites: {data.PREREQS ? data.PREREQS : 'None'}</p>
-                        <p>Department: {data.DEPARTMENT} Course Type: {data.COURSETYPES ? data.COURSETYPES : 'None'}</p>
-                        <p>Fees: {data.FEE ? `$${data.FEE}` : 'None'}</p>
+                        <p>Prerequisites: {data.prereqs ? data.prereqs : 'None'}</p>
+                        <p>Department: {data.department} Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
+                        <p>Fees: {data.fee ? `$${data.fee}` : 'None'}</p>
+                        <p>Credits: {data.credits}</p>
                     </div>
                 </div>
                 <div className="button-container">
@@ -90,7 +91,7 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                     <button 
                     type='button'
                     className="back-button" 
-                    onClick={()=>void registerCourse(data.COURSECODE)}
+                    onClick={()=>void registerCourse(data.coursecode)}
                     >Register</button>
                 </div>
             </form>

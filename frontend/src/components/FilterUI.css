@@ -18,13 +18,16 @@
 
 /* Label */
 .filter-ui label {
+  display: flex;
+  width: 200px; 
+  text-align: left;
   font-size: 16px;
-  margin-left: ;
+   align-items: center; 
 }
 
 /* Select dropdowns */
 .filter-ui select {
-  width: 300px; 
+  width: 300px;; 
   padding: 8px 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -36,9 +39,30 @@
 
 /* Checkbox rows */
 .filter-ui label input[type="checkbox"] {
-  margin-right: 6px;
-  margin-top: 14px;
+  appearance: none;      
+  background-color: white; 
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
 }
+
+
+.filter-ui input[type="checkbox"]:checked {
+  background-color: #523178; 
+}
+
+.filter-ui input[type="checkbox"]:checked::after {
+  content: "✔";
+  color: white;
+  font-size: 14px;
+  position: relative;
+  left: 3px;
+  vertical-align: middle;
+}
+
 
 .filter-ui hr {
   width: 100%;
@@ -49,8 +73,16 @@
 }
 
 .filter-column {
-    display: flex;
-    gap: 12px;
-    margin-bottom:  20px;
+    display: grid;
+    grid-template-columns: 60px 1fr 74px 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
     align-items: center;
+}
+
+.checkbox-column {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

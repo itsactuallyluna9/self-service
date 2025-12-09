@@ -1,6 +1,5 @@
 import logo from '../assets/Cornell_logo.png'
 import './Navbar.css'
-import LoginID from '../components/LoginID'
 import { useNavigate } from 'react-router'
 
 const Navbar = () => {
@@ -9,7 +8,7 @@ const Navbar = () => {
 
     const handleSignout = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
-        LoginID.id = ''
+        localStorage.removeItem('userId');
         console.log("User signed out.")
         return navigate('/SignIn/')
     }

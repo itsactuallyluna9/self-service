@@ -4,7 +4,6 @@ import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
 import register from './Register'
 
-import UserID from '../components/LoginID'
 
 interface CourseProps {
     ACADEMICYEAR: number,

@@ -1,23 +1,23 @@
 import React from 'react'
 
 interface CourseData {
-    KEYCODE: number;
-    DEPARTMENT: string;
-    TITLE: string;
-    PROFESSOR: string;
-    ACADEMICYEAR: string;
-    BLOCKNUM: string;
-    SEATS: number;
-    CREDITS: number;
-    FEE: number;
-    COURSECODE: number;
+  id: number;
+  department: string;
+  title: string;
+  professor: string;
+  academicyear: string;
+  blocknum: string;
+  seats: number;
+  credits: number;
+  fee: number | null;
+  coursecode: number;
   }
 
 const CartCourseTemplate = (course: CourseData) => {
 
     return (
-        <div key={course.KEYCODE} className = 'cartTemplate'>
-                <h2>{course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}</h2>
+        <div key={course.id} className = 'cartTemplate'>
+                <h2>{course.department}{course.coursecode}: {course.title}</h2>
         </div>
 )}
 export default CartCourseTemplate

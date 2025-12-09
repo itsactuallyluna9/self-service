@@ -1,12 +1,12 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import "./Cart.css"; // you probably don't need CSS in the context file, but it's harmless
+import "../cssFiles/Cart.css"; // you probably don't need CSS in the context file, but it's harmless
 
 
 export interface CartProps { // edit later to have full info
-    KEYCODE : number,
-    TITLE : string,
-    DEPARTMENT : string,
-    COURSECODE : number,
+    id : number,
+    title : string,
+    department : string,
+    coursecode : number,
 
 }
 
@@ -41,7 +41,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
   }, [cartCourses]);
 
   const AddCourseToCart = (course: CartProps): boolean => {
-    const exists = cartCourses.some(c => c.COURSECODE === course.COURSECODE);
+    const exists = cartCourses.some(c => c.coursecode === course.coursecode);
 
     if (exists) return false;
 
@@ -51,7 +51,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
 
   const RemoveCourseFromCart = (code: number) => {
-    setCartCourses(prev => prev.filter(c => c.COURSECODE !== code));
+    setCartCourses(prev => prev.filter(c => c.coursecode !== code));
   };
 
   return (

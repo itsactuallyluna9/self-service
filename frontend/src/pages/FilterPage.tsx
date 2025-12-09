@@ -4,6 +4,16 @@ import FilterUI, { type CourseFilter } from "../components/FilterUI";
 import './FilterPage.css'
 import Navbar from '../components/Navbar'
 
+interface filterParams {
+  professor: string | null
+  block: string
+  semester: string
+  department: string | null
+  fees: string
+  available: string
+  attributes: string | null
+}
+
 function FilterPage() {
   const navigate = useNavigate();
 
@@ -42,7 +52,7 @@ function FilterPage() {
 
 
   const handleApply = async () => {
-    const params = new URLSearchParams({
+    const params: filterParams = { 
       professor: filters.PROFESSOR,
       block: filters.BLOCKNUM,
       semester: filters.SEMESTER,
@@ -50,12 +60,17 @@ function FilterPage() {
       fees: filters.FEES,
       available: filters.AVAILABLE,
       attributes: filters.ATTRIBUTES,
-    });
+    };
 
-    const res = await fetch(`/api/classes?${params.toString()}`);
+    const res = await fetch(`https://10.101.128.56:6001/api/courses?`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params)});
     const data = await res.json();
-
-    navigate("/classes", { state: { classes: data } });
+    console.log(data)
+    navigate("/CourseInformationPage", { state: { classes: data } });
   };
 
   const handleClear = () => {

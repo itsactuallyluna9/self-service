@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './IndividualCourseTemplate.css'
+import '../cssFiles/IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
 import register from './Register'

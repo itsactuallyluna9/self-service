@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './CourseInformationPage.css'
+import '../cssFiles/CourseInformationPage.css'
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
@@ -206,9 +206,9 @@ function DisplayCourses() {
         </div> {/* courses  */}
         
       </div> {/* display */}
-      { <div className='course-right'>
+      <div className='course-right'>
         <CartTemplate></CartTemplate>
-      </div> }
+      </div> 
     </div> {/* split */}
     </>
   );

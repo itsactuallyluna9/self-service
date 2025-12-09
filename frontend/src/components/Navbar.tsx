@@ -1,14 +1,21 @@
 import logo from '../assets/Cornell_logo.png'
 import '../cssFiles/Navbar.css'
 import { useNavigate } from 'react-router'
+import { useState } from 'react';
+//import LogoutModal from './Logout';
 
 const Navbar = () => {
 
     const navigate = useNavigate()
 
+    /*const [isModalOpen, setIsModalOpen] = useState(false);
+
+      const handleSignOutClick = () => {
+    setIsModalOpen(true);*/
+
     const handleSignout = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
-        localStorage.removeItem('userId');
+        localStorage.removeItem('UserId');
         console.log("User signed out.")
         return navigate('/SignIn/')
     }

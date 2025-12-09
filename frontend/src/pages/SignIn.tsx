@@ -4,7 +4,6 @@ import { useLocation } from "react-router"
 import './SignIn.css'
 import Logo from '../assets/Cornell_logo.png'
 import { createContext } from 'react'
-import UserID from '../components/LoginID'
 
 //TESTING LOGIN FOR STUDENT : 
 //user: ckawase25
@@ -13,7 +12,6 @@ function SignIn() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
-
 
     const navigate = useNavigate()
     
@@ -55,9 +53,7 @@ function SignIn() {
                 
                 if (data.success){
                     console.log("Login successful.", data)
-                    UserID.id = username
-                    //Object.freeze(LoginID)
-                    sessionStorage.setItem('currentUserID', username)
+                    localStorage.setItem('UserID', username)
                     return navigate('/CourseInformationPage/')
         
                 }

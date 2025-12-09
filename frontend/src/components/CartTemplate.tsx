@@ -22,6 +22,7 @@ const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();   // stops reload
     if (await register(userID, cartCourses.map(course => course.id))) {
       setError("Registration Successful!");
+      localStorage.removeItem('cart')
     } else {
       setError("Registration Failed. Please try again.");
     }

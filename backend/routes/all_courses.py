@@ -50,7 +50,7 @@ def get_filtered_courses():
             elif key == "fees":
                 filters +=" fees IS NOT NULL"
             elif key == "seats":
-                filters += "seats > 0"
+                filters += "remainingseats > 0"
             else:
                 filters += f"{key} = {sf[key]}"
             if amount_filters > 1:

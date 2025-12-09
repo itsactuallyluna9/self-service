@@ -11,7 +11,8 @@ def get_registered_courses(username):
             SELECT
                 cd.keycode,
                 co.academicyear,
-                co.seats,
+                co.totalseats,
+                co.openseats,
                 cd.coursecode,
                 co.session AS blocknum,
                 cd.title,

@@ -58,6 +58,18 @@ function FilterPage() {
     navigate("/classes", { state: { classes: data } });
   };
 
+  const handleClear = () => {
+      setFilters({
+        PROFESSOR: "",
+        BLOCKNUM: "",
+        SEMESTER: "",
+        DEPARTMENT: "",
+        FEES: "false",
+        AVAILABLE: "false",
+        ATTRIBUTES: ""
+      });
+    };
+
   return (
     <>
     <Navbar />
@@ -72,7 +84,10 @@ function FilterPage() {
 
         <div className="button-container">
             <button onClick={() => navigate(-1)}>Back</button>
-            <button onClick={handleApply}>Apply</button>
+            <div className="button-right">
+              <button className="clear-button" onClick={handleClear}>Clear</button>
+              <button onClick={handleApply}>Apply</button>
+            </div>
         </div>
     </div>
     </>

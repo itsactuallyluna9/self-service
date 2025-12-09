@@ -1,5 +1,5 @@
 import logo from '../assets/Cornell_logo.png'
-import './Navbar.css'
+import '../cssFiles/Navbar.css'
 import { useNavigate } from 'react-router'
 
 const Navbar = () => {

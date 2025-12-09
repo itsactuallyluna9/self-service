@@ -2,15 +2,15 @@
 import { useCart } from "./CartContext"; // adjust path
 import { useState } from "react";
 // import UserID from "./LoginID" // if you still need this
-import './CartTemplate.css'
+import '../cssFiles/CartTemplate.css'
 import {useNavigate} from 'react-router'
 import register from './Register'
 
 interface CartProps {
-  KEYCODE: number;
-  TITLE: string;
-  DEPARTMENT: string;
-  COURSECODE: number;
+  id: number;
+  title: string;
+  department: string;
+  coursecode: number;
 }
 
 
@@ -22,12 +22,12 @@ const CartTemplate = () => {
   const nav = useNavigate();
   const [removingIds, setRemovingIds] = useState<number[]>([]);
 
-  const toCourseInfo = (KEYCODE: number) => {
-    nav('/CourseInfo',{state:{code:KEYCODE}});
+  const toCourseInfo = (id: number) => {
+    nav('/CourseInfo',{state:{code:id}});
   };
 const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();   // stops reload
-    if (await register(userID, cartCourses.map(course => course.KEYCODE))) {
+    if (await register(userID, cartCourses.map(course => course.id))) {
       setError("Registration Successful!");
     } else {
       setError("Registration Failed. Please try again.");
@@ -56,25 +56,25 @@ const handleRegister = async (e: React.FormEvent) => {
 
             {cartCourses.map(course => (
               
-              <div key={course.KEYCODE}>
+              <div key={course.id}>
                 <div
                   className={`courseDisplay ${
-                    removingIds.includes(course.COURSECODE) ? "removing" : ""
+                    removingIds.includes(course.coursecode) ? "removing" : ""
                   }`}
                 >
                   
                   <form>
                     <h2
-                      onClick={() => toCourseInfo(course.COURSECODE)}
+                      onClick={() => toCourseInfo(course.coursecode)}
                       style={{ cursor: "pointer" }}
                     >
-                      {course.DEPARTMENT}
-                      {course.COURSECODE}: {course.TITLE}
+                      {course.department}
+                      {course.coursecode}: {course.title}
                     </h2>
                     <div className="buttonRow">
                       <button
                         type="button"
-                        onClick={() => handleRemove(course.COURSECODE)}
+                        onClick={() => handleRemove(course.coursecode)}
                       >
                         Remove
                       </button>

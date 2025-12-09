@@ -1,4 +1,4 @@
-import './FilterUI.css'
+import '../cssFiles/FilterUI.css'
 
 export interface CourseFilter {
     PROFESSOR: string;

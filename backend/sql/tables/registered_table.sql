@@ -1,10 +1,10 @@
 CREATE TABLE REGISTERED_COURSES(
     registeredID INT AUTO_INCREMENT PRIMARY KEY,
-    userName varchar(50) NOT NULL,
+    username varchar(50) NOT NULL,
     keycode INT NOT NULL,
     enrollmentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (userName) REFERENCES USERS(userName)
+    FOREIGN KEY (username) REFERENCES USERS(username)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
 

@@ -6,13 +6,6 @@ import '../cssFiles/CartTemplate.css'
 import {useNavigate} from 'react-router'
 import register from './Register'
 
-interface CartProps {
-  id: number;
-  title: string;
-  department: string;
-  coursecode: number;
-}
-
 
 
 const CartTemplate = () => {
@@ -85,7 +78,9 @@ const handleRegister = async (e: React.FormEvent) => {
             ))}
           </form>
         </div>
-        <button className="register-buttton">Register</button>
+        <div className="register-button">
+          <button>Register</button>
+        </div>
         {error && <p>{error}</p>}
       </form>
     </div>

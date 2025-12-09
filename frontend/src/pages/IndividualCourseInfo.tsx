@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import IndividualCourseTemplate from '../components/IndividualCourseTemplate';
 import { useLocation } from 'react-router';
-import './IndivdualCoursePage.css';
+import '../cssFiles/IndivdualCoursePage.css';
 import Navbar from '../components/Navbar';
 
 

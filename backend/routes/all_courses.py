@@ -20,7 +20,9 @@ def get_all_courses():
                     co.academicyear,
                     co.session AS blocknum,
                     co.professor,
-                    co.seats
+                    co.openseats,
+                    co.totalseats,
+                    co.waitcount
                 FROM COURSE_DATA cd
                 LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid;
         """)
@@ -48,7 +50,9 @@ def get_course_details(course_id):
                     co.academicyear,
                     co.session AS blocknum,
                     co.professor,
-                    co.seats
+                    co.openseats,
+                    co.totalseats,
+                    co.waitcount
                 FROM COURSE_DATA cd
                 LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
                 WHERE co.id = ?

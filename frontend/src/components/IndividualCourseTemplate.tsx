@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
+import register from './Register'
 
 import UserID from '../components/LoginID'
 
@@ -33,7 +34,18 @@ interface CartProps { // edit later to have full info
 
 
 const IndividualCourseTemplate = (data: CourseProps) => {
-const nav = useNavigate()
+    const nav = useNavigate()
+    const registerCourse = async (code : number) => {
+        const courses = [code]
+        const reply = register("jwaughon27", courses)
+        const result = await reply
+        if (result === true) {
+            console.log("success register")
+        }
+        else {
+            console.log("false register")
+        }
+    }
 
     return (
         <div className='ind'>
@@ -74,6 +86,13 @@ const nav = useNavigate()
                     className="back-button" 
                     onClick={()=>nav(-1)}
                     >Back</button>
+                </div>
+                <div className="button-container">
+                    <button 
+                    type='button'
+                    className="back-button" 
+                    onClick={()=>void registerCourse(data.COURSECODE)}
+                    >Register</button>
                 </div>
             </form>
         </div>

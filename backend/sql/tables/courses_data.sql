@@ -13,4 +13,3 @@ CREATE TABLE COURSE_DATA(
     coursetypes TEXT -- Comma Seperated Course Types (Ex. "W, Social Science")
 );
 ALTER TABLE COURSE_DATA ADD CONSTRAINT uq_all_columns UNIQUE (coursecode, department);
-

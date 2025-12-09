@@ -7,7 +7,23 @@ bp = Blueprint('all_courses', __name__)
 @bp.get('/courses')
 def get_all_courses():
     with get_db().cursor(dictionary=True) as cursor:
-        cursor.execute("SELECT KEYCODE, ACADEMICYEAR, SEATS, COURSECODE, BLOCKNUM, TITLE, PROFESSOR, CREDITS, DEPARTMENT, FEE FROM COURSE_DATA;")
+        cursor.execute("""
+            SELECT
+                    co.id,
+                    cd.coursecode,
+                    cd.title,
+                    cd.credits,
+                    cd.department,
+                    cd.fee,
+                cd.prereqs,
+                cd.coursetypes,
+                    co.academicyear,
+                    co.session AS blocknum,
+                    co.professor,
+                    co.seats
+                FROM COURSE_DATA cd
+                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid;
+        """)
         courses = cursor.fetchall()
         return jsonify({"courses": courses, "success": True})
 
@@ -19,9 +35,30 @@ def get_filtered_courses():
 @bp.get('/courses/<int:course_id>')
 def get_course_details(course_id):
     with get_db().cursor(dictionary=True) as cursor:
-        cursor.execute("SELECT * FROM COURSE_DATA WHERE KEYCODE = ?;", (course_id,))
-        if cursor.rowcount == 0:
-            return jsonify({"error": "Course not found", "success": False}), 404
-        course = cursor.fetchone()
-        course['success'] = True
-        return jsonify(course)
+            cursor.execute("""
+                SELECT
+                    co.id,
+                    cd.coursecode,
+                    cd.title,
+                    cd.credits,
+                    cd.department,
+                    cd.fee,
+                    cd.prereqs,
+                    cd.coursetypes,
+                    co.academicyear,
+                    co.session AS blocknum,
+                    co.professor,
+                    co.seats
+                FROM COURSE_DATA cd
+                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
+                WHERE co.id = ?
+                LIMIT 1;
+                """,
+                (course_id,),
+            )
+            course = cursor.fetchone()
+            if course is None:
+                return jsonify({"error": "Course not found", "success": False}), 404
+
+            course['success'] = True
+            return jsonify(course)

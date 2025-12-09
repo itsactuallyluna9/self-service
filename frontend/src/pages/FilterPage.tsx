@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import FilterUI, { type CourseFilter } from "../components/FilterUI";
-import './FilterPage.css'
+import '../cssFiles/FilterPage.css'
 import Navbar from '../components/Navbar'
 
 interface filterParams {

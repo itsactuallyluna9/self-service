@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './RegisteredCoursesPage.css'
+import '../cssFiles/RegisteredCoursesPage.css'
 import {useNavigate} from 'react-router'
 
 import Navbar from '../components/Navbar' 

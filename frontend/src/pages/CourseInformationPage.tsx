@@ -82,7 +82,7 @@ function DisplayCourses() {
     const result = AddCourseToCart(cartData);
 
      if (result) {
-      setPopupMessage(`${data.DEPARTMENT}${data.COURSECODE} added to cart!`);
+      setPopupMessage(`${data.department}${data.coursecode} added to cart!`);
       setShowPopup(true);
 
       // Auto-close popup after 2 seconds

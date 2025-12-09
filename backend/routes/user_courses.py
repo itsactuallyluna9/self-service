@@ -30,7 +30,9 @@ def get_registered_courses(username):
 @bp.delete('/registered_courses/<string:username>/<string:keycode>')
 def drop_registered_course(username, keycode):
     with get_db().cursor(dictionary=True) as cursor:
-        cursor.execute('DELETE FROM REGISTERED_COURSES WHERE USERNAME = ? AND KEYCODE = ?;', (username, keycode))
+        cursor.execute('DELETE FROM REGISTERED_COURSES WHERE username = ? AND keycode = ?;', (username, keycode))
+        cursor.execute('UPDATE COURSE_OFFER SET openseats = openseats + 1 WHERE keycode = ?;',(keycode,))
         result = cursor.rowcount
+
         get_db().commit()
         return jsonify({'success': result > 0})

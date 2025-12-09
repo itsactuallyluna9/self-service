@@ -1,42 +1,19 @@
 .split {
   display: flex;
-  flex-direction: row;
-  margin: 100px auto;
-
+  margin-left: 140px;
 }
 
 .display {
-  gap :10px;
-  width: 80%;
-  height: auto;
   display: flex;
   flex-direction: column;
-  overflow: visible;
-  align-items: center;
-  
-  justify-content: space-between;
+  flex: 1;     
 }
-
 
 .courses {
-  width: 80%;
-  height: auto;
   display: flex;
   flex-direction: column;
-  overflow: visible;
-  align-items: center;
-  
-  align-items: flex-start;
-  justify-content: space-between;
+  width: 100%;
   gap: 5px;
-}
-
-
-.courses img { 
-  display: block;
-  margin-top: 20px;
-  width: 250px; 
-  height: auto; 
 }
 
 .courses .course-card {
@@ -69,7 +46,6 @@
 
 .courses p {
   margin: 2px 0;
-  color: #444;
   font-size: 0.8rem;
 }
 
@@ -109,17 +85,14 @@
 }
 
 .filter-button-container {
-  width: 45%;
-  height: auto;
-  margin-top: 110px auto;
+  width: 90%;
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  
+  gap: 20px;
+  align-items: left;
 }
 
 .filter-button-container button {
+  width: 200px;
   padding: 10px 20px;
   background-color: #523178; 
   color: #fff;
@@ -130,17 +103,46 @@
   transition: background-color 0.2s;
 }
 
-.course-left {
-  width: 60%;
+.filter-button-container .clear-filter-button {
+  padding: 10px 20px;
+  background-color: #fff; 
+  color: #523178;
+  border: #523178 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
 }
 
+.filter-button-container .clear-filter-button:hover {
+  background-color: #523178; 
+  color: #fff;
+}
+
+
 .course-right {
-  width: 40%;
-  height: auto;
-  margin: 20px auto;
+  width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
- 
-  margin-right: 110px;
+  position: sticky;
+  top: 70px;            
+  align-self: flex-start;
+}
+
+.courses .course-card button {
+  width: 100px;
+  padding: 10px 20px;
+  background-color: #523178; 
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-right: 5px;
+}
+
+.display button:hover {
+  background-color: #3d2460; 
 }

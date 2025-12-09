@@ -57,7 +57,7 @@ const testClasses: CourseData[] = [
 
 
 function DisplayCourses() {
-    const [courses, setCourses] = useState<CourseData[]>([])
+    const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
     const [cartButtonText, setCartButtonText] = useState("Add course to cart")
     const [canAddCart, setCanAddCart] = useState(true) 
@@ -79,6 +79,9 @@ function DisplayCourses() {
 
     AddCourseToCart(cartData);
   };
+
+    
+    
 
     
   useEffect(() => {
@@ -122,9 +125,11 @@ function DisplayCourses() {
           <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
         </div> {/* filter-button-container */}
         <div className="courses">
-          {courses.length === 0 ? (
+          {courses === null ? (
             <p>Loading courses...</p>
-          ) : (
+          ) : courses.length === 0 ? (
+          <p>No results found</p>
+        ) : (
             courses.map((course: CourseData) => (
               <div key={course.KEYCODE} className = 'course-card'>
                 <div className ='card-left'>

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from db import get_db
+
+from backend.db import get_db
 
 bp = Blueprint('all_courses', __name__)
 
@@ -30,63 +31,93 @@ def get_all_courses():
 
 @bp.post('/courses')
 def get_filtered_courses():
-    data = request.get_json()
-    #search_filter
-    sf = {"semester": data.get('semester'), "department": data.get('department'), "professor": data.get('professor'), "seats": data.get('available'), "fees": data.get('fees'), "coursetypes": data.get('attributes'), "session": data.get('session')}
-    
-    #check how many filters have been applied
-    amount_filters = 0
-    for key in sf:
-        if key:
-            amount_filters += 1
+    data = request.get_json(force=True, silent=True) or {}
 
-    #filter processing. Output should look something like filters = "session IN ("1", "2", "3", "4", "Adjunct Fall") AND department = "CSC" AND ..."
-    filters = ""
-    for key in sf:
-        if sf[key]:
-            if key == "semester":
-                if sf[key] == 'Fall':
-                    filters += 'session IN ("1", "2", "3", "4", "Adjunct Fall")'
-                else:
-                    filters += 'session IN ("5", "6", "7", "8", "Adjunct Spring")'
-            elif key == "fees":
-                filters +=" fees IS NOT NULL"
-            elif key == "seats":
-                #ignore for now
-                filterlist = ''
-            else:
-                filters += f"{key} = {sf[key]}"
-            if amount_filters > 1:
-                filters += " AND "
-            amount_filters -= 1
+    # Normalized incoming filters
+    sf = {
+        "semester": data.get("semester"),
+        "department": data.get("department"),
+        "professor": data.get("professor"),
+        "seats": data.get("available"),
+        "fees": data.get("fees"),
+        "coursetypes": data.get("attributes"),
+        "session": data.get("session"),
+    }
+
+    conditions = []
+    params = []
+
+    semester = sf.get("semester")
+    if semester:
+        if semester.lower() == "fall":
+            sessions = ["Block 1", "Block 2", "Block 3", "Block 4", "Adjunct Fall"]
+        elif semester.lower() == "spring":
+            sessions = ["Block 5", "Block 6", "Block 7", "Block 8", "Adjunct Spring"]
+        else:
+            sessions = []
+        if sessions:
+            placeholders = ", ".join(["%s"] * len(sessions))
+            conditions.append(f"co.session IN ({placeholders})")
+            params.extend(sessions)
+
+    department = sf.get("department")
+    if department:
+        conditions.append("cd.department = %s")
+        params.append(department)
+
+    professor = sf.get("professor")
+    if professor:
+        # match substring to allow partial names
+        conditions.append("co.professor LIKE %s")
+        params.append(f"%{professor}%")
+
+    seats = sf.get("seats")
+    if seats:
+        conditions.append("co.openseats > 0")
+
+    fees = sf.get("fees")
+    if fees:
+        conditions.append("cd.fee IS NOT NULL")
+
+    course_types = sf.get("coursetypes")
+    if course_types:
+        # allow matching a single attribute substring
+        conditions.append("cd.coursetypes LIKE %s")
+        params.append(f"%{course_types}%")
+
+    session = sf.get("session")
+    if session:
+        conditions.append("co.session = %s")
+        params.append(session)
+
+    where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+
+    query = f"""
+        SELECT
+            co.id,
+            cd.coursecode,
+            cd.title,
+            cd.credits,
+            cd.department,
+            cd.fee,
+            cd.prereqs,
+            cd.coursetypes,
+            co.academicyear,
+            co.session AS blocknum,
+            co.professor,
+            co.openseats,
+            co.totalseats,
+            co.waitcount
+        FROM COURSE_DATA cd
+        LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
+        {where_clause}
+        ORDER BY cd.coursecode, co.session;
+    """
 
     with get_db().cursor(dictionary=True) as cursor:
-            cursor.execute("""
-                SELECT
-                    co.id,
-                    cd.coursecode,
-                    cd.title,
-                    cd.credits,
-                    cd.department,
-                    cd.fee,
-                cd.prereqs,
-                cd.coursetyps,
-                    co.academicyear,
-                    co.session as blocknum,
-                    co.professor,
-                    co.openseats,
-                    co.totalseats,
-                    co.waitcount
-                FROM COURSE_DATA cd
-                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid;
-                WHERE ?;
-                """,
-                (filters,),
-            )
-            courses = cursor.fetchall()
-            if courses is None:
-                return jsonify({"error": "Courses not found"})
-            return jsonify(courses)
+        cursor.execute(query, params)
+        courses = cursor.fetchall()
+        return jsonify({"courses": courses, "success": True})
 
 
 @bp.get('/courses/<int:course_id>')

@@ -51,7 +51,7 @@ def check_session_conflicts(conn, courses):
      rows = cursor.fetchall()
     
    block_map = {}
-   for courseid, academicyear, sessions in courses:
+   for courseid, academicyear, sessions in rows:
         key = (academicyear, sessions)
 
         #create a new list of key if not exist in block_map
@@ -70,6 +70,15 @@ def check_session_conflicts(conn, courses):
    return False
 
 
+def get_users_registered_course_sessions(conn, username):
+   query = f"SELECT COURSE_OFFER.academicyear, COURSE_OFFER.session FROM REGISTERED_COURSES JOIN COURSE_OFFER ON REGISTERED_COURSES.keycode = COURSE_OFFER.courseid WHERE REGISTERED_COURSES.userName = ?;"
+
+   with conn.cursor() as cursor:
+      cursor.execute(query, (username))
+      rows = cursor.fetchall()
+   return rows
+
+
 
 @bp.post('/registering_courses')
 def registering_courses():
@@ -81,7 +90,7 @@ def registering_courses():
   #prints the data from frontend
   print(f"From frontend Username:{username}, Courses:{courses}")
 
-  if check_session_conflicts():
+  if check_session_conflicts(courses):
      return jsonify({"error", "Session conflict detected"}, 400)
 
   # connection to the database
@@ -96,7 +105,7 @@ def registering_courses():
         print(f"{username} is registered to {course}")
 
       conn.commit() # commit the change
-      return jsonify({"result"})
+      return jsonify({"Success": True})
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)

@@ -1,13 +1,13 @@
 import '../cssFiles/FilterUI.css'
 
 export interface CourseFilter {
-    PROFESSOR: string;
-    BLOCKNUM: string;
-    SEMESTER: string;
-    DEPARTMENT: string;
-    FEES: string;
-    AVAILABLE: string;
-    ATTRIBUTES: string;
+    professor: string;
+    block: string;
+    semester: string;
+    department: string;
+    fee: string;
+    available: string;
+    attributes: string;
 }
 
 interface FilterUIProps {
@@ -16,9 +16,10 @@ interface FilterUIProps {
   professors: string[];
   departments: string[];
   attributes: string[];
+  blocks: string[];
 }
 
-function FilterUI({ filters, setFilters/*, professors, departments, attributes*/ }: FilterUIProps) {
+function FilterUI({ filters, setFilters, professors, departments, attributes, blocks }: FilterUIProps) {
   const update = (key: keyof CourseFilter, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
@@ -31,21 +32,19 @@ function FilterUI({ filters, setFilters/*, professors, departments, attributes*/
       <div className='filter-column'>
         <label>Block</label>
         <select
-          value={filters.BLOCKNUM}
-          onChange={(e) => update("BLOCKNUM", e.target.value)}
+          value={filters.block}
+          onChange={(e) => update("block", e.target.value)}
         >
           <option value="">Select</option>
-          {Array.from({ length: 8 }, (_, i) => i + 1).map((num) => (
-        <option key={num} value={num.toString()}>
-          Block {num}
-        </option>
-      ))}
+          {blocks.map((block) => (
+            <option key={block} value={block}>{block}</option>
+          ))}
         </select>
 
         <label>Semester</label>
         <select
-          value={filters.SEMESTER}
-          onChange={(e) => update("SEMESTER", e.target.value)}
+          value={filters.semester}
+          onChange={(e) => update("semester", e.target.value)}
         >
           <option value="">Select</option>
           <option value="Fall">Fall</option>
@@ -59,36 +58,36 @@ function FilterUI({ filters, setFilters/*, professors, departments, attributes*/
       <div className='filter-column'>
         <label>Professor</label>
         <select
-          value={filters.PROFESSOR}
-          onChange={(e) => update("PROFESSOR", e.target.value)}
+          value={filters.professor}
+          onChange={(e) => update("professor", e.target.value)}
         >
           <option value="">Select</option>
-          {/* {professors.map((prof) => (
+          {professors.map((prof) => (
             <option key={prof} value={prof}>{prof}</option>
-          ))} */}
+          ))}
 
         </select>
         <label>Department</label>
         <select
-          value={filters.DEPARTMENT}
-          onChange={(e) => update("DEPARTMENT", e.target.value)}
+          value={filters.department}
+          onChange={(e) => update("department", e.target.value)}
         >
           <option value="">Select</option>
-          {/* {departments.map((dept) => (
+          {departments.map((dept) => (
             <option key={dept} value={dept}>{dept}</option>
-          ))} */}
+          ))}
         </select>
       </div>
       <div className='filter-column'>
         <label>Attributes</label>
         <select
-          value={filters.ATTRIBUTES}
-          onChange={(e) => update("ATTRIBUTES", e.target.value)}
+          value={filters.attributes}
+          onChange={(e) => update("attributes", e.target.value)}
         >
           <option value="">Select</option>
-          {/* {attributes.map((attr) => (
+          {attributes.map((attr) => (
             <option key={attr} value={attr}>{attr}</option>
-          ))} */}
+          ))}
 
         </select>
       </div>
@@ -97,8 +96,8 @@ function FilterUI({ filters, setFilters/*, professors, departments, attributes*/
         <label>
           <input
             type="checkbox"
-            checked={filters.FEES === 'true'}
-            onChange={(e) => update("FEES", e.target.checked ? 'true' : '')}
+            checked={filters.fee === 'true'}
+            onChange={(e) => update("fee", e.target.checked ? 'true' : '')}
           />
           Fees Present
         </label>
@@ -106,8 +105,8 @@ function FilterUI({ filters, setFilters/*, professors, departments, attributes*/
         <label>
           <input
             type="checkbox"
-            checked={filters.AVAILABLE === 'true'}
-            onChange={(e) => update("AVAILABLE", e.target.checked ? 'true' : '')}
+            checked={filters.available === 'true'}
+            onChange={(e) => update("available", e.target.checked ? 'true' : '')}
           />
           Seats Available
         </label>

@@ -68,7 +68,9 @@ function DisplayCourses() {
 
     const handleClearFilter = () => {
       // Reload the page to clear filters
-      window.location.reload();
+      return(
+        nav('/CourseInformationPage/')
+      )
     }
 
   const handleAdd = (data: CourseData) => {
@@ -126,8 +128,8 @@ function DisplayCourses() {
     }
   }, [location.state]);
 
-  const toCourseInfo = (id: number, page: string) => {
-    nav('/CourseInfo',{state:{code:id, route: page}});
+  const toCourseInfo = (id: number) => {
+    nav('/CourseInfo',{state:{code:id}});
   };
 
   return (
@@ -155,7 +157,7 @@ function DisplayCourses() {
               <div key={course.id} className = 'course-card'>
                 <div className ='card-left'>
                   <h2
-                  onClick={() => toCourseInfo(course.id, '/CourseInformationPage')}
+                  onClick={() => toCourseInfo(course.id)}
                   style={{ cursor: "pointer"}}
                   >
                     {course.department}{course.coursecode}: {course.title}

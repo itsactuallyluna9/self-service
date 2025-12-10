@@ -18,30 +18,33 @@ function FilterPage() {
   const navigate = useNavigate();
 
   const [filters, setFilters] = useState<CourseFilter>({
-    PROFESSOR: "",
-    BLOCKNUM: "",
-    SEMESTER: "",
-    DEPARTMENT: "",
-    FEES: "false",
-    AVAILABLE: "false",
-    ATTRIBUTES: "",
+    professor: "",
+    block: "",
+    semester: "",
+    department: "",
+    fee: "false",
+    available: "false",
+    attributes: "",
   });
 
     // State for dropdown options
     const [professors, setProfessors] = useState<string[]>([]);
     const [departments, setDepartments] = useState<string[]>([]);
     const [attributes, setAttributes] = useState<string[]>([]);
+    const [blocks, setBlocks] = useState<string[]>([]);
 
     // Fetch options when page loads
     useEffect(() => {
         const fetchDropdowns = async () => {
             try {
-                const response = await fetch("/api/filter-options"); // change this
-                const data = await response.json();
-
-                setProfessors(data.professors || []);
-                setDepartments(data.departments || []);
-                setAttributes(data.attributes || []);
+                const deptResponse = await fetch("https://10.101.128.56:6001/api/filter/options/departments");
+                setDepartments(await deptResponse.json() || []);
+                const profResponse = await fetch("https://10.101.128.56:6001/api/filter/options/professors");
+                setProfessors(await profResponse.json() || []);
+                const attrResponse = await fetch("https://10.101.128.56:6001/api/filter/options/attributes");
+                setAttributes(await attrResponse.json() || []);
+                const blockResponse = await fetch("https://10.101.128.56:6001/api/filter/options/blocks");
+                setBlocks(await blockResponse.json() || []);
             } catch (err) {
             console.error("Failed to fetch filter options", err);
             }
@@ -53,13 +56,13 @@ function FilterPage() {
 
   const handleApply = async () => {
     const params: filterParams = { 
-      professor: filters.PROFESSOR,
-      block: filters.BLOCKNUM,
-      semester: filters.SEMESTER,
-      department: filters.DEPARTMENT,
-      fees: filters.FEES,
-      available: filters.AVAILABLE,
-      attributes: filters.ATTRIBUTES,
+      professor: filters.professor,
+      block: filters.block,
+      semester: filters.semester,
+      department: filters.department,
+      fees: filters.fee,
+      available: filters.available,
+      attributes: filters.attributes,
     };
 
     const res = await fetch(`https://10.101.128.56:6001/api/courses?`, {
@@ -75,14 +78,15 @@ function FilterPage() {
 
   const handleClear = () => {
       setFilters({
-        PROFESSOR: "",
-        BLOCKNUM: "",
-        SEMESTER: "",
-        DEPARTMENT: "",
-        FEES: "false",
-        AVAILABLE: "false",
-        ATTRIBUTES: ""
+        professor: "",
+        block: "",
+        semester: "",
+        department: "",
+        fee: "false",
+        available: "false",
+        attributes: "",
       });
+      
     };
 
   return (
@@ -95,6 +99,7 @@ function FilterPage() {
       professors={professors}
       departments={departments}
       attributes={attributes} 
+      blocks={blocks}
       />
 
         <div className="button-container">

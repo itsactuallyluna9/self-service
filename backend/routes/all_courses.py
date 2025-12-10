@@ -107,7 +107,8 @@ def get_course_details(course_id):
                     co.professor,
                     co.openseats,
                     co.totalseats,
-                    co.waitcount
+                    co.waitcount,
+                    cd.description
                 FROM COURSE_DATA cd
                 LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
                 WHERE co.id = ?

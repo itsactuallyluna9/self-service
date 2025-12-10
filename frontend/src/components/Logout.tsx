@@ -1,5 +1,5 @@
 import React from 'react';
-import './Logout.css';
+import '../cssFiles/Logout.css';
 
 interface LogoutModalProps {
   isOpen: boolean;
@@ -15,7 +15,6 @@ const LogoutModal = ({ isOpen, onConfirm, onCancel }: LogoutModalProps) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Confirm Sign Out</h2>
         <p>Are you sure you want to sign out of your account?</p>
         <div className="modal-buttons">
           <button onClick={onCancel} className="cancel-button">

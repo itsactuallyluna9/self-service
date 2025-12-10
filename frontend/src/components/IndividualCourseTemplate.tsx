@@ -38,13 +38,15 @@ const IndividualCourseTemplate = (data: CourseProps) => {
     const nav = useNavigate()
     const registerCourse = async (code : number) => {
         const courses = [code]
-        const reply = register("jwaughon27", courses)
+        const reply = register(localStorage.getItem('UserID'), courses)
         const result = await reply
         if (result === true) {
-            console.log("success register")
+            console.log("success removal")
+            nav('/RegisteredCourses')
         }
         else {
-            console.log("false register")
+            console.log("false removal")
+            //setError("Registration Failed. Please try again.")
         }
     }
 
@@ -56,14 +58,13 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                 <div className="course-info">
                     <div className="course-info-left">
                         <p>
-                        Block: {data.blocknum} | Year: {data.academicyear}
+                        {data.blocknum} | Year: {data.academicyear}
                         </p>
                     </div>
                     <div className="course-info-right">
                         {data.openseats > 0 && (
                             <>
-                                <p>Seats: {data.totalseats}</p>
-                                <p>Seats Left: {data.openseats}</p>
+                                <p>Seats: {data.totalseats} | Seats Left: {data.openseats}</p>
                             </>
                         )}
                         {data.openseats <= 0 && (
@@ -100,8 +101,9 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                     <button 
                     type='button'
                     className="back-button" 
-                    onClick={()=>void registerCourse(data.coursecode)}
+                    onClick={()=>void registerCourse(data.id)}
                     >Register</button>
+                    {/* {error && <p>{error}</p>} */}
                 </div>
             </form>
         </div>

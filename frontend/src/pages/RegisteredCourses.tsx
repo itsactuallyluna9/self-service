@@ -5,19 +5,19 @@ import {useNavigate} from 'react-router'
 import Navbar from '../components/Navbar' 
 
 interface CourseData {
-  KEYCODE: number;
-  DEPARTMENT: string;
-  TITLE: string;
-  PROFESSOR: string;
-  ACADEMICYEAR: string;
-  BLOCKNUM: string;
-  SEATS: number;
-  CREDITS: number;
-  FEE: number;
-  COURSECODE: number;
+  id: number;
+  department: string;
+  title: string;
+  professor: string;
+  academicyear: string;
+  blocknum: string;
+  openseats: number;
+  credits: number;
+  fee: number;
+  coursecode: number;
 }
 
-const testClasses: CourseData[] = [
+/*const testClasses: CourseData[] = [
   {
     KEYCODE: 1,
     DEPARTMENT: 'CSC',
@@ -54,7 +54,7 @@ const testClasses: CourseData[] = [
     FEE: 0.00,
     COURSECODE: 150
  },
-];
+];*/
 
 
 function DisplayRegisteredCourses() {
@@ -67,17 +67,32 @@ function DisplayRegisteredCourses() {
 
     const nav = useNavigate()
   
-    const toCourseInfo = (KEYCODE: number) => {
-      nav('/CourseInfo',{state:{code:KEYCODE}})
+    const toCourseInfo = (id: number) => {
+      nav('/CourseInfo',{state:{code:id}})
+    }
+
+    const removeCourse = async (id: number) => {
+      // DELETE https://10.101.128.56:6001/api/registered_courses/<string:username>/<int:course_id>
+      const reply = await fetch(`https://10.101.128.56:6001/api/registered_courses/${localStorage.getItem('UserID')}/${id}`, {
+        method: 'DELETE',
+      })
+      const result = (await reply.json())['success']
+      if (result === true) {
+          console.log("success register")
+          setCourses(courses.filter((course) => course.id !== id));
+      }
+      else {
+          console.log("false register")
+      }
     }
 
     const sortByBlockNum = (courseList: CourseData[]): CourseData[] => {
         return courseList.slice().sort((a,b) => {
-            const blockA = parseInt(a.BLOCKNUM);
-            const blockB = parseInt(b.BLOCKNUM);
+            const blockA = parseInt(a.blocknum);
+            const blockB = parseInt(b.blocknum);
 
         if (isNaN(blockA) || isNaN(blockB)) {
-                return a.BLOCKNUM.localeCompare(b.BLOCKNUM);
+                return a.blocknum.localeCompare(b.blocknum);
         }
         return blockA - blockB;
     });
@@ -116,54 +131,57 @@ function DisplayRegisteredCourses() {
     <div className='display'>
       <div className="courses">
         {courses.length === 0 ? (
-          <p>Loading courses...</p>
+          <h1>No Courses Detected</h1>
         ) : (
           courses.map((course: CourseData) => (
-            <div key={course.KEYCODE} className = 'course-card'>
+            <div key={course.id} className = 'course-card'>
               <div className ='card-left'>
                 <h2
-                onClick={() => toCourseInfo(course.KEYCODE)}
+                onClick={() => toCourseInfo(course.id)}
                 style={{ cursor: "pointer"}}
                 >
-                  {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+                  {course.department}{course.coursecode}: {course.title}
                 </h2>
-                <p>Year: {course.ACADEMICYEAR} |
-                
-                  Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
-                  ? "Fall"
-                  : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
-                  ? "Spring"
-                  : course.BLOCKNUM.includes("Fall")
-                  ? "Fall"
-                  : course.BLOCKNUM.includes("Spring")
-                  ? "Spring"
-                  : ""}
-                </p>
-                {course.BLOCKNUM !== null && (
-                  <h1>Block: {course.BLOCKNUM}</h1>
-                )}
+                <p>Year: {course.academicyear} |
+                  
+                    Term: {Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
+                    ? "Fall"
+                    : Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
+                    ? "Spring"
+                    : course.blocknum.includes("Fall")
+                    ? "Fall"
+                    : course.blocknum.includes("Spring")
+                    ? "Spring"
+                    : ""}
+                  </p>
+                  {course.blocknum !== null && (
+                    <p>{course.blocknum}</p>
+                  )}
 
               </div>
               <div className = 'card-right'>
-                    <div className='card-column'>
-                      <p>{course.PROFESSOR}</p>
-                    </div>
-                    <div className='card-column'>
-                      <h3>{course.CREDITS}</h3> 
-                      <p>Credits</p>
-                    </div>
-                    <div className='card-column'>
-                      <h3>{course.SEATS}</h3> 
-                      <p>Seats Left</p>
-                    </div>
-                    <div className='card-column'>
-                      {course.FEE !== null && (
-                        <div>
-                          <h3>${course.FEE}</h3> 
-                          <p>Applicable fees</p>
-                        </div>
-                      )}
-                    </div>
+                  <div className='card-column'>
+                    <p>{course.professor}</p>
+                  </div>
+                  <div className='card-column'>
+                    <h3>{course.credits}</h3> 
+                    <p>Credit{course.credits == 1 ? "" : "s"}</p>
+                  </div>
+                  <div className='card-column'>
+                    <h3>{course.openseats}</h3> 
+                    <p>Seats Left</p>
+                  </div>
+                  <div className='card-column'>
+                    {course.fee !== null && (
+                      <div>
+                        <h3>${course.fee}</h3> 
+                        <p>Applicable fees</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className='card-column'>
+                    <button type="button" onClick={()=>{removeCourse(course.id)}}>Remove</button>
+                  </div>
               </div>
             </div>
         ))

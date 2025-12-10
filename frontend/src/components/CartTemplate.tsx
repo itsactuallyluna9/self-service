@@ -10,7 +10,6 @@ import register from './Register'
 
 const CartTemplate = () => {
   const [error, setError] = useState('')
-  const userID = localStorage.getItem('UserID')
   const { cartCourses, RemoveCourseFromCart } = useCart();
   const nav = useNavigate();
   const [removingIds, setRemovingIds] = useState<number[]>([]);
@@ -20,14 +19,14 @@ const CartTemplate = () => {
   };
 const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();   // stops reload
-    if (await register(userID, cartCourses.map(course => course.id))) {
+    if (await register(localStorage.getItem('UserID'), cartCourses.map(course => course.id))) {
       setError("Registration Successful!");
-      localStorage.removeItem('cart')
+      localStorage.setItem('cart', '')
+      nav('/RegisteredCourses')
     } else {
       setError("Registration Failed. Please try again.");
     }
 };
-
 
   const handleRemove = (courseCode: number) => {
     // mark as "removing" so we can animate it

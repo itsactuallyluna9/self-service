@@ -7,17 +7,17 @@ export const register = async (
 
     try {
         // Replace with real API call
-        // const response = await fetch('YOUR_REGISTER_API', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ username, courseIDs }),
-        // });
+        const response = await fetch('https://10.101.128.56:6001/api/register_courses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, courseIDs }),
+        });
 
-        // Fake response for testing
-        const response = {
-            ok: true,
-            json: async () => ({ success: true })
-        };
+        // // Fake response for testing
+        // const response = {
+        //     ok: true,
+        //     json: async () => ({ success: true })
+        // };
 
         const data = await response.json();
 

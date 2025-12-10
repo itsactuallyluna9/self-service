@@ -2,24 +2,28 @@ import logo from '../assets/Cornell_logo.png'
 import '../cssFiles/Navbar.css'
 import { useNavigate } from 'react-router'
 import { useState } from 'react';
-//import LogoutModal from './Logout';
+import LogoutModal from './Logout';
 
 const Navbar = () => {
 
     const navigate = useNavigate()
 
-    /*const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-      const handleSignOutClick = () => {
-    setIsModalOpen(true);*/
-
-    const handleSignout = () => {
+    const handleSignOutClicked = () => {
+        setIsModalOpen(true);
+    }
+    const handleConfirmSignOut = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
         localStorage.removeItem('UserId');
         console.log("User signed out.")
+        
         return navigate('/SignIn/')
     }
 
+    const handleCancelSignOut = () => {
+        setIsModalOpen(false);
+    }
     return(
         <nav className="navbar">
             <div className="navbar-left">
@@ -36,10 +40,15 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-right">
-                <button className="signout-button" onClick={handleSignout}>
+                <button className="signout-button" onClick={handleSignOutClicked}>
                 Sign Out
                 </button>
             </div>
+            <LogoutModal
+                isOpen={isModalOpen}
+                onConfirm={handleConfirmSignOut}
+                onCancel={handleCancelSignOut}
+            />
         </nav>
     );
 };

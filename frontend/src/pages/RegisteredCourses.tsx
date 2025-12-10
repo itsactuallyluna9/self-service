@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import './RegisteredCoursesPage.css'
+import '../cssFiles/RegisteredCoursesPage.css'
 import {useNavigate} from 'react-router'
-import LoginID from '../components/LoginID'
 
 import Navbar from '../components/Navbar' 
 
@@ -59,9 +58,9 @@ const testClasses: CourseData[] = [
 
 
 function DisplayRegisteredCourses() {
+  const UserID = localStorage.getItem('UserID')
     useEffect(() => {
-        console.log("Current Logged In User ID:", LoginID.id);
-        // If the ID isn't set, navigate away, or handle the unauthorized state
+        console.log("Current Logged In User ID:", UserID);
     }, []);
 
     const [courses, setCourses] = useState<CourseData[]>([])
@@ -89,18 +88,20 @@ function DisplayRegisteredCourses() {
         let fetchedData: CourseData[] = [];
       try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/registered_courses/');
+        const response = await fetch(`https://10.101.128.56:6001/api/registered_courses/${UserID}`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); 
-        }
+        } 
 
         const data = await response.json();
-        fetchedData = testClasses;      
+        fetchedData = data.courses;      
     
       } catch (e: any) {
         console.error("Error fetching courses:", e);
-        fetchedData = testClasses;
+        return (
+          <h1>An Error Occurred, Please Try Again Later</h1>
+        )
     
     }
     const sortedCourses = sortByBlockNum(fetchedData);

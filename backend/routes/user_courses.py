@@ -9,9 +9,10 @@ def get_registered_courses(username):
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute("""
             SELECT
-                cd.keycode,
+                co.id AS offer_id,
                 co.academicyear,
-                co.seats,
+                co.totalseats,
+                co.openseats,
                 cd.coursecode,
                 co.session AS blocknum,
                 cd.title,
@@ -20,18 +21,29 @@ def get_registered_courses(username):
                 cd.department,
                 cd.fee
             FROM REGISTERED_COURSES rc
-            JOIN COURSE_DATA cd ON rc.keycode = cd.keycode
-            JOIN COURSE_OFFER co ON rc.keycode = co.courseid
+            JOIN COURSE_OFFER co ON rc.keycode = co.id
+            JOIN COURSE_DATA cd ON co.courseid = cd.id
             WHERE rc.username = ?;
         """, (username,))
         result = cursor.fetchall()
-        return jsonify(result)
+        return jsonify({"registered_courses": result, "success": True})
 
-@bp.delete('/registered_courses/<string:username>/<string:keycode>')
-def drop_registered_course(username, keycode):
+@bp.delete('/registered_courses/<string:username>/<int:offer_id>')
+def drop_registered_course(username, offer_id):
     with get_db().cursor(dictionary=True) as cursor:
-        cursor.execute('DELETE FROM REGISTERED_COURSES WHERE USERNAME = ? AND KEYCODE = ?;', (username, keycode))
-        result = cursor.rowcount
+        cursor.execute(
+            'DELETE FROM REGISTERED_COURSES WHERE username = ? AND keycode = ?;',
+            (username, offer_id),
+        )
+        deleted = cursor.rowcount
+
+        if deleted:
+            # TODO: ACTUALLY CHECK THIS. we're not handling waitlist here!!!
+            cursor.execute(
+                'UPDATE COURSE_OFFER SET openseats = openseats + 1 WHERE id = ?;',
+                (offer_id,),
+            )
+
         get_db().commit()
         return jsonify({'success': result > 0})
     
@@ -80,7 +92,7 @@ def get_users_registered_course_sessions(conn, username):
 
 
 
-@bp.post('/registering_courses')
+@bp.post('/register_courses')
 def registering_courses():
   # get data from frontend in JSON
   data = request.get_json()  
@@ -105,7 +117,7 @@ def registering_courses():
         print(f"{username} is registered to {course}")
 
       conn.commit() # commit the change
-      return jsonify({"Success": True})
+      return jsonify({"success": True})
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)

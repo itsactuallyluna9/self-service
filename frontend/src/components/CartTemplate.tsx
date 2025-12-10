@@ -2,48 +2,41 @@
 import { useCart } from "./CartContext"; // adjust path
 import { useState } from "react";
 // import UserID from "./LoginID" // if you still need this
-import './CartTemplate.css'
+import '../cssFiles/CartTemplate.css'
 import {useNavigate} from 'react-router'
 import register from './Register'
-import LoginID from "./LoginID";
-
-interface CartProps {
-  KEYCODE: number;
-  TITLE: string;
-  DEPARTMENT: string;
-  COURSECODE: number;
-}
 
 
 
 const CartTemplate = () => {
   const [error, setError] = useState('')
-
+  const userID = localStorage.getItem('UserID')
   const { cartCourses, RemoveCourseFromCart } = useCart();
   const nav = useNavigate();
   const [removingIds, setRemovingIds] = useState<number[]>([]);
 
-  const toCourseInfo = (KEYCODE: number) => {
-    nav('/CourseInfo',{state:{code:KEYCODE}});
+  const toCourseInfo = (id: number) => {
+    nav('/CourseInfo',{state:{code:id}});
   };
 const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();   // stops reload
-    if (await register(LoginID.id, cartCourses.map(course => course.KEYCODE))) {
+    if (await register(userID, cartCourses.map(course => course.id))) {
       setError("Registration Successful!");
+      localStorage.removeItem('cart')
     } else {
       setError("Registration Failed. Please try again.");
     }
 };
 
 
-  const handleRemove = (courseCode: number, keyCode: number) => {
+  const handleRemove = (courseCode: number) => {
     // mark as "removing" so we can animate it
-    setRemovingIds(prev => [...prev, keyCode]);
+    setRemovingIds(prev => [...prev, courseCode]);
 
     // wait for CSS animation to finish, THEN actually remove from cart
     setTimeout(() => {
       RemoveCourseFromCart(courseCode);
-      setRemovingIds(prev => prev.filter(code => code !== keyCode));
+      setRemovingIds(prev => prev.filter(code => code !== courseCode));
     }, 300); // this timeout must match your CSS animation duration
   };
 
@@ -56,24 +49,26 @@ const handleRegister = async (e: React.FormEvent) => {
             {cartCourses.length === 0 && <p>No courses in cart.</p>}
 
             {cartCourses.map(course => (
-              <div key={course.KEYCODE}>
+              
+              <div key={course.id}>
                 <div
                   className={`courseDisplay ${
-                    removingIds.includes(course.KEYCODE) ? "removing" : ""
+                    removingIds.includes(course.coursecode) ? "removing" : ""
                   }`}
                 >
+                  
                   <form>
                     <h2
-                      onClick={() => toCourseInfo(course.COURSECODE)}
+                      onClick={() => toCourseInfo(course.coursecode)}
                       style={{ cursor: "pointer" }}
                     >
-                      {course.DEPARTMENT}
-                      {course.COURSECODE}: {course.TITLE}
+                      {course.department}
+                      {course.coursecode}: {course.title}
                     </h2>
                     <div className="buttonRow">
                       <button
                         type="button"
-                        onClick={() => handleRemove(course.COURSECODE, course.KEYCODE)}
+                        onClick={() => handleRemove(course.coursecode)}
                       >
                         Remove
                       </button>
@@ -84,7 +79,9 @@ const handleRegister = async (e: React.FormEvent) => {
             ))}
           </form>
         </div>
-        <button className="register-buttton">Register</button>
+        <div className="register-button">
+          <button>Register</button>
+        </div>
         {error && <p>{error}</p>}
       </form>
     </div>

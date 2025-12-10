@@ -9,7 +9,6 @@ import HomePage from './pages/HomePage'
 import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
-import CartTestPage from './pages/CartTestPage'
 import RegisteredCourses from './pages/RegisteredCourses'
 const router = createBrowserRouter([
   {
@@ -37,10 +36,6 @@ const router = createBrowserRouter([
     path: '/Filter',
     element: <FilterPage/>,
   },
-  {
-    path: '/CartTestPage',
-    element: <CartTestPage/>,
-  }, 
   {
     path: '/RegisteredCourses',
     element: <RegisteredCourses/>

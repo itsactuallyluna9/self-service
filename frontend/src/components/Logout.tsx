@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import '../cssFiles/Logout.css';
 
 interface LogoutModalProps {
@@ -7,14 +8,16 @@ interface LogoutModalProps {
   onCancel: () => void;
 }
 
+const modalRoot = document.getElementById('modal-root');
+
 const LogoutModal = ({ isOpen, onConfirm, onCancel }: LogoutModalProps) => {
-  if (!isOpen) {
+  if (!isOpen || !modalRoot) {
     return null;
   }
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+  return ReactDOM.createPortal(
+    <div className="modal-overlay" onClick={onCancel}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <p>Are you sure you want to sign out of your account?</p>
         <div className="modal-buttons">
           <button onClick={onCancel} className="cancel-button">
@@ -25,7 +28,8 @@ const LogoutModal = ({ isOpen, onConfirm, onCancel }: LogoutModalProps) => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    modalRoot
   );
 };
 

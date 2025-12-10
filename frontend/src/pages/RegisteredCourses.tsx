@@ -95,7 +95,8 @@ function DisplayRegisteredCourses() {
         } 
 
         const data = await response.json();
-        setCourses(data.courses)
+        fetchedData = data.courses;      
+    
       } catch (e: any) {
         console.error("Error fetching courses:", e);
         return (

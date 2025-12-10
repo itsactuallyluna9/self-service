@@ -45,7 +45,7 @@ def drop_registered_course(username, course_id):
             )
 
         get_db().commit()
-        return jsonify({'success': result > 0})
+        return jsonify({'success': deleted > 0})
     
 #This function checks if given courses offered at the same block 
 #return True if there is a conflict

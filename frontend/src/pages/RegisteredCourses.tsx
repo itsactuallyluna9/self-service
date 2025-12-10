@@ -92,14 +92,15 @@ function DisplayRegisteredCourses() {
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); 
-        }
+        } 
 
         const data = await response.json();
-        fetchedData = testClasses;      
-    
+        setCourses(data.courses)
       } catch (e: any) {
         console.error("Error fetching courses:", e);
-        fetchedData = testClasses;
+        return (
+          <h1>An Error Occurred, Please Try Again Later</h1>
+        )
     
     }
     const sortedCourses = sortByBlockNum(fetchedData);

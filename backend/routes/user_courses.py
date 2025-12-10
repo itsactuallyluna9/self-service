@@ -9,7 +9,7 @@ def get_registered_courses(username):
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute("""
             SELECT
-                co.id AS offer_id,
+                co.id,
                 co.academicyear,
                 co.totalseats,
                 co.openseats,

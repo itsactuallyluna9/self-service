@@ -55,7 +55,8 @@ def check_session_conflicts(conn, courses):
       return None
    
    #This quesr selects courseid, academicyear and session from all courses of the argument
-   query = f"SELECT courseid, academicyear, session FROM COURSE_OFFER WHERE couseid IN {", ".join(["?"] * len(courses))}" # create placeholders as many as courses
+   query = f"SELECT courseid, academicyear, session FROM COURSE_OFFER WHERE courseid IN ({", ".join(["?"] * len(courses))})" # create placeholders as many as courses
+   print(query)
 
    #execute the query and fetch the results to rows 
    with conn.cursor() as cursor:
@@ -80,17 +81,6 @@ def check_session_conflicts(conn, courses):
          return True
     
    return False
-
-
-def get_users_registered_course_sessions(conn, username):
-   query = f"SELECT COURSE_OFFER.academicyear, COURSE_OFFER.session FROM REGISTERED_COURSES JOIN COURSE_OFFER ON REGISTERED_COURSES.keycode = COURSE_OFFER.courseid WHERE REGISTERED_COURSES.userName = ?;"
-
-   with conn.cursor() as cursor:
-      cursor.execute(query, (username))
-      rows = cursor.fetchall()
-   return rows
-
-
 
 @bp.post('/register_courses')
 def registering_courses():

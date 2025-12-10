@@ -102,7 +102,7 @@ def registering_courses():
   #prints the data from frontend
   print(f"From frontend Username:{username}, Courses:{courses}")
 
-  if check_session_conflicts(courses):
+  if check_session_conflicts(conn, courses):
      return jsonify({"error", "Session conflict detected"}, 400)
 
   # connection to the database

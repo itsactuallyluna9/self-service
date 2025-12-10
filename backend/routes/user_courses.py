@@ -102,11 +102,11 @@ def registering_courses():
   #prints the data from frontend
   print(f"From frontend Username:{username}, Courses:{courses}")
 
-  if check_session_conflicts(conn, courses):
-     return jsonify({"error", "Session conflict detected"}, 400)
-
   # connection to the database
   conn = get_db() 
+
+  if check_session_conflicts(conn, courses):
+     return jsonify({"error", "Session conflict detected"}, 400)
 
   try:
     with conn.cursor() as cursor:

@@ -4,33 +4,40 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  /*background-color: rgba(0, 0, 0, 0.7);*/
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .modal-content {
-  background: white;
+  background: #f9f9f9;
+  color: #1a1a1a;
   padding: 20px;
   border-radius: 5px;
   max-width: 400px;
   text-align: center;
+  border: 1px solid #ddd;
 }
 
-.modal-actions {
+.modal-content p {
+  color: #1a1a1a;
+}
+
+.modal-buttons {
   margin-top: 20px;
 }
 
-.btn-cancel {
+.cancel-button {
   margin-right: 10px;
   padding: 8px 16px;
+  background-color: gray;
 }
 
-.btn-confirm {
+.confirm-button {
   padding: 8px 16px;
-  background-color: #dc3545; /* Red color for sign out */
+  background-color: #523178;
   color: white;
   border: none;
   cursor: pointer;

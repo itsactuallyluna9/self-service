@@ -95,10 +95,10 @@ function DisplayRegisteredCourses() {
         }
 
         const data = await response.json();
-        fetchedData = testClasses;      
+        fetchedData = data.courses;      
     
       } catch (e: any) {
-        console.error("Error fetching courses:", e);
+        console.error("Error fetching courses, using test data:", e);
         fetchedData = testClasses;
     
     }

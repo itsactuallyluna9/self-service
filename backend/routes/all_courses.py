@@ -41,7 +41,7 @@ def get_filtered_courses():
         "seats": data.get("available"),
         "fees": data.get("fees"),
         "coursetypes": data.get("attributes"),
-        "session": data.get("session"),
+        "session": data.get("block"),
     }
 
     conditions = []
@@ -72,11 +72,11 @@ def get_filtered_courses():
         params.append(f"%{professor}%")
 
     seats = sf.get("seats")
-    if seats:
+    if seats == "true":
         conditions.append("co.openseats > 0")
 
     fees = sf.get("fees")
-    if fees:
+    if fees == "true":
         conditions.append("cd.fee IS NOT NULL")
 
     course_types = sf.get("coursetypes")

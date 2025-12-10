@@ -97,7 +97,7 @@ def registering_courses():
   # get data from frontend in JSON
   data = request.get_json()  
   username = data.get("username") 
-  courses = data.get("courses", []) # get courses in a list
+  courses = data.get("courseIDs", []) # get courses in a list
 
   #prints the data from frontend
   print(f"From frontend Username:{username}, Courses:{courses}")

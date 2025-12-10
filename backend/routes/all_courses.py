@@ -41,7 +41,7 @@ def get_filtered_courses():
         "seats": data.get("available"),
         "fees": data.get("fees"),
         "coursetypes": data.get("attributes"),
-        "session": data.get("session"),
+        "session": data.get("block"),
     }
 
     conditions = []

@@ -28,12 +28,12 @@ def get_registered_courses(username):
         result = cursor.fetchall()
         return jsonify({"courses": result, "success": True})
 
-@bp.delete('/registered_courses/<string:username>/<int:offer_id>')
-def drop_registered_course(username, offer_id):
+@bp.delete('/registered_courses/<string:username>/<int:course_id>')
+def drop_registered_course(username, course_id):
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute(
             'DELETE FROM REGISTERED_COURSES WHERE username = ? AND keycode = ?;',
-            (username, offer_id),
+            (username, course_id),
         )
         deleted = cursor.rowcount
 
@@ -41,7 +41,7 @@ def drop_registered_course(username, offer_id):
             # TODO: ACTUALLY CHECK THIS. we're not handling waitlist here!!!
             cursor.execute(
                 'UPDATE COURSE_OFFER SET openseats = openseats + 1 WHERE id = ?;',
-                (offer_id,),
+                (course_id,),
             )
 
         get_db().commit()

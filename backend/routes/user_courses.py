@@ -26,7 +26,7 @@ def get_registered_courses(username):
             WHERE rc.username = ?;
         """, (username,))
         result = cursor.fetchall()
-        return jsonify({"registered_courses": result, "success": True})
+        return jsonify({"courses": result, "success": True})
 
 @bp.delete('/registered_courses/<string:username>/<int:offer_id>')
 def drop_registered_course(username, offer_id):

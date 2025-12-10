@@ -1,71 +1,92 @@
-import React, { useState } from 'react'
-import './IndividualCourseTemplate.css'
+import React from 'react'
+import '../cssFiles/IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
+import register from './Register'
 
-import UserID from '../components/LoginID'
 
 interface CourseProps {
-    ACADEMICYEAR: number,
-    BLOCKNUM: string,
-    COURSECODE: number,
-    COURSETYPES: null | string,
-    CREDITS: number,
-    DEPARTMENT: string,
-    DESCR: null | string,
-    FEE: null | number,
-    PROFESSOR: any,
-    KEYCODE: number,
-    PREREQS: null | string,
-    SEATS: number,
-    TITLE: string
+    academicyear: number,
+    blocknum: string,
+    coursecode: number,
+    coursetypes: null | string,
+    credits: number,
+    department: string,
+    description: null | string,
+    fee: null | number,
+    professor: any,
+    id: number,
+    prereqs: null | string,
+    totalseats: number,
+    title: string,
+    openseats: number,
+    waitcount: number
 }
 
 
 interface CartProps { // edit later to have full info
-    KEYCODE : number,
-    TITLE : string,
-    DEPARTMENT : string,
-    COURSECODE : number,
+    id : number,
+    title : string,
+    department : string,
+    coursecode : number,
 
 }
 
 
 
 const IndividualCourseTemplate = (data: CourseProps) => {
-const nav = useNavigate()
+    const nav = useNavigate()
+    const registerCourse = async (code : number) => {
+        const courses = [code]
+        const reply = register("jwaughon27", courses)
+        const result = await reply
+        if (result === true) {
+            console.log("success register")
+        }
+        else {
+            console.log("false register")
+        }
+    }
 
     return (
         <div className='ind'>
             <form>
                 <img src={Logo} alt="Logo" />
-                <h2>{data.DEPARTMENT}{data.COURSECODE}: {data.TITLE}</h2>
+                <h2>{data.department}{data.coursecode}: {data.title}</h2>
                 <div className="course-info">
                     <div className="course-info-left">
                         <p>
-                        Block: {data.BLOCKNUM} | Year: {data.ACADEMICYEAR}
+                        Block: {data.blocknum} | Year: {data.academicyear}
                         </p>
                     </div>
                     <div className="course-info-right">
-                        <p>Seats: {data.SEATS}</p>
-                        <p>Seats Left: 0 </p>
+                        {data.openseats > 0 && (
+                            <>
+                                <p>Seats: {data.totalseats}</p>
+                                <p>Seats Left: {data.openseats}</p>
+                            </>
+                        )}
+                        {data.openseats <= 0 && (
+                            <p>In Waitlist: {data.waitcount}</p>
+                        )}
                     </div>
                 </div>
                 <div className="instructor-info">
                     <p>Instructors:</p>
                     <div className="instructor-label">
-                        <p>{data.PROFESSOR}</p>
+                        <p>{data.professor}</p>
                     </div>
                 </div>
                 <div className="additional-course-info">
                     <div className="course-description">
-                        <h4>Description:</h4>
-                        <p>{data.DESCR ? data.DESCR : 'None'}</p>
+                        <p>Description:</p>
+                        <p>{data.description ? data.description : 'None'}</p>
                     </div>
                     <div className="course-specs">
-                        <p>Prerequisites: {data.PREREQS ? data.PREREQS : 'None'}</p>
-                        <p>Department: {data.DEPARTMENT} Course Type: {data.COURSETYPES ? data.COURSETYPES : 'None'}</p>
-                        <p>Fees: {data.FEE ? `$${data.FEE}` : 'None'}</p>
+                        <p>Prerequisites: {data.prereqs ? data.prereqs : 'None'}</p>
+                        <p>Department: {data.department} Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
+                        <p>Fees: {data.fee ? `$${data.fee}` : 'None'}</p>
+                        <p>Credits: {data.credits}</p>
                     </div>
                 </div>
                 <div className="button-container">
@@ -74,6 +95,13 @@ const nav = useNavigate()
                     className="back-button" 
                     onClick={()=>nav(-1)}
                     >Back</button>
+                </div>
+                <div className="button-container">
+                    <button 
+                    type='button'
+                    className="back-button" 
+                    onClick={()=>void registerCourse(data.coursecode)}
+                    >Register</button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './CourseInformationPage.css'
+import '../cssFiles/CourseInformationPage.css'
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
@@ -7,56 +7,58 @@ import CartTemplate from '../components/CartTemplate'
 
 
 interface CourseData {
-  KEYCODE: number;
-  DEPARTMENT: string;
-  TITLE: string;
-  PROFESSOR: string;
-  ACADEMICYEAR: string;
-  BLOCKNUM: string;
-  SEATS: number;
-  CREDITS: number;
-  FEE: number;
-  COURSECODE: number;
+  id: number;
+  department: string;
+  title: string;
+  professor: string;
+  academicyear: string;
+  blocknum: string;
+  openseats: number;
+  credits: number;
+  fee: number | null;
+  coursecode: number;
 }
 
 interface CartProps { // edit later to have full info
-    KEYCODE : number,
-    TITLE : string,
-    DEPARTMENT : string,
-    COURSECODE : number,
+    id : number,
+    title : string,
+    department : string,
+    coursecode : number,
 
 }
 
 
 const testClasses: CourseData[] = [
   {
-    KEYCODE: 1,
-    DEPARTMENT: 'CSC',
-    TITLE: 'Software Development Processes',
-    PROFESSOR: 'Ajit Chavan',
-    ACADEMICYEAR: '2025',
-    BLOCKNUM: '4',
-    SEATS: 10,
-    CREDITS: 1.00,
-    FEE: 0.00,
-    COURSECODE: 318
+    id: 1,
+    department: 'CSC',
+    title: 'Software Development Processes',
+    professor: 'Ajit Chavan',
+    academicyear: '2025',
+    blocknum: '4',
+    openseats: 10,
+    credits: 1.00,
+    fee: 0.00,
+    coursecode: 318
   },
   {
-    KEYCODE: 2,
-    DEPARTMENT: 'MAT',
-    TITLE: 'Calculus I',
-    PROFESSOR: 'Dr. Smith',
-    ACADEMICYEAR: '2025',
-    BLOCKNUM: '2',
-    SEATS: 25,
-    CREDITS: 0.75,
-    FEE: 50.00,
-    COURSECODE: 101
+    id: 2,
+    department: 'MAT',
+    title: 'Calculus I',
+    professor: 'Dr. Smith',
+    academicyear: '2025',
+    blocknum: '2',
+    openseats: 25,
+    credits: 0.75,
+    fee: 50.00,
+    coursecode: 101
   },
 ];
 
 
 function DisplayCourses() {
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupMessage, setPopupMessage] = useState("")
     const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
     const [cartButtonText, setCartButtonText] = useState("Add course to cart")
@@ -71,13 +73,25 @@ function DisplayCourses() {
 
   const handleAdd = (data: CourseData) => {
     const cartData: CartProps = {
-      KEYCODE: data.KEYCODE,
-      COURSECODE: data.COURSECODE,
-      TITLE: data.TITLE,
-      DEPARTMENT: data.DEPARTMENT,
+      id: data.id,
+      coursecode: data.coursecode,
+      title: data.title,
+      department: data.department,
     };
 
-    AddCourseToCart(cartData);
+    const result = AddCourseToCart(cartData);
+
+     if (result) {
+      setPopupMessage(`${data.department}${data.coursecode} added to cart!`);
+      setShowPopup(true);
+
+      // Auto-close popup after 2 seconds
+      setTimeout(() => setShowPopup(false), 2000);
+    } else {
+      setPopupMessage(`Already in cart!`);
+      setShowPopup(true);
+      setTimeout(() => setShowPopup(false), 2000);
+    }
   };
 
     
@@ -86,10 +100,10 @@ function DisplayCourses() {
     
   useEffect(() => {
     // If navigated from filter page
-    if (location.state && (location.state as any).classes) {
-      setCourses((location.state as any).classes);
+    console.warn(location.state);
+    if (location.state && (location.state as any).classes.courses) {
+      setCourses((location.state as any).classes.courses);
     } else {
-    
     // Otherwise, load all courses
       async function loadCourses() {
         try {
@@ -99,23 +113,30 @@ function DisplayCourses() {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
         const data = await response.json();
-        setCourses(data.courses || testClasses);
+        setCourses(data.courses);
     
         } catch (e) {
           console.error("Error fetching courses:", e);
-          setCourses(testClasses);
+          return (
+            <h1>An Error was Detected, Please Try Again Later</h1>
+          )
         }
       }
       loadCourses();
     }
   }, [location.state]);
 
-  const toCourseInfo = (KEYCODE: number, page: string) => {
-    nav('/CourseInfo',{state:{code:KEYCODE, route: page}});
+  const toCourseInfo = (id: number, page: string) => {
+    nav('/CourseInfo',{state:{code:id, route: page}});
   };
 
   return (
     <>
+    {showPopup && (
+    <div className="popup-overlay">
+      {popupMessage}
+    </div>
+    )}
     <Navbar />
     
     <div className='split'>
@@ -131,47 +152,47 @@ function DisplayCourses() {
           <p>No results found</p>
         ) : (
             courses.map((course: CourseData) => (
-              <div key={course.KEYCODE} className = 'course-card'>
+              <div key={course.id} className = 'course-card'>
                 <div className ='card-left'>
                   <h2
-                  onClick={() => toCourseInfo(course.KEYCODE, '/CourseInformationPage')}
+                  onClick={() => toCourseInfo(course.id, '/CourseInformationPage')}
                   style={{ cursor: "pointer"}}
                   >
-                    {course.DEPARTMENT}{course.COURSECODE}: {course.TITLE}
+                    {course.department}{course.coursecode}: {course.title}
                   </h2>
-                  <p>Year: {course.ACADEMICYEAR} |
+                  <p>Year: {course.academicyear} |
                   
-                    Term: {Number(course.BLOCKNUM) >= 1 && Number(course.BLOCKNUM) <= 4
+                    Term: {Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
                     ? "Fall"
-                    : Number(course.BLOCKNUM) >= 5 && Number(course.BLOCKNUM) <= 8
+                    : Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
                     ? "Spring"
-                    : course.BLOCKNUM.includes("Fall")
+                    : course.blocknum.includes("Fall")
                     ? "Fall"
-                    : course.BLOCKNUM.includes("Spring")
+                    : course.blocknum.includes("Spring")
                     ? "Spring"
                     : ""}
                   </p>
-                  {course.BLOCKNUM !== null && (
-                    <p>Block: {course.BLOCKNUM}</p>
+                  {course.blocknum !== null && (
+                    <p>{course.blocknum}</p>
                   )}
 
                 </div> {/* card-left */}
                 <div className = 'card-right'>
                   <div className='card-column'>
-                    <p>{course.PROFESSOR}</p>
+                    <p>{course.professor}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.CREDITS}</h3> 
-                    <p>Credits</p>
+                    <h3>{course.credits}</h3> 
+                    <p>Credit{course.credits == 1 ? "" : "s"}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.SEATS}</h3> 
+                    <h3>{course.openseats}</h3> 
                     <p>Seats Left</p>
                   </div>
                   <div className='card-column'>
-                    {course.FEE !== null && (
+                    {course.fee !== null && (
                       <div>
-                        <h3>${course.FEE}</h3> 
+                        <h3>${course.fee}</h3> 
                         <p>Applicable fees</p>
                       </div>
                     )}
@@ -188,7 +209,7 @@ function DisplayCourses() {
       </div> {/* display */}
       <div className='course-right'>
         <CartTemplate></CartTemplate>
-      </div>
+      </div> 
     </div> {/* split */}
     </>
   );

@@ -7,19 +7,21 @@ import Navbar from '../components/Navbar';
 
 
 interface CourseProps {
-    ACADEMICYEAR: number,
-    BLOCKNUM: string,
-    COURSECODE: number,
-    COURSETYPES: string,
-    CREDITS: number,
-    DEPARTMENT: string,
-    DESCR: string,
-    FEE: null | number,
-    PROFESSOR: string,
-    KEYCODE: number,
-    PREREQS: string,
-    SEATS: number,
-    TITLE: string
+    academicyear: number,
+    blocknum: string,
+    coursecode: number,
+    coursetypes: string,
+    credits: number,
+    department: string,
+    description: string,
+    fee: null | number,
+    professor: string,
+    id: number,
+    prereqs: string,
+    totalseats: number,
+    title: string,
+    openseats: number,
+    waitcount: number
 }
 
 function IndividualCourseInfo() {
@@ -54,12 +56,12 @@ function IndividualCourseInfo() {
                     //         CREDITS: 3,
                     //         DEPARTMENT: "Computer Science",
                     //         DESCR: "An introductory course to computer science.",
-                    //         FEE: null,
+                    //         fee: null,
                     //         INSTRUCTORS: "Dr. Smith",
-                    //         KEYCODE: 12345,
-                    //         PREREQS: "None",
-                    //         SEATS: 50,
-                    //         TITLE: "Introduction to Computer Science",
+                    //         id: 12345,
+                    //         prereqs: "None",
+                    //         seats: 50,
+                    //         title: "Introduction to Computer Science",
                     //                         })
                     // };
                     
@@ -86,20 +88,7 @@ function IndividualCourseInfo() {
     if (!myData) {
         return <div className='ind'><form><h1>Course not found. ERROR 404.</h1></form></div>
     }
-    const courseInfo: CourseProps = {
-        ACADEMICYEAR: myData.ACADEMICYEAR,
-        BLOCKNUM: myData.BLOCKNUM,
-        COURSECODE: myData.COURSECODE,
-        COURSETYPES: myData.COURSETYPES,
-        CREDITS: myData.CREDITS,
-        DEPARTMENT: myData.DEPARTMENT,
-        DESCR: myData.DESCR,
-        FEE: myData.FEE,
-        PROFESSOR: myData.PROFESSOR,
-        KEYCODE: myData.KEYCODE,
-        PREREQS: myData.PREREQS,
-        SEATS: myData.SEATS,
-        TITLE: myData.TITLE};
+    const courseInfo: CourseProps = myData as CourseProps
     return (
         <>
         <Navbar />

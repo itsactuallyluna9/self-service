@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import '../cssFiles/IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
@@ -12,13 +12,15 @@ interface CourseProps {
     coursetypes: null | string,
     credits: number,
     department: string,
-    DESCR: null | string,
+    description: null | string,
     fee: null | number,
     professor: any,
     id: number,
     prereqs: null | string,
-    seats: number,
-    title: string
+    totalseats: number,
+    title: string,
+    openseats: number,
+    waitcount: number
 }
 
 
@@ -58,8 +60,15 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                         </p>
                     </div>
                     <div className="course-info-right">
-                        <p>Seats: {data.seats}</p>
-                        <p>Seats Left: 0 </p>
+                        {data.openseats > 0 && (
+                            <>
+                                <p>Seats: {data.totalseats}</p>
+                                <p>Seats Left: {data.openseats}</p>
+                            </>
+                        )}
+                        {data.openseats <= 0 && (
+                            <p>In Waitlist: {data.waitcount}</p>
+                        )}
                     </div>
                 </div>
                 <div className="instructor-info">
@@ -70,8 +79,8 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                 </div>
                 <div className="additional-course-info">
                     <div className="course-description">
-                        <h4>Description:</h4>
-                        <p>{data.DESCR ? data.DESCR : 'None'}</p>
+                        <p>Description:</p>
+                        <p>{data.description ? data.description : 'None'}</p>
                     </div>
                     <div className="course-specs">
                         <p>Prerequisites: {data.prereqs ? data.prereqs : 'None'}</p>

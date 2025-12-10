@@ -1,4 +1,6 @@
-
+.cartDisplay {
+  position: fixed;
+}
 .cartDisplay h2 { 
     color: #2478B0;
  }

@@ -13,7 +13,7 @@ interface CourseData {
   professor: string;
   academicyear: string;
   blocknum: string;
-  seats: number;
+  openseats: number;
   credits: number;
   fee: number | null;
   coursecode: number;
@@ -36,7 +36,7 @@ const testClasses: CourseData[] = [
     professor: 'Ajit Chavan',
     academicyear: '2025',
     blocknum: '4',
-    seats: 10,
+    openseats: 10,
     credits: 1.00,
     fee: 0.00,
     coursecode: 318
@@ -48,7 +48,7 @@ const testClasses: CourseData[] = [
     professor: 'Dr. Smith',
     academicyear: '2025',
     blocknum: '2',
-    seats: 25,
+    openseats: 25,
     credits: 0.75,
     fee: 50.00,
     coursecode: 101
@@ -100,25 +100,26 @@ function DisplayCourses() {
     
   useEffect(() => {
     // If navigated from filter page
-    if (location.state && (location.state as any).classes) {
-      setCourses((location.state as any).classes);
+    console.warn(location.state);
+    if (location.state && (location.state as any).classes.courses) {
+      setCourses((location.state as any).classes.courses);
     } else {
-    
     // Otherwise, load all courses
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        //const response = await fetch('https://10.101.128.56:6001/api/courses');
+        const response = await fetch('https://10.101.128.56:6001/api/courses');
         
-        //if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
-        //const data = await response.json();
-        //setCourses(data.courses || testClasses);
-        setCourses(testClasses);
+        const data = await response.json();
+        setCourses(data.courses);
     
         } catch (e) {
           console.error("Error fetching courses:", e);
-          setCourses(testClasses);
+          return (
+            <h1>An Error was Detected, Please Try Again Later</h1>
+          )
         }
       }
       loadCourses();
@@ -161,9 +162,9 @@ function DisplayCourses() {
                   </h2>
                   <p>Year: {course.academicyear} |
                   
-                    Term: {Number(course.blocknum) >= 1 && Number(course.blocknum) <= 4
+                    Term: {Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
                     ? "Fall"
-                    : Number(course.blocknum) >= 5 && Number(course.blocknum) <= 8
+                    : Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
                     ? "Spring"
                     : course.blocknum.includes("Fall")
                     ? "Fall"
@@ -172,7 +173,7 @@ function DisplayCourses() {
                     : ""}
                   </p>
                   {course.blocknum !== null && (
-                    <p>Block: {course.blocknum}</p>
+                    <p>{course.blocknum}</p>
                   )}
 
                 </div> {/* card-left */}
@@ -182,11 +183,11 @@ function DisplayCourses() {
                   </div>
                   <div className='card-column'>
                     <h3>{course.credits}</h3> 
-                    <p>credits</p>
+                    <p>Credit{course.credits == 1 ? "" : "s"}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.seats}</h3> 
-                    <p>seats Left</p>
+                    <h3>{course.openseats}</h3> 
+                    <p>Seats Left</p>
                   </div>
                   <div className='card-column'>
                     {course.fee !== null && (

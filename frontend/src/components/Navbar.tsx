@@ -34,8 +34,18 @@ const Navbar = () => {
             
             <div className="navbar-center">
                 <ul className="nav-links">
-                {<><a href="/CourseInformationPage">Courses</a>
-                <a href="/RegisteredCourses">My Schedule</a></>}
+                {/*Add links here for Students */}
+                {localStorage.getItem('UserType') == "STUDENT" && (
+                    <>
+                        <a href="/CourseInformationPage">Courses</a>
+                        <a href="/RegisteredCourses">My Schedule</a>
+                    </>)}
+                {/*Add links here for the Registrar */}
+                {localStorage.getItem('UserType') == "REGISTRAR" && (
+                    <>
+                        <a href="/AddCoursePage">Add Course</a>
+                    </>
+                )}
 
                 </ul>
             </div>

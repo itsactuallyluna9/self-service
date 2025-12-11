@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from backend.db import get_db
+from db import get_db
 
 bp = Blueprint('user_courses', __name__)
 
@@ -102,12 +102,24 @@ def registering_courses():
     with conn.cursor() as cursor:
       # register one course at a time
       for course in courses:
+        #check if class has available seats
+        seats = cursor.execute('SELECT openseats FROM COURSE_OFFER WHERE id = ?',(course))
+
         cursor.execute('INSERT INTO REGISTERED_COURSES (userName, keycode)' \
                        'VALUES (?, ?)', (username, course))
-        print(f"{username} is registered to {course}")
+        
+        conn.commit() # commit the change
+        
+        if seats > 0:
+            print(f"{username} is registered to {course}")
+            waitlist = None
+        else:
+           print(f"{username} is added to waitlist for {course}")
+           #call function for calculating spot on waitlist
+           waitlist = 0 # some number
+        
+        return jsonify({"success": True, "waitlist": waitlist})
 
-      conn.commit() # commit the change
-      return jsonify({"success": True})
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)

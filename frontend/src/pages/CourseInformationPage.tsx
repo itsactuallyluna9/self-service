@@ -27,35 +27,6 @@ interface CartProps { // edit later to have full info
 
 }
 
-
-const testClasses: CourseData[] = [
-  {
-    id: 1,
-    department: 'CSC',
-    title: 'Software Development Processes',
-    professor: 'Ajit Chavan',
-    academicyear: '2025',
-    blocknum: '4',
-    openseats: 10,
-    credits: 1.00,
-    fee: 0.00,
-    coursecode: 318
-  },
-  {
-    id: 2,
-    department: 'MAT',
-    title: 'Calculus I',
-    professor: 'Dr. Smith',
-    academicyear: '2025',
-    blocknum: '2',
-    openseats: 25,
-    credits: 0.75,
-    fee: 50.00,
-    coursecode: 101
-  },
-];
-
-
 function DisplayCourses() {
     const [showPopup, setShowPopup] = useState(false)
     const [popupMessage, setPopupMessage] = useState("")
@@ -199,9 +170,7 @@ function DisplayCourses() {
                       </div>
                     )}
                   </div>
-                  <div className='card-column'>
-                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{cartButtonText}</button>
-                  </div>
+
                 </div> {/* card-right */}
               </div> /* course-card */
           ))

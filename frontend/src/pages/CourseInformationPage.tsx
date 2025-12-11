@@ -170,8 +170,10 @@ function DisplayCourses() {
                       </div>
                     )}
                   </div>
-
-                </div> {/* card-right */}
+                  <div className='card-column'>
+                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{cartButtonText}</button>
+                  </div>
+                </div> 
               </div> /* course-card */
           ))
         )}

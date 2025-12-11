@@ -27,6 +27,11 @@ def get_registered_courses(username):
             WHERE rc.username = ?;
         """, (username,))
         result = cursor.fetchall()
+        for course in course:
+            waitlist_position = get_waitlist_position(username, course["id"])
+            if waitlist_position:
+                course["waitlist_position"] = waitlist_position
+
         return jsonify({"courses": result, "success": True})
 
 @bp.delete('/registered_courses/<string:username>/<int:course_id>')
@@ -113,6 +118,10 @@ def registering_courses():
         
         if seats > 0:
             print(f"{username} is registered to {course}")
+            cursor.execute(
+                'UPDATE COURSE_OFFER SET openseats = openseats - 1 WHERE id = ?;',
+                (course,),
+            )
             waitlist_position = None
         else:
            print(f"{username} is added to waitlist for {course}")
@@ -124,3 +133,8 @@ def registering_courses():
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)
+
+
+
+
+

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from db import get_db
+from db import get_db, get_waitlist
 
 bp = Blueprint('user_courses', __name__)
 
@@ -116,7 +116,7 @@ def registering_courses():
         else:
            print(f"{username} is added to waitlist for {course}")
            #call function for calculating spot on waitlist
-           waitlist = 0 # some number
+           waitlist = get_waitlist(username, course)
         
         return jsonify({"success": True, "waitlist": waitlist})
 

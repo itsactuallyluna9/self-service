@@ -34,3 +34,14 @@ def close_db(e=None):
 
 def init_app(app):
     app.teardown_appcontext(close_db)
+
+
+#Calculate Waitlist Position of Course for User
+
+def get_waitlist(username, course):
+    conn = get_db()
+    with conn.cursor() as cursor:
+        registered = cursor.execute("SELECT userName, enrollmentDate FROM REGISTERED_COURSES WHERE keycode = ?", (course))
+        course_seats = cursor.execute("SELECT totalseats FROM COURSE_OFFER WHERE id = ?",(course))
+        for student in registered:
+            print(student["userName"] + ": " + student["enrollmentDate"])

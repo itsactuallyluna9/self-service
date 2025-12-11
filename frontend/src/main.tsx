@@ -10,6 +10,7 @@ import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
 import RegisteredCourses from './pages/RegisteredCourses'
+import AddCoursePage from './pages/AddCoursePage'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: '/RegisteredCourses',
     element: <RegisteredCourses/>
+  },
+  {
+    path: '/AddCoursePage',
+    element: <AddCoursePage/>
   }
 /*  {
     path: '/test',

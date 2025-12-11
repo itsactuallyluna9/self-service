@@ -10,10 +10,7 @@ function App() {
   const params = useParams();
   console.log(params)
   const nav = useNavigate()
-  
-  const toCourseInfo = () => {
-    nav('/CourseInfo',{state:{code:30}})
-  }
+  console.log("UserType: " + localStorage.getItem('UserType'))
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams } from 'react-router'
+import '../cssFiles/HomePage.css'
 
 import Navbar from '../components/Navbar'
 //import { createBrowserRouter } from "react-router";
@@ -14,7 +15,7 @@ function App() {
   return (
     <>
       <Navbar />
-    <div>
+    <div className='welcome-message'>
       <h1>Welcome to Self Service</h1>
     </div>
     </>

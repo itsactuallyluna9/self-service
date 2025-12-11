@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 
-from db import get_db, get_waitlist
+from backend.db import get_db
+from backend.waitlist import get_waitlist_position
 
 bp = Blueprint('user_courses', __name__)
 
@@ -112,19 +113,14 @@ def registering_courses():
         
         if seats > 0:
             print(f"{username} is registered to {course}")
-            waitlist = None
+            waitlist_position = None
         else:
            print(f"{username} is added to waitlist for {course}")
            #call function for calculating spot on waitlist
-           waitlist = get_waitlist(username, course)
+           waitlist_position = get_waitlist_position(username, course)
         
-        return jsonify({"success": True, "waitlist": waitlist})
+        return jsonify({"success": True, "waitlist_position": waitlist_position})
 
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)
-
-
-
-
-

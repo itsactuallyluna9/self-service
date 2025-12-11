@@ -38,6 +38,10 @@ def get_waitlist(course):
 
 #Calculate Position of Student in Waitlist of Course
 def get_waitlist_position(username, course):
-    waitlist = get_waitlist(course)   
-    position = waitlist.index(username)
+    waitlist = get_waitlist(course) 
+    if waitlist and username in waitlist:  
+        position = waitlist.index(username)
+    else:
+        position = None
+
     return position

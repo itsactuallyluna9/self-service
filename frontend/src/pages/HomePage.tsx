@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, Link, useNavigate, Navigate } from 'react-router'
+import { useParams } from 'react-router'
 
 import Navbar from '../components/Navbar'
 //import { createBrowserRouter } from "react-router";
@@ -9,12 +9,14 @@ import Navbar from '../components/Navbar'
 function App() {
   const params = useParams();
   console.log(params)
-  const nav = useNavigate()
   console.log("UserType: " + localStorage.getItem('UserType'))
 
   return (
     <>
       <Navbar />
+    <div>
+      <h1>Welcome to Self Service</h1>
+    </div>
     </>
   )
 }

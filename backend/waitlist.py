@@ -1,4 +1,4 @@
-from db import get_db
+from backend.db import get_db
 
 def get_waitlist(course):
     conn = get_db()

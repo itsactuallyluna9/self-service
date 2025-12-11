@@ -54,7 +54,7 @@ function SignIn() {
                 if (data.success){
                     console.log("Login successful.", data)
                     localStorage.setItem('UserID', username)
-                    localStorage.setItem('UserType', data.UserType)
+                    localStorage.setItem('UserType', data.usertype)
                     return navigate('/HomePage/')
         
                 }

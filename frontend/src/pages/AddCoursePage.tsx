@@ -14,7 +14,7 @@ function AddCoursePage() {
     return (
         <div>
             <Navbar/>
-            <div className="add-course-page">
+            <div className="add-course">
             </div>
         </div>
     );

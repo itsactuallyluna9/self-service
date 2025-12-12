@@ -112,57 +112,57 @@ def check_session_conflicts(conn, courses_to_register, username):
 
 @bp.post('/register_courses')
 def registering_courses():
-  # get data from frontend in JSON
-  data = request.get_json()  
-  username = data.get("username") 
-  courses = data.get("courseIDs", []) # get courses in a list
+    # get data from frontend in JSON
+    data = request.get_json()
+    username = data.get("username")
+    courses = data.get("courseIDs", [])  # get courses in a list
 
-  if courses == []:
-    return jsonify({"error": "No courses to register", "success": False}), 400
+    if courses == []:
+        return jsonify({"error": "No courses to register", "success": False}), 400
 
-  #prints the data from frontend
-  print(f"From frontend Username:{username}, Courses:{courses}")
+    #prints the data from frontend
+    print(f"From frontend Username:{username}, Courses:{courses}")
 
-  # connection to the database
-  conn = get_db() 
+    # connection to the database
+    conn = get_db()
 
-  if check_session_conflicts(conn, courses, username):
-     return jsonify({"error": "Session conflict detected", "success": False}), 400
+    if check_session_conflicts(conn, courses, username):
+        return jsonify({"error": "Session conflict detected", "success": False}), 400
 
-  try:
-    with conn.cursor() as cursor:
-      # register one course at a time
-      for course in courses:
-        #check if class has available seats
-        cursor.execute('SELECT openseats FROM COURSE_OFFER WHERE id = ?',(course))
-        seats = cursor.fetchone()
+    try:
+        with conn.cursor() as cursor:
+            # register one course at a time
+            for course in courses:
+                #check if class has available seats
+                cursor.execute('SELECT openseats FROM COURSE_OFFER WHERE id = ?', (course))
+                seats = cursor.fetchone()
 
-        cursor.execute('INSERT INTO REGISTERED_COURSES (userName, keycode)' \
-                       'VALUES (?, ?)', (username, course))
-        
-        conn.commit() # commit the change
-        
-        if seats > 0:
-            print(f"{username} is registered to {course}")
-            cursor.execute(
-                'UPDATE COURSE_OFFER SET openseats = openseats - 1 WHERE id = ?;',
-                (course,),
-            )
-            conn.commit()
-            waitlist_position = None
-        else:
-           print(f"{username} is added to waitlist for {course}")
-           cursor.execute(
-                'UPDATE COURSE_OFFER SET waitcount = waitcount + 1 WHERE id = ?;',
-                (course,),
-            )
-            conn.commit()
-           #call function for calculating spot on waitlist
-           waitlist_position = get_waitlist_position(username, course)
-        
-        return jsonify({"success": True, "waitlist_position": waitlist_position})
+                cursor.execute('INSERT INTO REGISTERED_COURSES (userName, keycode)' \
+                               'VALUES (?, ?)', (username, course))
 
-  except Exception as e:
-     conn.rollback() #rollback if there is any problem
-     return jsonify({"error": str(e), "success": False}), 400
+                conn.commit() # commit the change
+
+                if seats > 0:
+                    print(f"{username} is registered to {course}")
+                    cursor.execute(
+                        'UPDATE COURSE_OFFER SET openseats = openseats - 1 WHERE id = ?;',
+                        (course,),
+                    )
+                    conn.commit()
+                    waitlist_position = None
+                else:
+                    print(f"{username} is added to waitlist for {course}")
+                    cursor.execute(
+                        'UPDATE COURSE_OFFER SET waitcount = waitcount + 1 WHERE id = ?;',
+                        (course,),
+                    )
+                    conn.commit()
+                    #call function for calculating spot on waitlist
+                    waitlist_position = get_waitlist_position(username, course)
+
+                return jsonify({"success": True, "waitlist_position": waitlist_position})
+
+    except Exception as e:
+        conn.rollback() #rollback if there is any problem
+        return jsonify({"error": str(e), "success": False}), 400
 

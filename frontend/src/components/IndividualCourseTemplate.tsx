@@ -85,7 +85,8 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                     </div>
                     <div className="course-specs">
                         <p>Prerequisites: {data.prereqs ? data.prereqs : 'None'}</p>
-                        <p>Department: {data.department} Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
+                        <p>Department: {data.department} </p>
+                        <p>Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
                         <p>Fees: {data.fee ? `$${data.fee}` : 'None'}</p>
                         <p>Credits: {data.credits}</p>
                     </div>
@@ -96,13 +97,13 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                     className="back-button" 
                     onClick={()=>nav(-1)}
                     >Back</button>
-                </div>
-                <div className="button-container">
+
                     <button 
                     type='button'
                     className="back-button" 
                     onClick={()=>void registerCourse(data.id)}
                     >Register</button>
+                
                     {/* {error && <p>{error}</p>} */}
                 </div>
             </form>

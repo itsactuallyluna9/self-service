@@ -2,7 +2,7 @@ import logo from '../assets/Cornell_logo.png'
 import '../cssFiles/Navbar.css'
 import { useNavigate } from 'react-router'
 import { useState } from 'react';
-import LogoutModal from './Logout';
+import LogoutModal from './LogoutPopup';
 
 const Navbar = () => {
 
@@ -39,11 +39,14 @@ const Navbar = () => {
                     <>
                         <a href="/CourseInformationPage">Courses</a>
                         <a href="/RegisteredCourses">My Schedule</a>
-                    </>)}
+                <a href="/FinancialStatement">Financial Statement</a>
+                    </>
+                )}
                 {/*Add links here for the Registrar */}
                 {localStorage.getItem('UserType') == "REGISTRAR" && (
                     <>
                         <a href="/AddCoursePage">Add Course</a>
+                        <a href="/CreateCoursePage">Create Course</a>
                     </>
                 )}
 

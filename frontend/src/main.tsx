@@ -10,7 +10,10 @@ import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
 import RegisteredCourses from './pages/RegisteredCourses'
+import FinancialStatement from './pages/FinancialStatementPage'
 import AddCoursePage from './pages/AddCoursePage'
+import PasswordReset from './pages/PasswordReset'
+import CreateCoursePage from './pages/CreateCoursePage'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -42,8 +45,20 @@ const router = createBrowserRouter([
     element: <RegisteredCourses/>
   },
   {
+    path: '/FinancialStatement',
+    element: <FinancialStatement/>
+  },
+  {
     path: '/AddCoursePage',
     element: <AddCoursePage/>
+  },
+  {
+    path: 'PasswordReset',
+    element: <PasswordReset/>
+  },
+  {
+    path: 'CreateCoursePage',
+    element: <CreateCoursePage/>
   }
 /*  {
     path: '/test',

@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import '../cssFiles/CourseInformationPage.css'
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
-import { useCart } from '../components/CartContext';
-import CartTemplate from '../components/CartTemplate'
 
 
 interface CourseData {
@@ -19,58 +16,70 @@ interface CourseData {
   coursecode: number;
 }
 
-interface CartProps { // edit later to have full info
-    id : number,
-    title : string,
-    department : string,
-    coursecode : number,
+function AddCoursePage() {
+    // State to track added courses to prevent duplicates. CarterLampe 12/5/2025.
+    const [addedCourses, setAddedCourses] = useState<number[]>([]);
 
-}
 
-function DisplayCourses() {
     const [showPopup, setShowPopup] = useState(false)
     const [popupMessage, setPopupMessage] = useState("")
     const [courses, setCourses] = useState<CourseData[]| null>(null);
-    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
-    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
-    const [canAddCart, setCanAddCart] = useState(true) 
     const nav = useNavigate()
     const location = useLocation()
 
     const handleClearFilter = () => {
       // Reload the page to clear filters
       return(
-        nav('/CourseInformationPage/')
+        nav('/AddCoursePage/')
       )
     }
 
-  const handleAdd = (data: CourseData) => {
-    const cartData: CartProps = {
-      id: data.id,
-      coursecode: data.coursecode,
-      title: data.title,
-      department: data.department,
+    const handleAdd = async (course: CourseData) => {
+        setPopupMessage(`${course.department}${course.coursecode} added!`);
+        setShowPopup(true);
+        setTimeout(() => setShowPopup(false), 2000);
+
+        try{
+            // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
+            const response = await fetch('TODO: Backend API for adding course', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: course.id }),
+            })
+            
+            // Dummy response for testing. CarterLampe 12/1/2025.
+            // const response = {
+            //     ok: true,
+            //     json: async () => ({
+            //         success: false,
+            //         token: "test-token",
+            //         message: "Login unsuccessful"
+            //     })
+            // };
+
+            const data = await response.json();
+
+            if (response.ok){
+                
+                if (data.success){
+                    console.log("Adding of course successful.", data)
+        
+                }
+                else {
+                console.log("Adding of course failed.", data);
+                }
+            }
+        }
+        catch (err) {
+            console.error('Adding course error:', err);
+        }
+
+        // Prevent adding the same course multiple times. CarterLampe 12/5/2025.
+        setAddedCourses(prev => [...prev, course.id]);
     };
 
-    const result = AddCourseToCart(cartData);
-
-     if (result) {
-      setPopupMessage(`${data.department}${data.coursecode} added to cart!`);
-      setShowPopup(true);
-
-      // Auto-close popup after 2 seconds
-      setTimeout(() => setShowPopup(false), 2000);
-    } else {
-      setPopupMessage(`Already in cart!`);
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000);
-    }
-  };
-
-    
-    
-
-    
   useEffect(() => {
     // If navigated from filter page
     console.warn(location.state);
@@ -115,7 +124,7 @@ function DisplayCourses() {
     <div className='split'>
       <div className='display'>
         <div className= "filter-button-container">
-          <button className= "filter-button" onClick={() => nav("/Filter") }>Filter Courses</button>
+          <button className= "filter-button" onClick={() => nav("/Filter", { state: { String: "/AddCoursePage/" } })}>Filter Courses</button>
           <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
         </div> {/* filter-button-container */}
         <div className="courses">
@@ -171,7 +180,16 @@ function DisplayCourses() {
                     )}
                   </div>
                   <div className='card-column'>
-                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{cartButtonText}</button>
+                    {/* Disable "Add Course" button if course already added. CarterLampe 12/5/2025. */}
+                    {addedCourses.includes(course.id) ? (
+                    <button disabled style={{ opacity: 0.5 }}>
+                        Added
+                    </button>
+                    ) : (
+                    <button type="button" onClick={() => handleAdd(course)}>
+                        Add Course
+                    </button>
+                    )}
                   </div>
                 </div> 
               </div> /* course-card */
@@ -180,12 +198,9 @@ function DisplayCourses() {
         </div> {/* courses  */}
         
       </div> {/* display */}
-      <div className='course-right'>
-        <CartTemplate></CartTemplate>
-      </div> 
     </div> {/* split */}
     </>
   );
 }
 
-export default DisplayCourses;
+export default AddCoursePage;

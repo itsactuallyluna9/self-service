@@ -24,7 +24,8 @@ def get_all_courses():
                     co.totalseats,
                     co.waitcount
                 FROM COURSE_DATA cd
-                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid;
+                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
+                ORDER BY co.academicyear DESC, co.session ASC, cd.department ASC, cd.coursecode ASC;
         """)
         courses = cursor.fetchall()
         return jsonify({"courses": courses, "success": True})
@@ -111,7 +112,7 @@ def get_filtered_courses():
         FROM COURSE_DATA cd
         LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
         {where_clause}
-        ORDER BY cd.coursecode, co.session;
+        ORDER BY co.academicyear DESC, co.session ASC, cd.department ASC, cd.coursecode ASC;
     """
 
     with get_db().cursor(dictionary=True) as cursor:

@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from backend.db import get_db
 from backend.waitlist import get_waitlist_position, get_waitlist
 
+
 bp = Blueprint('user_courses', __name__)
 
 @bp.get('/registered_courses/<string:username>')
@@ -121,11 +122,13 @@ def create_course():
     description = data['description']
     prereqs = data.get('prereqs')
     coursetypes = data.get('coursetypes')
-    with get_db().cursor(dictionary=True) as cursor:
+    conn = get_db()
+    with conn.cursor(dictionary=True) as cursor:
         cursor.execute(
             'INSERT INTO COURSE_DATA(coursecode, title, credits, department, fee, description, prereqs, coursetypes)'
             'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',(coursecode, title, credits, department, fee, description, prereqs, coursetypes))
 
+        conn.commit()
     return jsonify({"success": True})
 
 

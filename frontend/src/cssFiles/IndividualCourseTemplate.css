@@ -100,7 +100,7 @@
 }
 
 .ind .button-container {
-
+    
 }
 
 .ind .back-button {
@@ -120,4 +120,8 @@
 }
 .ind h2, p {
     color: #000000;
+}
+.buttons {
+    flex-direction: row;
+    gap: 100px;
 }

@@ -16,8 +16,8 @@ const Navbar = () => {
     const handleConfirmSignOut = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
         localStorage.removeItem('UserId');
+        localStorage.removeItem('UserType')
         console.log("User signed out.")
-        
         return navigate('/SignIn/')
     }
 

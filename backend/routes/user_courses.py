@@ -107,7 +107,7 @@ def registering_courses():
   conn = get_db() 
 
   if check_session_conflicts(conn, courses, username):
-     return jsonify({"error", "Session conflict detected"}), 400
+     return jsonify({"error": "Session conflict detected"}), 400
 
   try:
     with conn.cursor() as cursor:

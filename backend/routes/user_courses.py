@@ -27,7 +27,7 @@ def get_registered_courses(username):
             WHERE rc.username = ?;
         """, (username,))
         result = cursor.fetchall()
-        for course in course:
+        for course in result:
             waitlist_position = get_waitlist_position(username, course["id"])
             if waitlist_position:
                 course["waitlist_position"] = waitlist_position

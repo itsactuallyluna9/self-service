@@ -122,6 +122,7 @@ def registering_courses():
                 'UPDATE COURSE_OFFER SET openseats = openseats - 1 WHERE id = ?;',
                 (course,),
             )
+            conn.commit()
             waitlist_position = None
         else:
            print(f"{username} is added to waitlist for {course}")

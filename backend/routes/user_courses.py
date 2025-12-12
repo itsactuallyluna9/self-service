@@ -81,15 +81,15 @@ def check_session_conflicts(conn, courses):
     
    return False
 
-#This function retrives the overall GPA of a user in the specific year
-def calculate_overall_gpa_academicyear(conn, username, academicyear):
+#This function retrives the overall GPA of a user
+def calculate_overall_gpa_academicyear(conn, username):
    
    #SQL query
-   query = "SELECT AVG(coursegrade) FROM REGISTERED_COURSES JOIN COURSE_OFFER ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE userName = ? and COURSE_OFFER.academicyear = ?;"
+   query = "SELECT AVG(coursegrade) FROM REGISTERED_COURSES JOIN COURSE_OFFER ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE userName = ?;"
 
    #execute the query and fetch the results 
    with conn.cursor() as cursor:
-     cursor.execute(query, (username, academicyear))
+     cursor.execute(query, (username))
      academicyear_gpa = cursor.fetchone()[0]
     
     # return None if user does not have GPA otherwise return the GPA

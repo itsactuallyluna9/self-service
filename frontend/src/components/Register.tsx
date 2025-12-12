@@ -6,6 +6,7 @@ export const register = async (
     console.log("Registering for courses...");
 
     try {
+        console.log({username, courseIDs})
         // Replace with real API call
         const response = await fetch('https://10.101.128.56:6001/api/register_courses', {
           method: 'POST',

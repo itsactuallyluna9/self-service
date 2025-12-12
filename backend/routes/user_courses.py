@@ -55,8 +55,8 @@ def check_session_conflicts(conn, courses):
    if courses == []: 
       return None
    
-   #This quesr selects courseid, academicyear and session from all courses of the argument
-   query = f"SELECT courseid, academicyear, session FROM COURSE_OFFER WHERE courseid IN ({", ".join(["?"] * len(courses))})" # create placeholders as many as courses
+   #This query selects the offer's id, academicyear and session from all courses of the argument
+   query = f"SELECT id, academicyear, session FROM COURSE_OFFER WHERE courseid IN ({", ".join(["?"] * len(courses))})" # create placeholders as many as courses
    print(query)
 
    #execute the query and fetch the results to rows 
@@ -65,15 +65,19 @@ def check_session_conflicts(conn, courses):
      rows = cursor.fetchall()
     
    block_map = {}
-   for courseid, academicyear, sessions in rows:
-        key = (academicyear, sessions)
+   for id, academicyear, session in rows:
+        key = (academicyear, session)
+
+        if "Adjunct" in session or "Experimental" in session:
+           # allow users to register multiple adjunct or experimental courses
+           continue
 
         #create a new list of key if not exist in block_map
         if key not in block_map:
-            block_map[key] = []    
+            block_map[key] = []
         
         #append courseid to the list of key
-        block_map[key].append(courseid)
+        block_map[key].append(id)
     
    print(block_map)
    for key, couse_list in block_map.items():

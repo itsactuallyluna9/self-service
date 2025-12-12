@@ -90,13 +90,13 @@ def calculate_overall_gpa_academicyear(conn, username):
    #execute the query and fetch the results 
    with conn.cursor() as cursor:
      cursor.execute(query, (username))
-     academicyear_gpa = cursor.fetchone()[0]
+     overall_gpa = cursor.fetchone()[0]
     
     # return None if user does not have GPA otherwise return the GPA
-   if academicyear_gpa == None:
+   if overall_gpa == None:
       return None
    else:
-      return academicyear_gpa
+      return overall_gpa
    
 #This function retrives the overall GPA of a user in the specific semester 
 def calculate_overall_gpa_semester(conn, username, academicyear, semester):

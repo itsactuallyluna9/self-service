@@ -32,7 +32,7 @@ function DisplayCourses() {
     const [popupMessage, setPopupMessage] = useState("")
     const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
-    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [cartButtonText, setCartButtonText] = useState("Add to cart")
     const [canAddCart, setCanAddCart] = useState(true) 
     const nav = useNavigate()
     const location = useLocation()
@@ -166,7 +166,7 @@ function DisplayCourses() {
                     {course.fee !== null && (
                       <div>
                         <h3>${course.fee}</h3> 
-                        <p>Applicable fees</p>
+                        <p>Fees</p>
                       </div>
                     )}
                   </div>

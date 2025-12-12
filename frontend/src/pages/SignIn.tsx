@@ -54,7 +54,8 @@ function SignIn() {
                 if (data.success){
                     console.log("Login successful.", data)
                     localStorage.setItem('UserID', username)
-                    return navigate('/CourseInformationPage/')
+                    localStorage.setItem('UserType', data.usertype)
+                    return navigate('/HomePage/')
         
                 }
                 else {
@@ -100,6 +101,8 @@ function SignIn() {
 
                 {error && <p>{error}</p>}
             </form>
+
+            <a href="/PasswordReset" className="reset-link">Forgot password?</a>
         </div>
         
     )

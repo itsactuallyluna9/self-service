@@ -23,7 +23,8 @@ def get_registered_courses(username):
             FROM REGISTERED_COURSES rc
             JOIN COURSE_OFFER co ON rc.keycode = co.id
             JOIN COURSE_DATA cd ON co.courseid = cd.id
-            WHERE rc.username = ?;
+            WHERE rc.username = ?
+            ORDER BY co.academicyear DESC, co.session ASC, cd.department ASC, cd.coursecode ASC;
         """, (username,))
         result = cursor.fetchall()
         return jsonify({"courses": result, "success": True})

@@ -134,7 +134,7 @@ def registering_courses():
             # register one course at a time
             for course in courses:
                 #check if class has available seats
-                cursor.execute('SELECT openseats FROM COURSE_OFFER WHERE id = ?', (course))
+                cursor.execute('SELECT openseats FROM COURSE_OFFER WHERE id = ?', (course,))
                 seats = cursor.fetchone()
 
                 cursor.execute('INSERT INTO REGISTERED_COURSES (userName, keycode)' \

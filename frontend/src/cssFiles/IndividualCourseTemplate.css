@@ -117,3 +117,7 @@
 .ind h2, .ind p {
     color: #000000;
 }
+.buttons {
+    flex-direction: row;
+    gap: 100px;
+}

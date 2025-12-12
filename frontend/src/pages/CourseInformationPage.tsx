@@ -105,6 +105,7 @@ function DisplayCourses() {
 
   return (
     <>
+    <div className="CourseInformationPage-wrapper">
     {showPopup && (
     <div className="popup-overlay">
       {popupMessage}
@@ -184,6 +185,7 @@ function DisplayCourses() {
         <CartTemplate></CartTemplate>
       </div> 
     </div> {/* split */}
+    </div> {/* wrapper */}
     </>
   );
 }

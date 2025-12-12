@@ -36,6 +36,7 @@ def get_filtered_courses():
     # Normalized incoming filters
     sf = {
         "semester": data.get("semester"),
+        "academicyear": data.get("academicyear"),
         "department": data.get("department"),
         "professor": data.get("professor"),
         "seats": data.get("available"),
@@ -60,6 +61,11 @@ def get_filtered_courses():
             conditions.append(f"co.session IN ({placeholders})")
             params.extend(sessions)
 
+    academicyear = sf.get("academicyear")
+    if academicyear:
+        conditions.append("co.academicyear = %s")
+        params.append(academicyear)
+        
     department = sf.get("department")
     if department:
         conditions.append("cd.department = %s")

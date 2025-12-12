@@ -101,6 +101,8 @@ function SignIn() {
 
                 {error && <p>{error}</p>}
             </form>
+
+            <a href="/PasswordReset" className="reset-link">Forgot password?</a>
         </div>
         
     )

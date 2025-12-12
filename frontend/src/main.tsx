@@ -11,6 +11,7 @@ import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
 import RegisteredCourses from './pages/RegisteredCourses'
 import AddCoursePage from './pages/AddCoursePage'
+import PasswordReset from './pages/PasswordReset'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: '/AddCoursePage',
     element: <AddCoursePage/>
+  },
+  {
+    path: 'PasswordReset',
+    element: <PasswordReset/>
   }
 /*  {
     path: '/test',

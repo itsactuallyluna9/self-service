@@ -2,6 +2,7 @@ import '../cssFiles/FilterUI.css'
 
 export interface CourseFilter {
     professor: string;
+    year: string;
     block: string;
     semester: string;
     department: string;
@@ -14,12 +15,13 @@ interface FilterUIProps {
   filters: CourseFilter;
   setFilters: React.Dispatch<React.SetStateAction<CourseFilter>>;
   professors: string[];
+  years: string[];
   departments: string[];
   attributes: string[];
   blocks: string[];
 }
 
-function FilterUI({ filters, setFilters, professors, departments, attributes, blocks }: FilterUIProps) {
+function FilterUI({ filters, setFilters, professors, departments, attributes, blocks, years }: FilterUIProps) {
   const update = (key: keyof CourseFilter, value: any) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
@@ -50,6 +52,19 @@ function FilterUI({ filters, setFilters, professors, departments, attributes, bl
           <option value="Fall">Fall</option>
           <option value="Spring">Spring</option>
           <option value="Summer">Summer</option>
+        </select>
+      </div>
+
+      <div className='filter-column'>
+        <label>Year</label>
+        <select
+          value={filters.year}
+          onChange={(e) => update("year", e.target.value)}
+        >
+          <option value="">Select</option>
+          {years.map((yr) => (
+            <option key={yr} value={yr}>{yr}</option>
+          ))}
         </select>
       </div>
 

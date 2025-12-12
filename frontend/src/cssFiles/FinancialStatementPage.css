@@ -1,26 +1,25 @@
-.AddCoursePage-wrapper .split {
+.split {
   display: flex;
-  width: 80%;
-  position: relative;
-  margin-top: 100px;
-  
+  margin-left: 140px;
+  top: 80px;
+  position:relative;
 }
 
-.AddCoursePage-wrapper .display {
+.display {
   display: flex;
   flex-direction: column;
   flex: 1;     
   z-index: 1;
 }
 
-.AddCoursePage-wrapper .courses {
+.courses {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 5px;
 }
 
-.AddCoursePage-wrapper .courses .course-card {
+.courses .course-card {
   width: 100%;
   padding: 20px;
   border: 1px solid #ddd;
@@ -31,7 +30,7 @@
   flex-direction: row;    
 }
 
-.AddCoursePage-wrapper .courses h1 {
+.courses h1 {
   margin-top: 10px;
   font-size: 2rem;
   font-weight: 600;
@@ -40,7 +39,7 @@
 }
 
 
-.AddCoursePage-wrapper .courses h2 {
+.courses h2 {
   margin: 0 0 10px;
   font-size: 1rem;
   font-weight: 600;
@@ -48,12 +47,12 @@
   color: #2478B0;;
 }
 
-.AddCoursePage-wrapper .courses p {
+.courses p {
   margin: 2px 0;
   font-size: 0.8rem;
 }
 
-.AddCoursePage-wrapper .courses h3 {
+.courses h3 {
   margin: 0;
   font-size: 0.9rem;
   font-weight: normal;
@@ -61,21 +60,21 @@
   color: #1a1a1a;
 }
 
-.AddCoursePage-wrapper .card-left {
+.card-left {
   width: 40%;
 }
 
-.AddCoursePage-wrapper .card-right {
+.card-right {
   display: flex; 
   width: 60%;
 }
 
-.AddCoursePage-wrapper .card-column {
+.card-column {
   width: 25%;
   text-align: center;
   margin-left: 20px;
 }
-.AddCoursePage-wrapper .card-right button {
+.card-right button {
   padding: 10px 20px;
   background-color: #523178; 
   color: #fff;
@@ -88,14 +87,14 @@
   text-align: center;
 }
 
-.AddCoursePage-wrapper .filter-button-container {
+.filter-button-container {
   width: 90%;
   display: flex;
   gap: 20px;
   align-items: left;
 }
 
-.AddCoursePage-wrapper .filter-button-container button {
+.filter-button-container button {
   width: 200px;
   padding: 10px 20px;
   background-color: #523178; 
@@ -107,7 +106,7 @@
   transition: background-color 0.2s;
 }
 
-.AddCoursePage-wrapper .filter-button-container .clear-filter-button {
+.filter-button-container .clear-filter-button {
   padding: 10px 20px;
   background-color: #fff; 
   color: #523178;
@@ -118,24 +117,22 @@
   transition: background-color 0.2s;
 }
 
-.AddCoursePage-wrapper .filter-button-container .clear-filter-button:hover {
+.filter-button-container .clear-filter-button:hover {
   background-color: #523178; 
   color: #fff;
 }
 
 
-.AddCoursePage-wrapper .course-right {
+.course-right {
   width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: sticky;
   align-self: flex-start;
-  right: 20px;
-  top : 100px;
 }
 
-.AddCoursePage-wrapper .courses .course-card button {
+.courses .course-card button {
   width: 100px;
   padding: 10px 20px;
   background-color: #523178; 
@@ -148,11 +145,11 @@
   margin-right: 5px;
 }
 
-.AddCoursePage-wrapper .display button:hover {
+.display button:hover {
   background-color: #3d2460; 
 }
 
-.AddCoursePage-wrapper .popup-overlay {
+.popup-overlay {
   position: fixed;
   top: 100px;
   right: 20px;
@@ -165,8 +162,6 @@
   animation: fadeInOut 2s ease forwards;
   z-index: 9999;
 }
-
-
 
 @keyframes fadeInOut {
   0% { opacity: 0; transform: translateY(-10px); }

@@ -81,9 +81,7 @@ function FilterPage() {
     body: JSON.stringify(params)});
     const data = await res.json();
     console.log(data)
-    if (location.state){
-      navigate(location.state.String, { state: { classes: data } });
-    }
+    navigate('/CourseInformationPage', { state: { classes: data } });
 
       
     

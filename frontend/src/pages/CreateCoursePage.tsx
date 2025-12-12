@@ -50,7 +50,7 @@ function CreateCoursePage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({course}),
+            body: JSON.stringify(course),
             })
       return response.ok
     } catch(err) {

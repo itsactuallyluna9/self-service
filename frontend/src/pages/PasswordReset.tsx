@@ -3,7 +3,6 @@ import { useNavigate } from "react-router"
 import { useLocation } from "react-router"
 import '../cssFiles/SignIn.css'
 import Logo from '../assets/Cornell_logo.png'
-import { createContext } from 'react'
 
 function PasswordReset() {
     const [username, setUsername] = useState('')
@@ -21,8 +20,6 @@ function PasswordReset() {
         e.preventDefault()
         setError('')
     
-
-        // Simple check to ensure both username and password are not empty. CarterLampe 12/1/2025
         if (!username || !new_password || !passwordConfirm) {
         setError('Please fill out all fields.')
         return
@@ -84,8 +81,6 @@ function PasswordReset() {
                 <label htmlFor="username">Username</label>
                 <input
                 type = "text"
-                name =  "username"
-                id = "username"
                 value = {username}
                 disabled = {isDisabled}
                 onChange = {(e) => setUsername(e.target.value)}
@@ -95,8 +90,6 @@ function PasswordReset() {
                 <label htmlFor = "new_password">New Password</label>
                 <input
                 type = "password"
-                id = "new_password"
-                name =  "new_password"
                 value = {new_password}
                 disabled = {isDisabled}
                 onChange = {(e) => setPasswordNew(e.target.value)}
@@ -106,8 +99,6 @@ function PasswordReset() {
                 <label htmlFor = "passwordConfirm">Confirm New Password</label>
                 <input
                 type = "password"
-                id = "passwordConfirm"
-                name =  "passwordConfirm"
                 value = {passwordConfirm}
                 disabled = {isDisabled}
                 onChange = {(e) => setPasswordConfirm(e.target.value)}
@@ -120,11 +111,11 @@ function PasswordReset() {
 
                 <div className="error">{error && <p>{error}</p>}</div>
 
+                <div className="confirm">{confirm && <p>{confirm}</p>}</div>
                 
             </form>
 
             ) : null }
-            <div className="confirm">{confirm && <p>{confirm}</p>}</div>
             <a href="/SignIn" className="reset-link">Return to sign-in page</a>
         </div>
         

@@ -53,8 +53,8 @@ def drop_registered_course(username, course_id):
 def check_session_conflicts(conn, courses_to_register, username):
     # return None if courses is an empty list
     if courses_to_register == []: 
-        return None
-   
+        return False # well. can't have conflicts if nothing is being registered.
+
     #execute the query and fetch the results to rows 
     with conn.cursor() as cursor:
         # Query the selected offerings by their ids with proper placeholders
@@ -71,11 +71,15 @@ def check_session_conflicts(conn, courses_to_register, username):
     combined = new_course_data + existing_course_data
 
     block_map = {}
+    adjunct_seen = set()
     for id, academicyear, session in combined:
         key = (academicyear, session)
     
-        if "Adjunct" in session or "Experimental" in session:
-            # allow users to register multiple adjunct or experimental courses
+        if "Adjunct" in session or "Experiential" in session:
+            # Allow multiple adjunct/experiential offerings, but block exact duplicates
+            if id in adjunct_seen:
+                return True
+            adjunct_seen.add(id)
             continue
 
         #create a new list of key if not exist in block_map
@@ -84,7 +88,7 @@ def check_session_conflicts(conn, courses_to_register, username):
         
         # append offering id to the list for this block/year
         block_map[key].append(id)
-    
+
     print(block_map)
     for key, couse_list in block_map.items():
         print(key, len(couse_list))
@@ -100,6 +104,9 @@ def registering_courses():
   username = data.get("username") 
   courses = data.get("courseIDs", []) # get courses in a list
 
+  if courses == []:
+    return jsonify({"error": "No courses to register", "success": False}), 400
+
   #prints the data from frontend
   print(f"From frontend Username:{username}, Courses:{courses}")
 
@@ -107,7 +114,7 @@ def registering_courses():
   conn = get_db() 
 
   if check_session_conflicts(conn, courses, username):
-     return jsonify({"error": "Session conflict detected"}), 400
+     return jsonify({"error": "Session conflict detected", "success": False}), 400
 
   try:
     with conn.cursor() as cursor:
@@ -121,7 +128,7 @@ def registering_courses():
       return jsonify({"success": True})
   except Exception as e:
      conn.rollback() #rollback if there is any problem
-     return jsonify({"error", e}, 400)
+     return jsonify({"error": str(e), "success": False}), 400
 
 
 

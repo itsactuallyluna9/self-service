@@ -50,7 +50,6 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok){
-                
                 if (data.success){
                     console.log("Login successful.", data)
                     localStorage.setItem('UserID', username)
@@ -58,10 +57,10 @@ function SignIn() {
                     return navigate('/HomePage/')
         
                 }
-                else {
+            }
+            else {
                 console.log("Login failed.", data);
                 setError("Username or password is incorrect.")
-                }
             }
         }
         catch (err) {

@@ -47,6 +47,7 @@ const Navbar = () => {
                 {localStorage.getItem('UserType') == "REGISTRAR" && (
                     <>
                         <a href="/AddCoursePage">Add Course</a>
+                        <a href="/CreateCoursePage">Create Course</a>
                     </>
                 )}
 

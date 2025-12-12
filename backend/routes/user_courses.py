@@ -147,3 +147,4 @@ def registering_courses():
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)
+

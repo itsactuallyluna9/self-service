@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import FilterUI, { type CourseFilter } from "../components/FilterUI";
 import '../cssFiles/FilterPage.css'
 import Navbar from '../components/Navbar'
@@ -17,6 +17,8 @@ interface filterParams {
 
 function FilterPage() {
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const [filters, setFilters] = useState<CourseFilter>({
     professor: "",
@@ -79,7 +81,12 @@ function FilterPage() {
     body: JSON.stringify(params)});
     const data = await res.json();
     console.log(data)
-    navigate("/CourseInformationPage", { state: { classes: data } });
+    if (location.state){
+      navigate(location.state.String, { state: { classes: data } });
+    }
+
+      
+    
   };
 
   const handleClear = () => {

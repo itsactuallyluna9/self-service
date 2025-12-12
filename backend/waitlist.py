@@ -32,7 +32,7 @@ def get_waitlist(course):
             del sorted_registered[0]
 
         #Convert to a list of usernames in waitlist order
-        [waitlist = student[0] for student in sorted_registered]
+        waitlist = [student[0] for student in sorted_registered]
 
         return waitlist
 

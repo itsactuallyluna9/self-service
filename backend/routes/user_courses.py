@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from backend.db import get_db
-from backend.waitlist import get_waitlist_position
+from backend.waitlist import get_waitlist_position, get_waitlist
 
 bp = Blueprint('user_courses', __name__)
 
@@ -36,7 +36,8 @@ def get_registered_courses(username):
 
 @bp.delete('/registered_courses/<string:username>/<int:course_id>')
 def drop_registered_course(username, course_id):
-    with get_db().cursor(dictionary=True) as cursor:
+    conn = get_db()
+    with conn.cursor(dictionary=True) as cursor:
         cursor.execute(
             'DELETE FROM REGISTERED_COURSES WHERE username = ? AND keycode = ?;',
             (username, course_id),
@@ -49,8 +50,14 @@ def drop_registered_course(username, course_id):
                 'UPDATE COURSE_OFFER SET openseats = openseats + 1 WHERE id = ?;',
                 (course_id,),
             )
+            conn.commit()
+            if username in get_waitlist(course_id):
+                cursor.execute(
+                    'UPDATE COURSE_OFFER SET waitcount = waitcount - 1 WHERE id = ?;',
+                    (course_id,),
+                )
+                conn.commit()
 
-        get_db().commit()
         return jsonify({'success': deleted > 0})
     
 #This function checks if given courses offered at the same block 
@@ -127,6 +134,11 @@ def registering_courses():
             waitlist_position = None
         else:
            print(f"{username} is added to waitlist for {course}")
+           cursor.execute(
+                'UPDATE COURSE_OFFER SET waitcount = waitcount + 1 WHERE id = ?;',
+                (course,),
+            )
+            conn.commit()
            #call function for calculating spot on waitlist
            waitlist_position = get_waitlist_position(username, course)
         
@@ -135,8 +147,3 @@ def registering_courses():
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)
-
-
-
-
-

@@ -35,7 +35,9 @@ const Navbar = () => {
             <div className="navbar-center">
                 <ul className="nav-links">
                 {<><a href="/CourseInformationPage">Courses</a>
-                <a href="/RegisteredCourses">My Schedule</a></>}
+                <a href="/RegisteredCourses">My Schedule</a>
+                <a href="/FinancialStatement">Financial Statement</a></>
+                }
 
                 </ul>
             </div>

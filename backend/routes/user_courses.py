@@ -50,42 +50,48 @@ def drop_registered_course(username, course_id):
     
 #This function checks if given courses offered at the same block 
 #return True if there is a conflict
-def check_session_conflicts(conn, courses):
-   # return None if courses is an empty list
-   if courses == []: 
-      return None
+def check_session_conflicts(conn, courses_to_register, username):
+    # return None if courses is an empty list
+    if courses_to_register == []: 
+        return None
    
-   #This query selects the offer's id, academicyear and session from all courses of the argument
-   query = f"SELECT id, academicyear, session FROM COURSE_OFFER WHERE courseid IN ({", ".join(["?"] * len(courses))})" # create placeholders as many as courses
-   print(query)
+    #execute the query and fetch the results to rows 
+    with conn.cursor() as cursor:
+        # Query the selected offerings by their ids with proper placeholders
+        _placeholders = ", ".join(["?"] * len(courses_to_register))
+        course_selection_query = f"SELECT id, academicyear, session FROM COURSE_OFFER WHERE id IN ({_placeholders})"
+        cursor.execute(course_selection_query, courses_to_register)
+        new_course_data = cursor.fetchall()
 
-   #execute the query and fetch the results to rows 
-   with conn.cursor() as cursor:
-     cursor.execute(query, courses)
-     rows = cursor.fetchall()
-    
-   block_map = {}
-   for id, academicyear, session in rows:
+        existing_course_query = f"SELECT co.id, co.academicyear, co.session FROM COURSE_OFFER co JOIN REGISTERED_COURSES rc ON co.id = rc.keycode WHERE rc.userName = ?"
+        cursor.execute(existing_course_query, (username,))
+        existing_course_data = cursor.fetchall()
+
+    # combine both new and existing course data
+    combined = new_course_data + existing_course_data
+
+    block_map = {}
+    for id, academicyear, session in combined:
         key = (academicyear, session)
-
+    
         if "Adjunct" in session or "Experimental" in session:
-           # allow users to register multiple adjunct or experimental courses
-           continue
+            # allow users to register multiple adjunct or experimental courses
+            continue
 
         #create a new list of key if not exist in block_map
         if key not in block_map:
             block_map[key] = []
         
-        #append courseid to the list of key
+        # append offering id to the list for this block/year
         block_map[key].append(id)
     
-   print(block_map)
-   for key, couse_list in block_map.items():
-      print(key, len(couse_list))
-      if len(couse_list) > 1:
-         return True
+    print(block_map)
+    for key, couse_list in block_map.items():
+        print(key, len(couse_list))
+        if len(couse_list) > 1:
+            return True
     
-   return False
+    return False
 
 @bp.post('/register_courses')
 def registering_courses():
@@ -100,8 +106,8 @@ def registering_courses():
   # connection to the database
   conn = get_db() 
 
-  if check_session_conflicts(conn, courses):
-     return jsonify({"error", "Session conflict detected"}, 400)
+  if check_session_conflicts(conn, courses, username):
+     return jsonify({"error", "Session conflict detected"}), 400
 
   try:
     with conn.cursor() as cursor:

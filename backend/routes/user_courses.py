@@ -82,7 +82,7 @@ def check_session_conflicts(conn, courses):
    return False
 
 #This function retrives the overall GPA of a user
-def calculate_overall_gpa_academicyear(conn, username):
+def calculate_overall_gpa(conn, username):
    
    #SQL query
    query = "SELECT AVG(coursegrade) FROM REGISTERED_COURSES JOIN COURSE_OFFER ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE userName = ?;"
@@ -98,8 +98,8 @@ def calculate_overall_gpa_academicyear(conn, username):
    else:
       return overall_gpa
    
-#This function retrives the overall GPA of a user in the specific semester 
-def calculate_overall_gpa_semester(conn, username, academicyear, semester):
+#This function retrives the gpa of a user in the specific semester 
+def calculate_gpa_per_semester(conn, username, academicyear, semester):
     #sessions define the blocks of a semester, if semester is inappropriate return None
     if semester == "fall":
         sessions = ["Block 1", "Block 2", "Block 3", "Block 4", "Adjunct Fall"]
@@ -150,8 +150,6 @@ def registering_courses():
   except Exception as e:
      conn.rollback() #rollback if there is any problem
      return jsonify({"error", e}, 400)
-
-
 
 
 

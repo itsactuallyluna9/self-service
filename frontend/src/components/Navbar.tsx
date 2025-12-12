@@ -40,7 +40,9 @@ const Navbar = () => {
                     <>
                         <a href="/CourseInformationPage">Courses</a>
                         <a href="/RegisteredCourses">My Schedule</a>
-                    </>)}
+                <a href="/FinancialStatement">Financial Statement</a>
+                    </>
+                )}
                 {/*Add links here for the Registrar */}
                 {localStorage.getItem('UserType') == "REGISTRAR" && (
                     <>

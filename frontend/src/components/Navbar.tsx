@@ -39,7 +39,8 @@ const Navbar = () => {
                     <>
                         <a href="/CourseInformationPage">Courses</a>
                         <a href="/RegisteredCourses">My Schedule</a>
-                <a href="/FinancialStatement">Financial Statement</a>
+                        <a href="/FinancialStatement">Financial Statement</a>
+                        <a href="/UnofficialTranscript">Unofficial Transcript</a>
                     </>
                 )}
                 {/*Add links here for the Registrar */}

@@ -14,6 +14,7 @@ import FinancialStatement from './pages/FinancialStatementPage'
 import AddCoursePage from './pages/AddCoursePage'
 import PasswordReset from './pages/PasswordReset'
 import CreateCoursePage from './pages/CreateCoursePage'
+import UnofficialTranscript from './pages/UnofficialTranscript'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: 'CreateCoursePage',
     element: <CreateCoursePage/>
+  },
+  {
+    path: '/UnofficialTranscript',
+    element: <UnofficialTranscript/>
   }
 /*  {
     path: '/test',

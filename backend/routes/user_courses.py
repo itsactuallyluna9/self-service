@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from backend.db import get_db
 from backend.waitlist import get_waitlist_position, get_waitlist
 
+
 bp = Blueprint('user_courses', __name__)
 
 @bp.get('/registered_courses/<string:username>')
@@ -107,10 +108,48 @@ def check_session_conflicts(conn, courses_to_register, username):
         print(key, len(couse_list))
         if len(couse_list) > 1:
             return True
-    
     return False
 
-@bp.post('/register_courses')
+
+@bp.post('/courses/create/')
+def create_course():
+    data = request.json
+    coursecode = data['coursecode']
+    title = data['title']
+    credits = data['credits']
+    department = data['department']
+    fee = data['fee']
+    description = data['description']
+    prereqs = data.get('prereqs')
+    coursetypes = data.get('coursetypes')
+    conn = get_db()
+    with conn.cursor(dictionary=True) as cursor:
+        cursor.execute(
+            'INSERT INTO COURSE_DATA(coursecode, title, credits, department, fee, description, prereqs, coursetypes)'
+            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',(coursecode, title, credits, department, fee, description, prereqs, coursetypes))
+
+        conn.commit()
+    return jsonify({"success": True})
+
+
+@bp.post('/courses/list_course/')
+def list_course():
+    data = request.json
+    academicyear = data['academicyear']
+    openseats = data['openseats']
+    totalseats = data['totalseats']
+    waitcount = data['waitcount']
+    session = data['session']
+    professor = data['professor']
+    course_id = data['course_id']
+    with get_db().cursor(dictionary=True) as cursor:
+        cursor.execute('INSERT INTO COURSE_OFFER(academicyear, openseats, totalseats, waitcount, session, professor, courseid) '
+                       'SELECT ?, ?, ?, ?, ?, ?, id FROM COURSE_DATA WHERE id = ?',(academicyear,openseats,totalseats,waitcount,session,professor,course_id))
+
+    return jsonify({"success": True, "listed_course": course_id})
+
+
+@bp.post('/register_courses/')
 def registering_courses():
     # get data from frontend in JSON
     data = request.get_json()

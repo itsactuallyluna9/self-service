@@ -98,7 +98,7 @@ function SignIn() {
                 <button onClick={handleSubmit}>Submit</button>
                 </div>
 
-                {error && <p>{error}</p>}
+                <div className="error">{error && <p>{error}</p>}</div>
             </form>
 
             <a href="/PasswordReset" className="reset-link">Forgot password?</a>

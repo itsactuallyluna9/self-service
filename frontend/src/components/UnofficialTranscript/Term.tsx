@@ -12,12 +12,12 @@ const Term = ({ term, year }: UTTermProps) => {
     <div className="ut-term">
       <p><strong>{year} {term.term}</strong></p>
       <div className="ut-term-header">
-        <p>Course</p>	
-        <p>Title</p>	
-        <p>Subtype</p>	
-        <p>Grade</p>	
-        <p>Credits</p>	
-        <p>Quality Points</p>
+        <p className="col">Course</p>	
+        <p className="col-title">Title</p>	
+        <p className="col">Subtype</p>	
+        <p className="col">Grade</p>	
+        <p className="col">Credits</p>	
+        <p className="col">Quality Points</p>
       </div>
 
       {term.courses.map((course, index) => (
@@ -27,7 +27,7 @@ const Term = ({ term, year }: UTTermProps) => {
         />
       ))}
       <div>
-      <div className="ut-term-header">
+      {/* <div className="ut-term-header">
         <p></p>
         <p>Attempted Credit</p>
         <p>Earned Credits</p>	
@@ -59,7 +59,7 @@ const Term = ({ term, year }: UTTermProps) => {
         <p>{term.overallStats.gpa}</p>
         <p>{term.overallStats.classRank}</p>
         <p>{term.overallStats.classSize}</p>
-      </div>
+      </div> */}
         
       </div>
     </div>

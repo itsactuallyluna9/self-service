@@ -37,7 +37,7 @@ export interface UTProgram {
   degree: string;
   curriculum: string;
   degreeAwarded: boolean;
-  dateGranted?: string;
+  dateGranted: string | null;
 }
 
 export interface UT {
@@ -60,21 +60,21 @@ const mockUT: UT = {
       degree: "Additional Major",
       curriculum: "Data Science",
       degreeAwarded: false,
-      dateGranted: undefined
+      dateGranted: null
     },
     {
       program: "Undergraduate",
       degree: "Bachelor of Arts",
       curriculum: "Computer Science",
       degreeAwarded: false,
-      dateGranted: undefined
+      dateGranted: null
     },
     {
       program: "Undergraduate",
       degree: "Minor",
       curriculum: "Applied Mathematics Minor",
       degreeAwarded: false,
-      dateGranted: undefined
+      dateGranted: null
     }
   ],
   overallCredits: 20.00,

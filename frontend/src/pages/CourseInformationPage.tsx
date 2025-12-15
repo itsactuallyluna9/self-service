@@ -33,7 +33,7 @@ function DisplayCourses() {
     const [popupMessage, setPopupMessage] = useState("")
     const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
-    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [cartButtonText, setCartButtonText] = useState("Add to cart")
     const [canAddCart, setCanAddCart] = useState(true) 
     const nav = useNavigate()
     const location = useLocation()
@@ -83,7 +83,7 @@ function DisplayCourses() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/courses');
+        const response = await fetch('https://10.101.128.72:6001/api/courses');
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
@@ -107,6 +107,7 @@ function DisplayCourses() {
 
   return (
     <>
+    <div className="CourseInformationPage-wrapper">
     {showPopup && (
     <div className="popup-overlay">
       {popupMessage}
@@ -168,7 +169,7 @@ function DisplayCourses() {
                     {course.fee !== null && (
                       <div>
                         <h3>${course.fee}</h3> 
-                        <p>Applicable fees</p>
+                        <p>Fees</p>
                       </div>
                     )}
                   </div>
@@ -186,6 +187,7 @@ function DisplayCourses() {
         <CartTemplate></CartTemplate>
       </div> 
     </div> {/* split */}
+    </div> {/* wrapper */}
     </>
   );
 }

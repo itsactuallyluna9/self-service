@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
-
+import '../cssFiles/AddCourse.css'
 
 interface CourseData {
   id: number;
@@ -90,7 +90,7 @@ function AddCoursePage() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/courses');
+        const response = await fetch('https://10.101.128.72:6001/api/courses');
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
@@ -114,6 +114,7 @@ function AddCoursePage() {
 
   return (
     <>
+    <div className="AddCoursePage-wrapper">
     {showPopup && (
     <div className="popup-overlay">
       {popupMessage}
@@ -187,7 +188,7 @@ function AddCoursePage() {
                     </button>
                     ) : (
                     <button type="button" onClick={() => handleAdd(course)}>
-                        Add Course
+                        Add
                     </button>
                     )}
                   </div>
@@ -199,6 +200,7 @@ function AddCoursePage() {
         
       </div> {/* display */}
     </div> {/* split */}
+    </div> {/* wrapper */}
     </>
   );
 }

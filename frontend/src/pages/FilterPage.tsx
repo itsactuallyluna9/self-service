@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar'
 
 interface filterParams {
   professor: string | null
+  year: string | null
   block: string
   semester: string
   department: string | null
@@ -21,6 +22,7 @@ function FilterPage() {
 
   const [filters, setFilters] = useState<CourseFilter>({
     professor: "",
+    year: "",
     block: "",
     semester: "",
     department: "",
@@ -34,19 +36,22 @@ function FilterPage() {
     const [departments, setDepartments] = useState<string[]>([]);
     const [attributes, setAttributes] = useState<string[]>([]);
     const [blocks, setBlocks] = useState<string[]>([]);
+    const [years, setYears] = useState<string[]>([]);
 
     // Fetch options when page loads
     useEffect(() => {
         const fetchDropdowns = async () => {
             try {
-                const deptResponse = await fetch("https://10.101.128.56:6001/api/filter/options/departments");
+                const deptResponse = await fetch("https://10.101.128.72:6001/api/filter/options/departments");
                 setDepartments(await deptResponse.json() || []);
-                const profResponse = await fetch("https://10.101.128.56:6001/api/filter/options/professors");
+                const profResponse = await fetch("https://10.101.128.72:6001/api/filter/options/professors");
                 setProfessors(await profResponse.json() || []);
-                const attrResponse = await fetch("https://10.101.128.56:6001/api/filter/options/attributes");
+                const attrResponse = await fetch("https://10.101.128.72:6001/api/filter/options/attributes");
                 setAttributes(await attrResponse.json() || []);
-                const blockResponse = await fetch("https://10.101.128.56:6001/api/filter/options/blocks");
+                const blockResponse = await fetch("https://10.101.128.72:6001/api/filter/options/blocks");
                 setBlocks(await blockResponse.json() || []);
+                const yearResponse = await fetch("https://10.101.128.72:6001/api/filter/options/academic_years");
+                setYears(await yearResponse.json() || []);
             } catch (err) {
             console.error("Failed to fetch filter options", err);
             }
@@ -59,6 +64,7 @@ function FilterPage() {
   const handleApply = async () => {
     const params: filterParams = { 
       professor: filters.professor,
+      year: filters.year,
       block: filters.block,
       semester: filters.semester,
       department: filters.department,
@@ -67,7 +73,7 @@ function FilterPage() {
       attributes: filters.attributes,
     };
 
-    const res = await fetch(`https://10.101.128.56:6001/api/courses?`, {
+    const res = await fetch(`https://10.101.128.72:6001/api/courses?`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
@@ -75,9 +81,7 @@ function FilterPage() {
     body: JSON.stringify(params)});
     const data = await res.json();
     console.log(data)
-    if (location.state){
-      navigate(location.state.String, { state: { classes: data } });
-    }
+    navigate('/CourseInformationPage', { state: { classes: data } });
 
       
     
@@ -86,6 +90,7 @@ function FilterPage() {
   const handleClear = () => {
       setFilters({
         professor: "",
+        year: "",
         block: "",
         semester: "",
         department: "",
@@ -104,6 +109,7 @@ function FilterPage() {
       filters={filters} 
       setFilters={setFilters}
       professors={professors}
+      years={years}
       departments={departments}
       attributes={attributes} 
       blocks={blocks}

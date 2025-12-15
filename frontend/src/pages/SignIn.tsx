@@ -29,7 +29,7 @@ function SignIn() {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
-            const response = await fetch('https://10.101.128.56:6001/api/login', {
+            const response = await fetch('https://10.101.128.72:6001/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,6 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok){
-                
                 if (data.success){
                     console.log("Login successful.", data)
                     localStorage.setItem('UserID', username)
@@ -58,10 +57,10 @@ function SignIn() {
                     return navigate('/HomePage/')
         
                 }
-                else {
+            }
+            else {
                 console.log("Login failed.", data);
                 setError("Username or password is incorrect.")
-                }
             }
         }
         catch (err) {

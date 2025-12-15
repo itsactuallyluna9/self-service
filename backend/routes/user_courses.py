@@ -132,7 +132,7 @@ def create_course():
     return jsonify({"success": True})
 
 
-@bp.post('/courses/list_course/')
+@bp.post('/courses/list_course')
 def list_course():
     data = request.json
     academicyear = data['academicyear']
@@ -149,7 +149,7 @@ def list_course():
     return jsonify({"success": True, "listed_course": course_id})
 
 
-@bp.post('/register_courses/')
+@bp.post('/register_courses')
 def registering_courses():
     # get data from frontend in JSON
     data = request.get_json()

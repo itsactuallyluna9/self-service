@@ -15,7 +15,10 @@ interface CourseData {
   credits: number;
   fee: number;
   coursecode: number;
+  waitlist_position: null | number;
 }
+
+// waitlist_position = number
 
 /*const testClasses: CourseData[] = [
   {
@@ -168,8 +171,17 @@ function DisplayRegisteredCourses() {
                     <p>Credit{course.credits == 1 ? "" : "s"}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.openseats}</h3> 
-                    <p>Seats Left</p>
+                    {course.waitlist_position == null ? (
+                      <>
+                        <h3>Seats Left</h3>
+                        <p>{course.openseats}</p>
+                      </>
+                    ) : (
+                      <>
+                        <h3>Waitlist Position</h3>
+                        <p>{course.waitlist_position}</p>
+                      </>
+                    )}
                   </div>
                   <div className='card-column'>
                     {course.fee !== null && (

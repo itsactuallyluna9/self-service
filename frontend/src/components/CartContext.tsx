@@ -7,6 +7,7 @@ export interface CartProps { // edit later to have full info
     title : string,
     department : string,
     coursecode : number,
+    openseats : number,
 
 }
 

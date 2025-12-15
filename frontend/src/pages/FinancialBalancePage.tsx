@@ -13,6 +13,7 @@ Balance
  */
 
 interface FinancialProps {
+    period: string;
     balance : number;
     fees : number;
     financial_aid : number;
@@ -23,37 +24,67 @@ interface FinancialProps {
 
 function FinancialBalance() {
     const UserID = localStorage.getItem('UserID')
-    const [financialData, setFinancialData] = useState<FinancialProps>({
-    balance: 0,
-    fees: 0,
-    financial_aid: 0,
-    payments: 0,
-    tuition: 0,
-    room_and_board: 0,
+    const [selection, setSelection] = useState("2024")
+    const [financialData, setFinancialData] = useState<FinancialProps[]>([]);
+    const [currentData, setCurrentData] = useState<FinancialProps>({
+        period: "2024",
+        balance: 0,
+        fees: 0,
+        financial_aid: 0,
+        payments: 0,
+        tuition: 0,
+        room_and_board: 0,
     });
+
+   const handleChangePeriod = (newperiod: string) => {
+	setSelection(newperiod);
+
+	const selected = financialData.find(item => item.period === newperiod);
+	if (selected) {
+		setCurrentData(selected);
+	}
+    };
+
+
     useEffect(() => {
         async function loadFinancialInformation() {
-        let fetchedData: FinancialProps = {
-            balance : 100,
-            fees : 150,
-            financial_aid : 10000,
-            payments : 101,
-            tuition : 2000000,
-            room_and_board : 20};
+        let fetchedData: FinancialProps[] = [];
         try {
         //  Fetch call to backend financial data API endpoint. CarterLampe 12/1/2025
         // const response = await fetch("TODO: API Endpoint for financial data");
         const response = {
-                ok: true,
-                json: async () => ({
-                    balance : 100,
-                    fees : 150,
-                    financial_aid : 10000,
-                    payments : 101,
-                    tuition : 2000000,
-                    room_and_board : 20
-                })
-    };
+            ok: true,
+            json: async () => ([
+                {
+                period: "2024/Fall",
+                balance: 100,
+                fees: 200,
+                payments: 101,
+                tuition: 2000000,
+                room_and_board: 20,
+                financial_aid: 10000,
+                
+                },
+                {
+                period: "2024/Spring",
+                balance: 100,
+                fees: 150,
+                payments: 101,
+                tuition: 2000000,
+                room_and_board: 20,
+                financial_aid: 10000,
+                },
+                {
+                period: "2025/Fall",
+                balance: 5000,
+                fees: 150,
+                payments: 101,
+                tuition: 2000000,
+                room_and_board: 20,
+                financial_aid: 10000,
+                }
+            ])
+            };
         
         if (!response.ok) {
         //   throw new Error(`HTTP error! status: ${response.status}`); 
@@ -71,6 +102,8 @@ function FinancialBalance() {
         )
         }
     setFinancialData(fetchedData);
+    setCurrentData(fetchedData.find(item => item.period === selection) || fetchedData[0]);
+
     }
     loadFinancialInformation();
     }, []);
@@ -83,32 +116,41 @@ function FinancialBalance() {
         <div className="financial-balance-wrapper">
             <div className="financial-information">\
                 <div className="title-header">
-                    <h1>Financial Balance {"(2025/fall)"}</h1>
-                        <button className="down-arrow"></button>
+                    <div className="title-header-left">
+                        <h1>Financial Balance </h1>
+                    </div>
+                    <div className="title-header-right">
+                        <p>Period: </p>
+                        <select name="period" id="period-select" onChange={(e) => handleChangePeriod(e.target.value)}>
+                            ({financialData.map((item) => (
+                                <option key={item.period} value={item.period}>{item.period}</option>
+                            ))})
+                        </select>
+                    </div>
                         
                 </div>    
                 
                 <div className="balance">
-                    <p>${financialData.balance.toFixed(2)}</p>
+                    <p>${currentData.balance.toFixed(2)}</p>
                 </div>
                 <div className="financial-details">
                     <div className="details-header">
                         <p><strong>Type</strong></p> <strong><p>Amount</p></strong>
                     </div>
                     <div className="details-header">
-                        <p>Fees:</p> <p>${financialData.fees.toFixed(2)}</p>
+                        <p>Fees:</p> <p>${currentData.fees.toFixed(2)}</p>
                     </div>
                     <div className="details-header">
-                        <p>Financial Aid:</p> <p>${financialData.financial_aid.toFixed(2)}</p>
+                        <p>Financial Aid:</p> <p>${currentData.financial_aid.toFixed(2)}</p>
                     </div>
                     <div className="details-header">
-                        <p>Payments:</p> <p>${financialData.payments.toFixed(2)}</p>
+                        <p>Payments:</p> <p>${currentData.payments.toFixed(2)}</p>
                     </div>
                     <div className="details-header">
-                        <p>Tuition:</p> <p>${financialData.tuition.toFixed(2)}</p>
+                        <p>Tuition:</p> <p>${currentData.tuition.toFixed(2)}</p>
                     </div>
                     <div className="details-header-bottom">
-                        <p>Room and Board:</p> <p>${financialData.room_and_board.toFixed(2)}</p>
+                        <p>Room and Board:</p> <p>${currentData.room_and_board.toFixed(2)}</p>
                     </div>
                 </div>
             </div>

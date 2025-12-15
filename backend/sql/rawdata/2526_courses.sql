@@ -425,11 +425,11 @@ INSERT INTO `COURSE_DATA` VALUES
 (542,156,'Topics: Discrete Math',1,'MAT',NULL,'Consider the analytical tools required to make an animation, visualize a network of Instagram friends, or encrypt a message. The fundamental mathematical ideas necessary to approach each problem mentioned lies in the area of Discrete Mathematics, which we like to call the other side of the mathematical coin. Students who would like to discover what else math has to offer, beyond their high school training, are encouraged to enroll. Instead of focusing on variables, angles, and continuous equations, in discrete mathematics we learn to work with a collection of objects that are arranged in structures such as sets, functions, sequences, etc. Moreover, we must learn the basics of logical reasoning and techniques that prove statements to be true. Therefore, this course will emphasize the following topics: logic and set theory, proof methods and mathematical induction, counting and probability, and discrete structures such as functions, sequences, relations, matrices, and graphs. Other topics may be introduced, time permitting. Open to students with three years of high school math. Trigonometry not required. This course is a substitute for CSC 151 required for a Mathematics major.',NULL,NULL);
 
 INSERT INTO `COURSE_OFFER` VALUES
-(1,2025,18,18,0,'Block 7','Jack Messitt',121),
-(2,2025,25,25,0,'Block 2','Sherri-Lynn Putz, Sophie Gillett',122),
-(3,2025,25,25,0,'Block 2','Christi Johnson',123),
-(4,2025,25,25,0,'Block 8','Niloofar Kamran',124),
-(5,2025,25,25,0,'Block 1','Ajit Chavan',125),
+(1,2025,18,0,0,'Block 7','Jack Messitt',121),
+(2,2025,25,0,0,'Block 2','Sherri-Lynn Putz, Sophie Gillett',122),
+(3,2025,25,0,0,'Block 2','Christi Johnson',123),
+(4,2025,25,0,0,'Block 8','Niloofar Kamran',124),
+(5,2025,25,0,0,'Block 1','Ajit Chavan',125),
 (6,2025,99,99,0,'Adjunct Fall','MUS Dept Chair Staff',126),
 (7,2025,25,25,0,'Block 2','Shawn Ketchum Johnson',127),
 (8,2025,25,25,0,'Adjunct Fall','MUS Dept Chair Staff',128),
@@ -773,7 +773,7 @@ INSERT INTO `COURSE_OFFER` VALUES
 (346,2025,25,25,0,'Adjunct Spring','Scott Olinger',238),
 (347,2025,25,25,0,'Block 2','Melanie King',373),
 (348,2025,25,25,0,'Block 4','Elizabeth Globokar',131),
-(349,2025,25,25,0,'Block 8','A\'amer Farooqi',225),
+(349,2025,25,25,0,'Block 8','Aamer Farooqi',225),
 (350,2025,25,25,0,'Adjunct Fall','James Ellis',167),
 (351,2025,20,20,0,'Block 5','Michael Mosier',204),
 (352,2025,15,15,0,'Block 3','Shawn Ketchum Johnson',374),

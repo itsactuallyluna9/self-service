@@ -10,9 +10,13 @@ import IndividualCourseInfo from './pages/IndividualCourseInfo'
 import CourseInformationPage from './pages/CourseInformationPage'
 import FilterPage from './pages/FilterPage'
 import RegisteredCourses from './pages/RegisteredCourses'
+import FinancialBalance from './pages/FinancialBalancePage'
 import AddCoursePage from './pages/AddCoursePage'
 import CreateCoursePage from './pages/CreateCoursePage'
 
+import PasswordReset from './pages/PasswordReset'
+import CreateCoursePage from './pages/CreateCoursePage'
+import UnofficialTranscript from './pages/UnofficialTranscript'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -44,13 +48,27 @@ const router = createBrowserRouter([
     element: <RegisteredCourses/>
   },
   {
+    path: '/FinancialBalance',
+    element: <FinancialBalance/>
+  },
+  {
     path: '/AddCoursePage',
     element: <AddCoursePage/>
   },
   {
     path: '/CreateCoursePage',
     element: <CreateCoursePage/>
-  }
+    path: 'PasswordReset',
+    element: <PasswordReset/>
+  },
+  {
+    path: 'CreateCoursePage',
+    element: <CreateCoursePage/>
+  },
+  {
+    path: '/UnofficialTranscript',
+    element: <UnofficialTranscript/>
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

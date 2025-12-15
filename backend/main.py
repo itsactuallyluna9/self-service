@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 
 # allow absolute imports from the backend directory
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -28,8 +29,11 @@ def create_app():
     def handle_exception(e):
         response = {
             "success": False,
-            "error": str(e)
+            "message": str(e),
+            "repr": repr(e),
+            "traceback": traceback.format_exception(type(e), e, e.__traceback__)
         }
+        print(f"Error: {str(e)}\nTraceback: {repr(e)}")
         return jsonify(response), 500
 
     db.init_app(app)

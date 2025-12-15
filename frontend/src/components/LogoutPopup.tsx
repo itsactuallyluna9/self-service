@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../cssFiles/Logout.css';
+import '../cssFiles/LogoutPopup.css';
 
 interface LogoutModalProps {
   isOpen: boolean;

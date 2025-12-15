@@ -32,7 +32,7 @@ function DisplayCourses() {
     const [popupMessage, setPopupMessage] = useState("")
     const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
-    const [cartButtonText, setCartButtonText] = useState("Add course to cart")
+    const [cartButtonText, setCartButtonText] = useState("Add to cart")
     const [canAddCart, setCanAddCart] = useState(true) 
     const nav = useNavigate()
     const location = useLocation()
@@ -50,6 +50,7 @@ function DisplayCourses() {
       coursecode: data.coursecode,
       title: data.title,
       department: data.department,
+      openseats: data.openseats,
     };
 
     const result = AddCourseToCart(cartData);
@@ -105,6 +106,7 @@ function DisplayCourses() {
 
   return (
     <>
+    <div className="CourseInformationPage-wrapper">
     {showPopup && (
     <div className="popup-overlay">
       {popupMessage}
@@ -181,7 +183,7 @@ function DisplayCourses() {
                     )}
                   </div>
                   <div className='card-column'>
-                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{cartButtonText}</button>
+                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{course.openseats > 0 ? "Add Cart" : "Waitlist"}</button>
                   </div>
                 </div> 
               </div> /* course-card */
@@ -194,6 +196,7 @@ function DisplayCourses() {
         <CartTemplate></CartTemplate>
       </div> 
     </div> {/* split */}
+    </div> {/* wrapper */}
     </>
   );
 }

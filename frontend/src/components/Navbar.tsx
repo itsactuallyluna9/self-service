@@ -15,10 +15,9 @@ const Navbar = () => {
     }
     const handleConfirmSignOut = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
-        localStorage.removeItem('UserID')
+        localStorage.removeItem('UserId');
         localStorage.removeItem('UserType')
         console.log("User signed out.")
-        
         return navigate('/SignIn/')
     }
 
@@ -40,13 +39,15 @@ const Navbar = () => {
                     <>
                         <a href="/CourseInformationPage">Courses</a>
                         <a href="/RegisteredCourses">My Schedule</a>
-                <a href="/FinancialBalance">Financial Balance</a>
+                        <a href="/FinancialBalance">Financial Balance</a>
+                        <a href="/UnofficialTranscript">Unofficial Transcript</a>
                     </>
                 )}
                 {/*Add links here for the Registrar */}
                 {localStorage.getItem('UserType') == "REGISTRAR" && (
                     <>
                         <a href="/AddCoursePage">Add Course</a>
+                        <a href="/CreateCoursePage">Create Course</a>
                     </>
                 )}
 

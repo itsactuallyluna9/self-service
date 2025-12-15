@@ -36,6 +36,13 @@ def get_waitlist(course):
 
         return waitlist
 
+# dummy classes with no seats available:
+# (1,2025,18,0,0,'Block 7','Jack Messitt',121),
+# (2,2025,25,0,0,'Block 2','Sherri-Lynn Putz, Sophie Gillett',122),
+# (3,2025,25,0,0,'Block 2','Christi Johnson',123),
+# (4,2025,25,0,0,'Block 8','Niloofar Kamran',124),
+# (5,2025,25,0,0,'Block 1','Ajit Chavan',125),
+
 #Calculate Position of Student in Waitlist of Course
 def get_waitlist_position(username, course):
     waitlist = get_waitlist(course) 

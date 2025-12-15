@@ -4,14 +4,14 @@ def get_waitlist(course):
     conn = get_db()
     with conn.cursor(dictionary = True) as cursor:
         #Check if class is full (if not, there is no waitlist)
-        cursor.execute("SELECT openseats FROM COURSE_OFFER WHERE id = ?", (course))
+        cursor.execute("SELECT openseats FROM COURSE_OFFER WHERE id = ?", (course,))
         course_open = cursor.fetchone()
         course_open = cursor["openseats"]
         if course_open > 0:
             return None
 
         #Get rows of registered students
-        cursor.execute("SELECT userName, enrollmentDate FROM REGISTERED_COURSES WHERE keycode = ?", (course))
+        cursor.execute("SELECT userName, enrollmentDate FROM REGISTERED_COURSES WHERE keycode = ?", (course,))
         rows = cursor.fetchall()
         registered = []
         
@@ -20,7 +20,7 @@ def get_waitlist(course):
             registered += [(row['userName'], row['enrollmentDate'])]
 
         #Get total seats of Course
-        cursor.execute("SELECT totalseats FROM COURSE_OFFER WHERE id = ?",(course))
+        cursor.execute("SELECT totalseats FROM COURSE_OFFER WHERE id = ?",(course,))
         course_seats = cursor.fetchone()
         course_seats = course_seats["totalseats"]
 

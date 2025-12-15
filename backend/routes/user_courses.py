@@ -198,7 +198,7 @@ def registering_courses():
                     #call function for calculating spot on waitlist
                     waitlist_position = get_waitlist_position(username, course)
 
-                return jsonify({"success": True, "waitlist_position": waitlist_position})
+            return jsonify({"success": True })
 
     except Exception as e:
         conn.rollback() #rollback if there is any problem

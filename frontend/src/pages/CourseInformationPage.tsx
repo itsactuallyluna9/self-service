@@ -8,22 +8,22 @@ import CartTemplate from '../components/CartTemplate'
 
 interface CourseData {
   id: number;
-  department: string;
-  title: string;
-  professor: string;
-  academicyear: string;
-  blocknum: string;
-  openseats: number;
-  credits: number;
+  department: string | null;
+  title: string | null;
+  professor: string | null;
+  academicyear: string | null;
+  blocknum: string | null;
+  openseats: number | null;
+  credits: number | null;
   fee: number | null;
-  coursecode: number;
+  coursecode: number | null;
 }
 
 interface CartProps { // edit later to have full info
     id : number,
-    title : string,
-    department : string,
-    coursecode : number,
+    title : string | null,
+    department : string | null,
+    coursecode : number | null,
 
 }
 
@@ -133,39 +133,49 @@ function DisplayCourses() {
                   >
                     {course.department}{course.coursecode}: {course.title}
                   </h2>
-                  <p>Year: {course.academicyear} |
                   
-                    Term: {Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
+                  <p>Year: {course.academicyear && course.academicyear} {!course.academicyear && "Data Missing"} |
+                   
+                    Term:  {course.blocknum && Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
                     ? "Fall"
-                    : Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
+                    : course.blocknum && Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
                     ? "Spring"
-                    : course.blocknum.includes("Fall")
+                    : course.blocknum && course.blocknum.includes("Fall")
                     ? "Fall"
-                    : course.blocknum.includes("Spring")
+                    : course.blocknum && course.blocknum.includes("Spring")
                     ? "Spring"
                     : ""}
+                    {!course.blocknum && "Data Missing"}
                   </p>
-                  {course.blocknum !== null && (
+                  {!course.blocknum && (
+                    <p>Data Missing</p>
+                  )}
+                  {course.blocknum && (
                     <p>{course.blocknum}</p>
                   )}
+
 
                 </div> {/* card-left */}
                 <div className = 'card-right'>
                   <div className='card-column'>
-                    <p>{course.professor}</p>
+                    <p>{ course.professor && course.professor}</p>
+                    <p>{ !course.professor && "Data Missing"}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.credits}</h3> 
-                    <p>Credit{course.credits == 1 ? "" : "s"}</p>
+                    <h3>{ course.credits && course.credits }</h3> 
+                    <h3>{ !course.credits && "Data Missing" }</h3>
+                    <p>Credit{course.credits && course.credits == 1 ? "" : "s"}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.openseats}</h3> 
+                    <h3>{course.openseats && course.openseats}</h3> 
+                    <h3>{!course.openseats && "Data Missing"}</h3>
                     <p>Seats Left</p>
                   </div>
                   <div className='card-column'>
                     {course.fee !== null && (
                       <div>
-                        <h3>${course.fee}</h3> 
+                        <h3>${course.fee && course.fee}</h3> 
+                        <h3>{!course.fee && "Data Missing"}</h3>
                         <p>Applicable fees</p>
                       </div>
                     )}

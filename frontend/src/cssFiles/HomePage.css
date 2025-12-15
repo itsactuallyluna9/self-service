@@ -1,0 +1,8 @@
+.home-page {
+    position: relative;
+    top: 90px;
+    text-align: center;
+}
+.home-page h1 {
+    color: black;
+}

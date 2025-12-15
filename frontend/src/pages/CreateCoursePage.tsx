@@ -6,7 +6,7 @@ interface CourseData {
   department: string
   coursecode: number
   professor: string
-  block: number
+  session: number
   coursetypes: string
   credits: number
   description: string
@@ -34,15 +34,16 @@ function CreateCoursePage() {
     e.preventDefault()
     setError('')
 
-    if (!department || !courseCode || !professor || !block || !credits || !seats || !description) {
+    if (department == '' || courseCode == '' || professor == '' || block == '' || credits == '' || seats == '' || description == '' || title == '') {
       setError("Please enter all required fields")
+      return
     }
 
     const course: CourseData = {
       department: department,
       coursecode: Number(courseCode),
       professor: professor,
-      block: Number(block),
+      session: Number(block),
       coursetypes: attributes,
       credits: Number(credits),
       description: description,
@@ -54,21 +55,24 @@ function CreateCoursePage() {
     console.log(JSON.stringify(course))
     console.log(course)
     try {
-      const response = await fetch('https://10.101.128.72:6001/courses/create', {
+      const response = await fetch('https://10.101.128.72:6001/api/courses/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(course),
+            mode: 'cors',
+            redirect: 'error'
             })
       console.log("Response:" + response.ok)
       if (!response.ok){
         throw new Error('Failed to create a course')
       }
+      return await response.json()
     } catch(err) {
       console.log('An Error Has Occurred' + err)
+      setError('An Error Has Occurred, Please Try Again Later')
     }
-
   }
 
   return (
@@ -77,6 +81,16 @@ function CreateCoursePage() {
     <div className='create-course'>
       <form onSubmit={handleSubmit}>
         <h1>Create Course</h1>
+        <div className="title">
+          <label htmlFor="title">Title:</label>
+          <input
+            type='text'
+            name='title'
+            id='title'
+            value={title}
+            placeholder='Required'
+            onChange = {(e) => setTitle(e.target.value)}/>
+        </div>
         <div className="row">
           <div className="department">
           <label htmlFor="department">Department:</label>
@@ -85,6 +99,7 @@ function CreateCoursePage() {
             name='department'
             id='department'
             value={department}
+            placeholder='Required'
             onChange = {(e) => setDepartment(e.target.value)}
           />
           </div>
@@ -95,6 +110,7 @@ function CreateCoursePage() {
             name='courseCode'
             id='courseCode'
             value={courseCode}
+            placeholder='Required'
             onChange = {(e) => setCourseCode(e.target.value)}
           />
           </div>
@@ -105,6 +121,7 @@ function CreateCoursePage() {
               name='professor'
               id='professor'
               value={professor}
+              placeholder='Required'
               onChange = {(e) => setProfessor(e.target.value)}
             />
           </div>
@@ -115,6 +132,7 @@ function CreateCoursePage() {
               name='block'
               id='block'
               value={block}
+              placeholder='Required'
               onChange = {(e) => setBlock(e.target.value)}
             />
           </div>
@@ -151,6 +169,7 @@ function CreateCoursePage() {
               name='credits'
               id='credits'
               value={credits}
+              placeholder='Required'
               onChange = {(e) => setCredits(e.target.value)}
             />
           </div>
@@ -171,6 +190,7 @@ function CreateCoursePage() {
               name='seats'
               id='seats'
               value={seats}
+              placeholder='Required'
               onChange = {(e) => setSeats(e.target.value)}
             />
           </div>
@@ -181,17 +201,12 @@ function CreateCoursePage() {
             name='description'
             id='description'
             value={description}
+            placeholder='Required'
             onChange = {(e) => setDescription(e.target.value)}
           />
         </div>
-        <input
-          type='text'
-          name='title'
-          id='title'
-          value={title}
-          onChange = {(e) => setTitle(e.target.value)}/>
+        {error && <p>{error}</p>}
         <button type="submit">Submit</button>
-        
       </form>
     </div>
     </>

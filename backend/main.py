@@ -28,8 +28,10 @@ def create_app():
     def handle_exception(e):
         response = {
             "success": False,
-            "error": str(e)
+            "message": str(e),
+            "traceback": repr(e)
         }
+        print(f"Error: {str(e)}\nTraceback: {repr(e)}")
         return jsonify(response), 500
 
     db.init_app(app)

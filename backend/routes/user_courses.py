@@ -121,14 +121,14 @@ def create_course():
     description = data['description']
     prereqs = data.get('prereqs')
     coursetypes = data.get('coursetypes')
-    conn = get_db()
-    with conn.cursor(dictionary=True) as cursor:
+
+    with get_db().cursor(dictionary=True) as cursor:
         cursor.execute(
             'INSERT INTO COURSE_DATA(coursecode, title, credits, department, fee, description, prereqs, coursetypes)'
             'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',(coursecode, title, credits, department, fee, description, prereqs, coursetypes))
+        course_id = cursor.lastrowid
 
-        conn.commit()
-    return jsonify({"success": True})
+    return jsonify({"success": True, "id": course_id})
 
 
 @bp.post('/courses/list_course')

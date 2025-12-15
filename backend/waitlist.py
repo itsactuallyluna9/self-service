@@ -4,14 +4,18 @@ def get_waitlist(course):
     conn = get_db()
     with conn.cursor(dictionary = True) as cursor:
         #Check if class is full (if not, there is no waitlist)
-        cursor.execute("SELECT openseats FROM COURSE_OFFER WHERE id = ?", (course))
+        cursor.execute("SELECT openseats FROM COURSE_OFFER WHERE id = ?", (course,))
         course_open = cursor.fetchone()
-        course_open = cursor["openseats"]
+        if not course_open:
+            # invalid course id
+            return []
+        course_open = course_open["openseats"]
         if course_open > 0:
-            return None
+            # class is not full, no waitlist
+            return []
 
         #Get rows of registered students
-        cursor.execute("SELECT userName, enrollmentDate FROM REGISTERED_COURSES WHERE keycode = ?", (course))
+        cursor.execute("SELECT userName, enrollmentDate FROM REGISTERED_COURSES WHERE keycode = ?", (course,))
         rows = cursor.fetchall()
         registered = []
         
@@ -20,7 +24,7 @@ def get_waitlist(course):
             registered += [(row['userName'], row['enrollmentDate'])]
 
         #Get total seats of Course
-        cursor.execute("SELECT totalseats FROM COURSE_OFFER WHERE id = ?",(course))
+        cursor.execute("SELECT totalseats FROM COURSE_OFFER WHERE id = ?",(course,))
         course_seats = cursor.fetchone()
         course_seats = course_seats["totalseats"]
 
@@ -35,6 +39,13 @@ def get_waitlist(course):
         waitlist = [student[0] for student in sorted_registered]
 
         return waitlist
+
+# dummy classes with no seats available:
+# (1,2025,18,0,0,'Block 7','Jack Messitt',121),
+# (2,2025,25,0,0,'Block 2','Sherri-Lynn Putz, Sophie Gillett',122),
+# (3,2025,25,0,0,'Block 2','Christi Johnson',123),
+# (4,2025,25,0,0,'Block 8','Niloofar Kamran',124),
+# (5,2025,25,0,0,'Block 1','Ajit Chavan',125),
 
 #Calculate Position of Student in Waitlist of Course
 def get_waitlist_position(username, course):

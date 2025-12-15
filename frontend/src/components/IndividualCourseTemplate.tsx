@@ -6,30 +6,21 @@ import register from './Register'
 
 
 interface CourseProps {
-    academicyear: number,
-    blocknum: string,
-    coursecode: number,
+    academicyear: number | null,
+    blocknum: string | null,
+    coursecode: number | null,
     coursetypes: null | string,
-    credits: number,
-    department: string,
+    credits: number | null,
+    department: string | null,
     description: null | string,
     fee: null | number,
-    professor: any,
+    professor: string | null,
     id: number,
     prereqs: null | string,
-    totalseats: number,
-    title: string,
-    openseats: number,
-    waitcount: number
-}
-
-
-interface CartProps { // edit later to have full info
-    id : number,
-    title : string,
-    department : string,
-    coursecode : number,
-
+    totalseats: number | null,
+    title: string | null,
+    openseats: number | null,
+    waitcount: number | null
 }
 
 
@@ -58,30 +49,34 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                 <div className="course-info">
                     <div className="course-info-left">
                         <p>
-                        {data.blocknum} | Year: {data.academicyear}
+                        {data.blocknum && data.blocknum} {!data.blocknum && "Block: Data Missing"} | 
+                        Year: {data.academicyear && data.academicyear} {!data.academicyear && "Data Missing"}
                         </p>
                     </div>
                     <div className="course-info-right">
-                        {data.openseats > 0 && (
+                        { data.openseats && data.openseats > 0 && (
                             <>
-                                <p>Seats: {data.totalseats} | Seats Left: {data.openseats}</p>
+                                <p>Seats: {data.totalseats && data.totalseats} {!data.totalseats && "Data Missing"} 
+                                | Seats Left: {data.openseats && data.openseats} {!data.openseats && "Data Missing"}</p>
                             </>
                         )}
-                        {data.openseats <= 0 && (
+                        {data.openseats && data.openseats <= 0 && (
                             <p>In Waitlist: {data.waitcount}</p>
                         )}
+                        {!data.openseats && 
+                        <p>Seats: Data Missing | Seats Left: Data Missing</p>}
                     </div>
                 </div>
                 <div className="instructor-info">
                     <p>Instructors:</p>
                     <div className="instructor-label">
-                        <p>{data.professor}</p>
+                        <p>{data.professor && data.professor} {!data.professor && "Data Missing"}</p>
                     </div>
                 </div>
                 <div className="additional-course-info">
                     <div className="course-description">
                         <p>Description:</p>
-                        <p>{data.description ? data.description : 'None'}</p>
+                        <p>{data.description && data.description} {!data.description && "Data Missing"}</p>
                     </div>
                     <div className="course-specs">
                         <p>Prerequisites: {data.prereqs ? data.prereqs : 'None'}</p>
@@ -90,7 +85,7 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                         <p>Department: {data.department} </p>
                         <p>Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
                         <p>Fees: {data.fee ? `$${data.fee}` : 'None'}</p>
-                        <p>Credits: {data.credits}</p>
+                        <p>Credits: {data.credits && data.credits} {!data.credits && "Data Missing"}</p>
                     </div>
                 </div>
                 <div className='buttons'>

@@ -12,8 +12,9 @@ import FilterPage from './pages/FilterPage'
 import RegisteredCourses from './pages/RegisteredCourses'
 import FinancialBalance from './pages/FinancialBalancePage'
 import AddCoursePage from './pages/AddCoursePage'
-import PasswordReset from './pages/PasswordReset'
 import CreateCoursePage from './pages/CreateCoursePage'
+
+import PasswordReset from './pages/PasswordReset'
 import UnofficialTranscript from './pages/UnofficialTranscript'
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
     element: <AddCoursePage/>
   },
   {
+    path: '/CreateCoursePage',
+    element: <CreateCoursePage/>
+  },
+  {
     path: 'PasswordReset',
     element: <PasswordReset/>
   },
@@ -64,11 +69,7 @@ const router = createBrowserRouter([
   {
     path: '/UnofficialTranscript',
     element: <UnofficialTranscript/>
-  }
-/*  {
-    path: '/test',
-    element: <Test/>
-  },*/
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -9,12 +9,12 @@ interface UTCourseProps {
 const Course = ({ course, keyId }: UTCourseProps) => {
   return (
     <div key={keyId} className="ut-course">
-      <p>{course.coursecode}</p>
-      <p>{course.title}</p>
-      <p>{course.subtype}</p>
-      <p>{course.grade}</p>
-      <p>{course.credits}</p>
-      <p>{course.qualityPoints}</p>
+      <p className="col">{course.coursecode}</p>
+      <p className="col-title">{course.title}</p>
+      <p className="col">{course.subtype}</p>
+      <p className="col">{course.grade}</p>
+      <p className="col">{course.credits.toFixed(2)}</p>
+      <p className="col">{course.qualityPoints.toFixed(2)}</p>
     </div>
   );
 };

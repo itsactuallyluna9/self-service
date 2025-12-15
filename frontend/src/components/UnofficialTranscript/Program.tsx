@@ -9,17 +9,17 @@ const Program = ({ programs }: UTProgramsProps) => {
   return (
     <>
     <div className="ut-term-header">
-        <p>Program / Degree / Curriculum</p>
-        <p>Degree Awarded</p>	
-        <p>Date Granted</p>
+        <p className="col-program">Program / Degree / Curriculum</p>
+        <p className='col-mid'>Degree Awarded</p>	
+        <p className='col-mid'>Date Granted</p>
     </div>
     { programs.map((program, idx) => (
         <div key={idx} className="ut-course">
-        <p>{program.program}/{program.degree}/{program.curriculum}</p> 
-        <p>{program.degreeAwarded
+        <p className='col-program'>{program.program}/{program.degree}/{program.curriculum}</p> 
+        <p className='col-mid'>{program.degreeAwarded
             ? `Awarded ${program.dateGranted}`
             : "No Degree Awarded Yet"}</p>
-        <p>{program.dateGranted}</p>
+        <p className="col-mid">{program.dateGranted}</p>
         </div>
   ))}
   </>

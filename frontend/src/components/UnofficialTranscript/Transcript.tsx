@@ -14,7 +14,7 @@ const Transcript = ({ utData }: UTProps) => {
         <h1>Unofficial Transcript</h1>
         <h2>Cornell College</h2>
         <h2>Office of the Registrar</h2>
-        <p>600 First Street SW</p>
+        <p>600 First Street SW </p>
         <p>Mount Vernon, IA 52314</p>
       </div>
 
@@ -30,7 +30,7 @@ const Transcript = ({ utData }: UTProps) => {
       ))}
 
       <div className='ut-right'>
-        <p><strong>Overall Credits:</strong> {utData.overallCredits}</p>
+        <p><strong>Overall Credits:</strong> {utData.overallCredits.toFixed(2)}</p>
       </div>
 
     </div>

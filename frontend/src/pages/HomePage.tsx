@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router'
 
 import Navbar from '../components/Navbar'
+import '../cssFiles/HomePage.css'
 //import { createBrowserRouter } from "react-router";
 //import { RouterProvider } from "react-router/dom";
 //import  BrowserRouter from 'react-router-dom'
@@ -14,8 +15,8 @@ function App() {
   return (
     <>
       <Navbar />
-    <div>
-      <h1>Welcome to Self Service</h1>
+    <div className="home-page">
+      <h1>Welcome to Self Service!</h1>
     </div>
     </>
   )

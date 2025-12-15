@@ -99,6 +99,7 @@
   .create-course textarea {
     height: 170px;
     resize: none;
+    font-style: 'ariel';
   }
   
   /* Focus state */
@@ -125,4 +126,8 @@
   .create-course button:hover {
     background-color: #432660;
   }
-  
+  .create-course p {
+    color: red;
+    align-self: center;
+    margin: 0px;
+  }

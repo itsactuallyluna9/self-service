@@ -1,0 +1,41 @@
+{
+  "userID": "",
+  "fullname" : "",
+  "major": "",
+  "minor":"",
+  "over_all_gpa": 4.0,
+  "total_credit": 4.0,
+  "transcript": [
+    {
+      "year": 2023,
+      "terms":[{
+        "term": "Fall",
+        "courses":[
+           {
+            "course": "CSC 140",
+            "title": "Foundtns Computr Sci",
+            "subtype": "Course",
+            "grade": "A",
+            "credits": 1.0,
+            "qualityPoints": 4.0
+            },
+            {
+            "course": "INT 106",
+            "title": "Gaming (W)",
+            "subtype": "Writing",
+            "grade": "A",
+            "credits": 1.0,
+            "qualityPoints": 4.0
+            }
+        ]
+      }, {
+        "term": "Spring",
+        "courses": []
+      }]
+    },
+    {
+      "year": 2024,
+      "terms":[{"term": "Fall", "courses": []}, {"term": "Spring", "courses": []}]
+    }
+  ]
+}

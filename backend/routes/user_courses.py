@@ -52,14 +52,13 @@ def drop_registered_course(username, course_id):
                 'UPDATE COURSE_OFFER SET openseats = openseats + 1 WHERE id = ?;',
                 (course_id,),
             )
-            conn.commit()
             if username in get_waitlist(course_id):
                 cursor.execute(
                     'UPDATE COURSE_OFFER SET waitcount = waitcount - 1 WHERE id = ?;',
                     (course_id,),
                 )
-                conn.commit()
 
+        conn.commit()
         return jsonify({'success': deleted > 0})
     
 #This function checks if given courses offered at the same block 

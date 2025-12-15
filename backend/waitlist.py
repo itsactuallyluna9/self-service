@@ -6,9 +6,13 @@ def get_waitlist(course):
         #Check if class is full (if not, there is no waitlist)
         cursor.execute("SELECT openseats FROM COURSE_OFFER WHERE id = ?", (course,))
         course_open = cursor.fetchone()
+        if not course_open:
+            # invalid course id
+            return []
         course_open = course_open["openseats"]
         if course_open > 0:
-            return None
+            # class is not full, no waitlist
+            return []
 
         #Get rows of registered students
         cursor.execute("SELECT userName, enrollmentDate FROM REGISTERED_COURSES WHERE keycode = ?", (course,))

@@ -6,7 +6,7 @@ import '../cssFiles/CartTemplate.css'
 import {useNavigate} from 'react-router'
 import register from './Register'
 
-
+//replacing missing data with -1, will never happen because you cannot add courses with missing data in them
 
 const CartTemplate = () => {
   const [error, setError] = useState('')
@@ -58,7 +58,7 @@ const handleRegister = async (e: React.FormEvent) => {
                   
                   <form>
                     <h2
-                      onClick={() => toCourseInfo(course.coursecode)}
+                      onClick={() => toCourseInfo(course.coursecode ?? -1)}
                       style={{ cursor: "pointer" }}
                     >
                       {course.department}
@@ -69,7 +69,7 @@ const handleRegister = async (e: React.FormEvent) => {
                     <div className="buttonRow">
                       <button
                         type="button"
-                        onClick={() => handleRemove(course.coursecode)}
+                        onClick={() => handleRemove(course.coursecode ?? -1)}
                       >
                         Remove
                       </button>

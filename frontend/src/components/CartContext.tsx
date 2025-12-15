@@ -4,10 +4,9 @@ import "../cssFiles/Cart.css"; // you probably don't need CSS in the context fil
 
 export interface CartProps { // edit later to have full info
     id : number,
-    title : string,
-    department : string,
-    coursecode : number,
-    openseats : number,
+    title : string | null,
+    department : string | null,
+    coursecode : number | null,
 
 }
 
@@ -45,6 +44,10 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
     const exists = cartCourses.some(c => c.coursecode === course.coursecode);
 
     if (exists) return false;
+    
+    if (!course.id || !course.title || !course.department || !course.coursecode){
+      return false
+    }
 
     setCartCourses(prev => [...prev, course]);
     return true;

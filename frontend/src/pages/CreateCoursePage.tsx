@@ -4,15 +4,16 @@ import { useState }from 'react'
 
 interface CourseData {
   department: string
-  courseCode: number
+  coursecode: number
   professor: string
   block: number
-  attributes: string | null
+  coursetypes: string
   credits: number
   description: string
-  fee: number | null
-  prereqs: string | null
+  fee: number
+  prereqs: string
   seats: number
+  title: string
 }
 
 function CreateCoursePage() {
@@ -26,33 +27,44 @@ function CreateCoursePage() {
   const [fee, setFee] = useState('')
   const [prereqs, setPrereqs] = useState('')
   const [seats, setSeats] = useState('')
+  const [title, setTitle] = useState('')
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+
+    if (!department || !courseCode || !professor || !block || !credits || !seats || !description) {
+      setError("Please enter all required fields")
+    }
 
     const course: CourseData = {
       department: department,
-      courseCode: Number(courseCode),
+      coursecode: Number(courseCode),
       professor: professor,
       block: Number(block),
-      attributes: attributes,
+      coursetypes: attributes,
       credits: Number(credits),
       description: description,
       fee: Number(fee),
       prereqs: prereqs,
-      seats: Number(seats)
+      seats: Number(seats),
+      title: title,
     }
-
+    console.log(JSON.stringify(course))
     console.log(course)
     try {
-      const response = await fetch('https://10.101.128.56:6001/api/create-course', {
+      const response = await fetch('https://10.101.128.72:6001/courses/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(course),
             })
-      return response.ok
+      console.log("Response:" + response.ok)
+      if (!response.ok){
+        throw new Error('Failed to create a course')
+      }
     } catch(err) {
       console.log('An Error Has Occurred' + err)
     }
@@ -63,7 +75,7 @@ function CreateCoursePage() {
     <>
     <Navbar/>
     <div className='create-course'>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>Create Course</h1>
         <div className="row">
           <div className="department">
@@ -114,52 +126,72 @@ function CreateCoursePage() {
               type='text'
               name='attributes'
               id='attributes'
+              placeholder="Enter each attribute with a comma in between"
               value={attributes}
               onChange = {(e) => setAttributes(e.target.value)}
             />
           </div>
+          <div className='prereqs'>
+            <label htmlFor="prereqs">Prerequisites:</label>
+              <input
+                type='text'
+                name='prereqs'
+                id='prereqs'
+                placeholder="Enter each prerequisite with a comma in between and a space in between department and course code"
+                value={prereqs}
+                onChange = {(e) => setPrereqs(e.target.value)}
+              />
+            </div>
         </div>
-        <label htmlFor="credits">Credits:</label>
+        <div className="row">
+          <div className="credits">
+            <label htmlFor="credits">Credits:</label>
+            <input
+              type='text'
+              name='credits'
+              id='credits'
+              value={credits}
+              onChange = {(e) => setCredits(e.target.value)}
+            />
+          </div>
+          <div className="fees">
+            <label htmlFor="fee">Fees:</label>
+            <input
+              type='text'
+              name='fee'
+              id='fee'
+              value={fee}
+              onChange = {(e) => setFee(e.target.value)}
+            />
+          </div>
+          <div className="seats">
+            <label htmlFor="seats">Seats:</label>
+            <input
+              type='text'
+              name='seats'
+              id='seats'
+              value={seats}
+              onChange = {(e) => setSeats(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="description">
+          <label htmlFor="description">Description:</label>
+          <textarea
+            name='description'
+            id='description'
+            value={description}
+            onChange = {(e) => setDescription(e.target.value)}
+          />
+        </div>
         <input
           type='text'
-          name='credits'
-          id='credits'
-          value={credits}
-          onChange = {(e) => setCredits(e.target.value)}
-        />
-        <label htmlFor="description">Description:</label>
-        <input
-          type='text'
-          name='description'
-          id='description'
-          value={description}
-          onChange = {(e) => setDescription(e.target.value)}
-        />
-        <label htmlFor="fee">Fees:</label>
-        <input
-          type='text'
-          name='fee'
-          id='fee'
-          value={fee}
-          onChange = {(e) => setFee(e.target.value)}
-        />
-        <label htmlFor="prereqs">Prerequisites:</label>
-        <input
-          type='text'
-          name='prereqs'
-          id='prereqs'
-          value={prereqs}
-          onChange = {(e) => setPrereqs(e.target.value)}
-        />
-        <label htmlFor="seats">Seats:</label>
-        <input
-          type='text'
-          name='seats'
-          id='seats'
-          value={seats}
-          onChange = {(e) => setSeats(e.target.value)}
-        />
-        <button onClick={handleSubmit}>Submit</button>
+          name='title'
+          id='title'
+          value={title}
+          onChange = {(e) => setTitle(e.target.value)}/>
+        <button type="submit">Submit</button>
+        
       </form>
     </div>
     </>

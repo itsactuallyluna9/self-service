@@ -181,7 +181,7 @@ def registering_courses():
 
                 conn.commit() # commit the change
 
-                if seats > 0:
+                if seats[0] > 0:
                     print(f"{username} is registered to {course}")
                     cursor.execute(
                         'UPDATE COURSE_OFFER SET openseats = openseats - 1 WHERE id = ?;',
@@ -205,4 +205,3 @@ def registering_courses():
         conn.rollback() #rollback if there is any problem
         return jsonify({"error": str(e), "success": False}), 400
 
-# unsupported > between tuple and int

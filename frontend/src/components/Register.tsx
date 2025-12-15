@@ -6,6 +6,7 @@ export const register = async (
     console.log("Registering for courses...");
 
     try {
+        console.log({username, courseIDs})
         // Replace with real API call
         const response = await fetch('https://10.101.128.72:6001/api/register_courses', {
           method: 'POST',
@@ -24,6 +25,8 @@ export const register = async (
         if (response.ok && data.success) {
             return true;
         }
+
+       // data.waitlist_position = number 
 
         console.error("Registration failed:", data);
         return false;

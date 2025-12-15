@@ -51,8 +51,8 @@ const handleRegister = async (e: React.FormEvent) => {
               
               <div key={course.id}>
                 <div
-                  className={`courseDisplay ${
-                    removingIds.includes(course.coursecode ?? -1) ? "removing" : ""
+                  className={`${course.openseats == 0 ? "courseDisplay" : "waitlistDisplay"} ${
+                    removingIds.includes(course.coursecode) ? "removing" : ""
                   }`}
                 >
                   
@@ -63,7 +63,9 @@ const handleRegister = async (e: React.FormEvent) => {
                     >
                       {course.department}
                       {course.coursecode}: {course.title}
+                      {course.openseats == 0 ? "" : "  (Waitlist)"}
                     </h2>
+                    
                     <div className="buttonRow">
                       <button
                         type="button"

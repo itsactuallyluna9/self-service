@@ -50,7 +50,6 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok){
-                
                 if (data.success){
                     console.log("Login successful.", data)
                     localStorage.setItem('UserID', username)
@@ -58,10 +57,10 @@ function SignIn() {
                     return navigate('/HomePage/')
         
                 }
-                else {
+            }
+            else {
                 console.log("Login failed.", data);
                 setError("Username or password is incorrect.")
-                }
             }
         }
         catch (err) {
@@ -99,8 +98,10 @@ function SignIn() {
                 <button onClick={handleSubmit}>Submit</button>
                 </div>
 
-                {error && <p>{error}</p>}
+                <div className="error">{error && <p>{error}</p>}</div>
             </form>
+
+            <a href="/PasswordReset" className="reset-link">Forgot password?</a>
         </div>
         
     )

@@ -2,7 +2,7 @@ import logo from '../assets/Cornell_logo.png'
 import '../cssFiles/Navbar.css'
 import { useNavigate } from 'react-router'
 import { useState } from 'react';
-import LogoutModal from './Logout';
+import LogoutModal from './LogoutPopup';
 
 const Navbar = () => {
 
@@ -16,8 +16,8 @@ const Navbar = () => {
     const handleConfirmSignOut = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
         localStorage.removeItem('UserId');
+        localStorage.removeItem('UserType')
         console.log("User signed out.")
-        
         return navigate('/SignIn/')
     }
 
@@ -39,7 +39,10 @@ const Navbar = () => {
                     <>
                         <a href="/CourseInformationPage">Courses</a>
                         <a href="/RegisteredCourses">My Schedule</a>
-                    </>)}
+                        <a href="/FinancialBalance">Financial Balance</a>
+                        <a href="/UnofficialTranscript">Unofficial Transcript</a>
+                    </>
+                )}
                 {/*Add links here for the Registrar */}
                 {localStorage.getItem('UserType') == "REGISTRAR" && (
                     <>

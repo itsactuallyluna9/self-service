@@ -24,6 +24,7 @@ interface CartProps { // edit later to have full info
     title : string,
     department : string,
     coursecode : number,
+    openseats : number,
 
 }
 
@@ -50,6 +51,7 @@ function DisplayCourses() {
       coursecode: data.coursecode,
       title: data.title,
       department: data.department,
+      openseats: data.openseats,
     };
 
     const result = AddCourseToCart(cartData);
@@ -171,7 +173,7 @@ function DisplayCourses() {
                     )}
                   </div>
                   <div className='card-column'>
-                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{cartButtonText}</button>
+                    <button type="button" disabled={!canAddCart} onClick={()=>{handleAdd(course)}}>{course.openseats > 0 ? "Add Cart" : "Waitlist"}</button>
                   </div>
                 </div> 
               </div> /* course-card */

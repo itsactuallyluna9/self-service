@@ -111,7 +111,7 @@ def check_session_conflicts(conn, courses_to_register, username):
     return False
 
 
-@bp.post('/courses/create/')
+@bp.post('/courses/create')
 def create_course():
     data = request.json
     coursecode = data['coursecode']
@@ -205,3 +205,4 @@ def registering_courses():
         conn.rollback() #rollback if there is any problem
         return jsonify({"error": str(e), "success": False}), 400
 
+# unsupported > between tuple and int

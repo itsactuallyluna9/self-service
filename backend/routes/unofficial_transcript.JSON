@@ -1,10 +1,17 @@
 {
-  "userID": "",
+  "username": "",
   "fullname" : "",
-  "major": "",
-  "minor":"",
-  "over_all_gpa": 4.0,
-  "total_credit": 4.0,
+  "programs": [
+    {
+      "program": "",
+      "degree": "",
+      "curriculum": "",
+      "degreeAwarded": "",
+      "dataGranted": ""
+    }
+  ],
+  "overllCredits": 20.0, //must be float
+  "overallGPA": 4.0, //must be float
   "transcript": [
     {
       "year": 2023,
@@ -20,7 +27,7 @@
             "qualityPoints": 4.0
             },
             {
-            "course": "INT 106",
+            "coursecode": "INT 106",
             "title": "Gaming (W)",
             "subtype": "Writing",
             "grade": "A",

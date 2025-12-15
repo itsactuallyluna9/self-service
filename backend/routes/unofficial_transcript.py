@@ -1,26 +1,41 @@
 from flask import Blueprint, jsonify, request
-from user_courses import calculate_overall_gpa, calculate_gpa_per_semester
 from backend.db import get_db
+from datetime import date
+
 
 bp = Blueprint('unofficial_transcript', __name__)
 
-def get_student_data(conn, username):
-  query = f"SELECT fullname, major, minor FROM STUDENTS JOIN USERS ON STUDENTS.id = USERS.userid WHERE username=?;"
+def get_student_fullname(conn, username):
+  query = f"SELECT fullname FROM STUDENTS JOIN USERS ON STUDENTS.id = USERS.userid WHERE username=?;"
 
   with conn.cursor(dictionary=True) as cursor:
     cursor.execute(query, (username,))
     row = cursor.fetchone()
   
+  #if row is None then student data is not added to the table
   if row == None:
     return None
-  
-  studen_data = {
-    "fullname" : row[0],
-    "major" : row[1],
-    "minor" : row[2]
-  }
 
-  return studen_data
+  return row
+
+def get_programs(conn, username):
+  query = f"SELECT ACADEMIC_PROGRAMS.degree, ACADEMIC_PROGRAMS.curriculum, STUDENT_STUDY_FIELD.degreeaward, STUDENTS.dategranted FROM USERS JOIN STUDENTS ON USERS.userid = STUDENTS.studentid JOIN STUDENT_STUDY_FIELD ON STUDENTS.studentid = STUDENT_STUDY_FIELD.studentid JOIN ACADEMIC_PROGRAMS ON STUDENT_STUDY_FIELD.programid = ACADEMIC_PROGRAMS.programid WHERE username = ?;"
+
+  with conn.cursor(dictionary=True) as cursor:
+     cursor.execute(query, (username,))
+     rows = cursor.fetchall()
+
+  if not rows:
+     return None
+
+  # add program to all dictionaries in rows
+  for row in rows:
+     row["program"] = "Undergraduate"
+     # if dategranted is defined, change the format for JSON
+     if isinstance(row['dategranted'], date):
+        row['dategranted'] = row['dategranted'].isoformat()
+  
+  return rows
 
 def calc_total_credit(conn, username):
   query = f"SELECT SUM(credits) FROM REGISTERED_COURSES JOIN COURSE_OFFER ON REGISTERED_COURSES.keycode = COURSE_OFFER.id JOIN COURSE_DATA ON COURSE_OFFER.courseid = COURSE_DATA.id WHERE REGISTERED_COURSES.coursegrade IS NOT NULL AND REGISTERED_COURSES.username = ?;"
@@ -30,9 +45,75 @@ def calc_total_credit(conn, username):
     row = cursor.fetchone()
 
   if row is None or row[0] is None: #return None if row is None
-    return 0
+    return None
 
   return row[0]
+
+#This function retrives the overall GPA of a user
+def calculate_overall_gpa(conn, username):
+   
+   #SQL query
+   query = "SELECT AVG(coursegrade) FROM REGISTERED_COURSES JOIN COURSE_OFFER ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE userName = ?;"
+
+   #execute the query and fetch the results 
+   with conn.cursor() as cursor:
+     cursor.execute(query, (username))
+     overall_gpa = cursor.fetchone()[0]
+    
+    # return None if user does not have GPA otherwise return the GPA
+   if overall_gpa == None:
+      return None
+   else:
+      return overall_gpa
+   
+#This function retrives the gpa of a user in the specific semester 
+def calculate_gpa_per_semester(conn, username, academicyear, semester):
+    #sessions define the blocks of a semester, if semester is inappropriate return None
+    if semester == "fall":
+        sessions = ["Block 1", "Block 2", "Block 3", "Block 4", "Adjunct Fall"]
+    elif semester =="spring":
+        sessions = ["Block 5", "Block 6", "Block 7", "Block 8", "Adjunct Spring"]
+    else:
+       return None
+    
+    #SQL query
+    query = f"SELECT AVG(coursegrade) FROM COURSE_OFFER JOIN REGISTERED_COURSES ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE REGISTERED_COURSES.userName = ? and COURSE_OFFER academicyear = ? and COURSE_OFFER.session IN (?);"
+
+    #fetch GPA store to a variable
+    with conn.cursor() as cursor:
+        cursor.execute(query, (username, academicyear, sessions))
+        semester_gpa = cursor.fetchone()[0]
+    
+    if semester_gpa == None:
+       return None
+    else:
+       return semester_gpa
+    
+# This function will be used in get_ranscript to convert grade from float to a letter
+def grade_to_letter(grade):
+    if grade is None:
+        return None
+
+    if grade >= 4.0:
+        return "A"
+    elif grade >= 3.7:
+        return "A-"
+    elif grade >= 3.3:
+        return "B+"
+    elif grade >= 3.0:
+        return "B"
+    elif grade >= 2.7:
+        return "B-"
+    elif grade >= 2.3:
+        return "C+"
+    elif grade >= 2.0:
+        return "C"
+    elif grade >= 1.7:
+        return "C-"
+    elif grade >= 1.0:
+        return "D"
+    else:
+        return "F"
 
 def get_transcript(conn, username):
   query = f"SELECT coursecode, title,credits, department,coursetypes, coursegrade, academicyear, COURSE_OFFER.session FROM REGISTERED_COURSES JOIN COURSE_OFFER ON REGISTERED_COURSES.keycode = COURSE_OFFER.id JOIN COURSE_DATA ON COURSE_OFFER.courseid = COURSE_DATA.id WHERE REGISTERED_COURSES.username = ?;"
@@ -67,7 +148,7 @@ def get_transcript(conn, username):
         "course" : row["department"] + row["coursecode"],
         "title" : row["title"],
         "subtype" : row["coursetypes"],
-        "grade" : row["grade"],
+        "grade" : grade_to_letter(row["coursegrade"]),  ##must be retured in a letter
         "credits" : row["credits"],
         "qualityPoints" : row["credits"] * row["grade"]
     }
@@ -93,14 +174,17 @@ def get_transcript(conn, username):
 def unofficial_transcript():
   data = request.get_json()
   username = data.get("username")
-
+  
   conn = get_db()
 
   #student data
-  student_data = get_student_data(conn, username)
-  if student_data == None:
+  fullname = get_student_fullname(conn, username)
+  if fullname == None:
     return jsonify({"error" : "Student Not Found", "success": False}), 400
   
+  #program
+  program = get_programs(conn, username)
+
   # overall gpa
   overall_gpa = calculate_overall_gpa(conn, username)
 
@@ -108,17 +192,16 @@ def unofficial_transcript():
   total_credit = calc_total_credit(conn, username)
 
   #transcript
-  transcipt = get_transcript(conn, username)
+  transcript = get_transcript(conn, username)
 
   #put all of them together
   transcript_data = {
-    "userID" : username,
-    "fullname" : student_data["fullname"],
-    "major": student_data["major"],
-    "minor": student_data["minor"],
-    "over_all_gpa" : overall_gpa,
-    "total_credit": total_credit,
-    "trannscript": transcipt
+    "username" : username,
+    "fullname" : fullname,
+    "program" : program,
+    "overllCredits" : total_credit,
+    "overallGPA": overall_gpa,
+    "transcript": transcript
   }
 
   return jsonify(transcript_data)

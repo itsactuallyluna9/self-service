@@ -42,15 +42,15 @@ function FilterPage() {
     useEffect(() => {
         const fetchDropdowns = async () => {
             try {
-                const deptResponse = await fetch("https://10.101.128.56:6001/api/filter/options/departments");
+                const deptResponse = await fetch("https://10.101.128.72:6001/api/filter/options/departments");
                 setDepartments(await deptResponse.json() || []);
-                const profResponse = await fetch("https://10.101.128.56:6001/api/filter/options/professors");
+                const profResponse = await fetch("https://10.101.128.72:6001/api/filter/options/professors");
                 setProfessors(await profResponse.json() || []);
-                const attrResponse = await fetch("https://10.101.128.56:6001/api/filter/options/attributes");
+                const attrResponse = await fetch("https://10.101.128.72:6001/api/filter/options/attributes");
                 setAttributes(await attrResponse.json() || []);
-                const blockResponse = await fetch("https://10.101.128.56:6001/api/filter/options/blocks");
+                const blockResponse = await fetch("https://10.101.128.72:6001/api/filter/options/blocks");
                 setBlocks(await blockResponse.json() || []);
-                const yearResponse = await fetch("https://10.101.128.56:6001/api/filter/options/academic_years");
+                const yearResponse = await fetch("https://10.101.128.72:6001/api/filter/options/academic_years");
                 setYears(await yearResponse.json() || []);
             } catch (err) {
             console.error("Failed to fetch filter options", err);
@@ -73,7 +73,7 @@ function FilterPage() {
       attributes: filters.attributes,
     };
 
-    const res = await fetch(`https://10.101.128.56:6001/api/courses?`, {
+    const res = await fetch(`https://10.101.128.72:6001/api/courses?`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

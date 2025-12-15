@@ -72,8 +72,8 @@ function DisplayRegisteredCourses() {
     }
 
     const removeCourse = async (id: number) => {
-      // DELETE https://10.101.128.56:6001/api/registered_courses/<string:username>/<int:course_id>
-      const reply = await fetch(`https://10.101.128.56:6001/api/registered_courses/${localStorage.getItem('UserID')}/${id}`, {
+      // DELETE https://10.101.128.72:6001/api/registered_courses/<string:username>/<int:course_id>
+      const reply = await fetch(`https://10.101.128.72:6001/api/registered_courses/${localStorage.getItem('UserID')}/${id}`, {
         method: 'DELETE',
       })
       const result = (await reply.json())['success']
@@ -103,7 +103,7 @@ function DisplayRegisteredCourses() {
         let fetchedData: CourseData[] = [];
       try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch(`https://10.101.128.56:6001/api/registered_courses/${UserID}`);
+        const response = await fetch(`https://10.101.128.72:6001/api/registered_courses/${UserID}`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`); 

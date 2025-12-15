@@ -81,7 +81,7 @@ function DisplayCourses() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.56:6001/api/courses');
+        const response = await fetch('https://10.101.128.72:6001/api/courses');
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 

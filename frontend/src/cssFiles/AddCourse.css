@@ -5,6 +5,10 @@
   margin-top: 0px;
   
 }
+.courses {
+  position: relative;
+  top: 90px;
+}
 
 .AddCoursePage-wrapper .display {
   display: flex;

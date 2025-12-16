@@ -155,6 +155,7 @@ def list_courses():
                 id,
                 coursecode,
                 title,
+                credits,
                 department,
                 fee,
                 description,

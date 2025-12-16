@@ -24,7 +24,7 @@ def get_all_courses():
                     co.totalseats,
                     co.waitcount
                 FROM COURSE_DATA cd
-                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
+                INNER JOIN COURSE_OFFER co ON cd.id = co.courseid
                 ORDER BY co.academicyear DESC, co.session ASC, cd.department ASC, cd.coursecode ASC;
         """)
         courses = cursor.fetchall()
@@ -116,7 +116,7 @@ def get_filtered_courses():
             co.totalseats,
             co.waitcount
         FROM COURSE_DATA cd
-        LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
+        INNER JOIN COURSE_OFFER co ON cd.id = co.courseid
         {where_clause}
         ORDER BY co.academicyear DESC, co.session ASC, cd.department ASC, cd.coursecode ASC;
     """
@@ -148,7 +148,7 @@ def get_course_details(course_id):
                     co.waitcount,
                     cd.description
                 FROM COURSE_DATA cd
-                LEFT JOIN COURSE_OFFER co ON cd.id = co.courseid
+                INNER JOIN COURSE_OFFER co ON cd.id = co.courseid
                 WHERE co.id = ?
                 LIMIT 1;
                 """,

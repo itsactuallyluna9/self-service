@@ -58,7 +58,7 @@ function PasswordReset() {
                     console.log("Password changed", data)
                     setConfirm("Password changed successfully.")
                     setIsDisabled(true)
-                    //setIsVisible(false)
+                    setIsVisible(false)
                 }
             }
             else {
@@ -75,9 +75,10 @@ function PasswordReset() {
     return (
         <div className="signin">
             <img src={Logo} alt="Logo" />
-            <h1>Password Reset</h1>
-            {isVisible ? (
+            <h2>Self-Service Password Reset</h2>
             <form onSubmit={handleSubmit}>
+                {isVisible && (
+                <> {}
                 <label htmlFor="username">Username</label>
                 <input
                 type = "text"
@@ -108,14 +109,14 @@ function PasswordReset() {
                 <div className="button-container">
                 <button onClick={handleSubmit}>Submit</button>
                 </div>
-
+                </>
+                )}
+                
                 <div className="error">{error && <p>{error}</p>}</div>
 
                 <div className="confirm">{confirm && <p>{confirm}</p>}</div>
                 
             </form>
-
-            ) : null }
             <a href="/SignIn" className="reset-link">Return to sign-in page</a>
         </div>
         

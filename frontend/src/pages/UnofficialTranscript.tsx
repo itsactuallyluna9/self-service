@@ -12,7 +12,7 @@ function UnofficialTranscript() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const USE_MOCK = true;
+  const USE_MOCK = false;
 
   useEffect(() => {
     const UserID = localStorage.getItem('UserID');

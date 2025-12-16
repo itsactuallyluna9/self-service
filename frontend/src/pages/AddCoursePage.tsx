@@ -182,7 +182,7 @@ function AddCoursePage() {
                       )}
                       {!course.fee && (
                         <div>
-                          <h3>None</h3>
+                          <h3>No</h3>
                           <p>Fees</p>
                         </div>
                       )}

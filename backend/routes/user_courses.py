@@ -147,8 +147,8 @@ def add_offer():
         get_db().commit()
     return jsonify({"success": True, "listed_course": course_id})
 
-@bp.get('/courses/list_courses')
-def list_courses():
+@bp.get('/courses/catalog')
+def list_course_catalog():
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute("""
             SELECT
@@ -166,6 +166,28 @@ def list_courses():
         """)
         courses = cursor.fetchall()
         return jsonify({"courses": courses, "success": True})
+    
+@bp.get('/courses/catalog/<int:course_id>')
+def list_course_from_catalog(course_id):
+    with get_db().cursor(dictionary=True) as cursor:
+        cursor.execute("""
+            SELECT
+                id,
+                coursecode,
+                title,
+                credits,
+                department,
+                fee,
+                description,
+                prereqs,
+                coursetypes
+            FROM COURSE_DATA
+            WHERE id = ?
+            LIMIT 1;
+        """, (course_id,))
+        course = cursor.fetchone()
+        return jsonify({"course": course, "success": True})
+
 
 
 @bp.post('/register_courses')

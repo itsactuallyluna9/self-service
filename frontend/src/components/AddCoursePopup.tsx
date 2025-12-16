@@ -32,6 +32,7 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
     const [departments, setDepartments] = useState<string[]>([]);
     const [professors, setProfessors] = useState<string[]>([]);
     const [years, setYears] = useState<string[]>([]);
+    const [blocks, setBlocks] = useState<string[]>([])
 
 // Fetch options when page loads. CarterLampe 12/16/2025.
     useEffect(() => {
@@ -43,6 +44,8 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
                 setProfessors(await profResponse.json() || []);
                 const yearResponse = await fetch("https://10.101.128.72:6001/api/filter/options/years");
                 setYears(await yearResponse.json() || []);
+                const blockResponse = await fetch("https://10.101.128.72:6001/api/filter/options/blocks");
+                setBlocks(await blockResponse.json() || []);
             } catch (err) {
             console.error("Failed to fetch filter options", err);
             }
@@ -87,10 +90,10 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
               value={addCourseData.session}
               onChange={(e) => setAddCourseData({ ...addCourseData, session: e.target.value })}
             >
-                <option value="">Select Session</option>
-                <option value="Fall">Fall</option>
-                <option value="Spring">Spring</option>
-                <option value="Summer">Summer</option>
+              <option value="">Select</option>
+                {blocks.map((block) => (
+            <option key={block} value={block}>{block}</option>
+          ))}
               
             </select>
             <label>Professor:</label>

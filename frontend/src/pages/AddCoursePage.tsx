@@ -10,7 +10,6 @@ interface CourseData {
   professor: string;
   academicyear: string;
   blocknum: string;
-  openseats: number;
   credits: number;
   fee: number | null;
   coursecode: number;
@@ -91,7 +90,7 @@ function AddCoursePage() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.72:6001/api/courses');
+        const response = await fetch('https://10.101.128.72:6001/api/courses/catalog');
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
@@ -110,7 +109,7 @@ function AddCoursePage() {
   }, [location.state]);
 
   const toCourseInfo = (id: number) => {
-    nav('/CourseInfo',{state:{code:id}});
+    nav('/addCourseInfo',{state:{code:id}});
   };
 
   return (
@@ -125,10 +124,6 @@ function AddCoursePage() {
     
     <div className='split'>
       <div className='display'>
-        <div className= "filter-button-container">
-          <button className= "filter-button" onClick={() => nav("/Filter", { state: { String: "/AddCoursePage/" } })}>Filter Courses</button>
-          <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
-        </div> {/* filter-button-container */}
         <div className="courses">
           {courses === null ? (
             <p>Loading courses...</p>
@@ -154,10 +149,6 @@ function AddCoursePage() {
                   <div className='card-column'>
                     <h3>{course.credits}</h3> 
                     <p>Credit{course.credits == 1 ? "" : "s"}</p>
-                  </div>
-                  <div className='card-column'>
-                    <h3>{course.openseats}</h3> 
-                    <p>Seats Left</p>
                   </div>
                   <div className='card-column'>
                     {course.fee !== null && (

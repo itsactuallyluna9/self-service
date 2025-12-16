@@ -13,6 +13,7 @@ import RegisteredCourses from './pages/RegisteredCourses'
 import FinancialBalance from './pages/FinancialBalancePage'
 import AddCoursePage from './pages/AddCoursePage'
 import CreateCoursePage from './pages/CreateCoursePage'
+import AddCourseIndividualCourseInfo from './pages/AddCourseIndividualPage'
 
 import PasswordReset from './pages/PasswordReset'
 import UnofficialTranscript from './pages/UnofficialTranscript'
@@ -59,16 +60,16 @@ const router = createBrowserRouter([
     element: <CreateCoursePage/>
   },
   {
-    path: 'PasswordReset',
+    path: '/PasswordReset',
     element: <PasswordReset/>
-  },
-  {
-    path: 'CreateCoursePage',
-    element: <CreateCoursePage/>
   },
   {
     path: '/UnofficialTranscript',
     element: <UnofficialTranscript/>
+  },
+  {
+  path: '/AddCourseInfo',
+  element: <AddCourseIndividualCourseInfo/>
   },
 ]);
 

@@ -31,7 +31,7 @@ def create_app():
     app.register_blueprint(user_courses.bp, url_prefix='/api')
     app.register_blueprint(filter_support.bp, url_prefix='/api')
     app.register_blueprint(cart.bp, url_prefix='/api')
-    app.register_blueprint(unofficial_transcript.bp, url_prifix='/api')
+    app.register_blueprint(unofficial_transcript.bp, url_prefix='/api')
 
     @app.get('/')
     def index():

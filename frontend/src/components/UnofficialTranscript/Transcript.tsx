@@ -18,11 +18,11 @@ const Transcript = ({ utData }: UTProps) => {
         <p>Mount Vernon, IA 52314</p>
       </div>
 
-      <p><strong>Name:</strong> {utData.firstname} {utData.lastname}</p>
+      <p><strong>Name:</strong> {utData.fullname}</p>
       <Programs programs={utData.programs} />
 
       <div className='ut-right'>
-        <p><strong>Cumulative GPA:</strong> {utData.overallGPA}</p>
+        <p><strong>Cumulative GPA:</strong> {utData.overallGPA != null ? utData.overallGPA.toFixed(4) : "N/A"}</p>
       </div>
 
       {utData.transcript.map((yearData) => (
@@ -30,7 +30,7 @@ const Transcript = ({ utData }: UTProps) => {
       ))}
 
       <div className='ut-right'>
-        <p><strong>Overall Credits:</strong> {utData.overallCredits.toFixed(2)}</p>
+        <p><strong>Overall Credits:</strong> {utData.overallCredits != null ? utData.overallCredits.toFixed(2) : "0.00"}</p>
       </div>
 
     </div>

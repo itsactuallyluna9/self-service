@@ -22,7 +22,7 @@ const Term = ({ term, year }: UTTermProps) => {
 
       {term.courses.map((course, index) => (
         <Course
-          keyId={`${course.coursecode}-${year}-${term.term}-${index}`}
+          key={`${course.coursecode}-${year}-${term.term}-${index}`}
           course={course}
         />
       ))}
@@ -40,23 +40,23 @@ const Term = ({ term, year }: UTTermProps) => {
       </div>
       <div className="ut-term-stats">
         <p><strong>Term</strong></p>
-        <p>{term.termStats.attemptedCredits}</p>
-        <p>{term.termStats.earnedCredits}</p>
-        <p>{term.termStats.totalCredits}</p>
-        <p>{term.termStats.gpaCredits}</p>
-        <p>{term.termStats.qualityPoints}</p>
-        <p>{term.termStats.gpa}</p>
+        <p>{term.termStats.attemptedCredits.toFixed(2)}</p>
+        <p>{term.termStats.earnedCredits.toFixed(2)}</p>
+        <p>{term.termStats.totalCredits.toFixed(2)}</p>
+        <p>{term.termStats.gpaCredits.toFixed(2)}</p>
+        <p>{term.termStats.qualityPoints.toFixed(2)}</p>
+        <p>{term.termStats.gpa.toFixed(4)}</p>
         <p>{term.termStats.classRank}</p>
         <p>{term.termStats.classSize}</p>
       </div>
       <div className="ut-term-stats">
         <p><strong>Overall</strong></p>
-        <p>{term.overallStats.attemptedCredits}</p>
-        <p>{term.overallStats.earnedCredits}</p>
-        <p>{term.overallStats.totalCredits}</p>
-        <p>{term.overallStats.gpaCredits}</p>
-        <p>{term.overallStats.qualityPoints}</p>
-        <p>{term.overallStats.gpa}</p>
+        <p>{term.overallStats.attemptedCredits.toFixed(2)}</p>
+        <p>{term.overallStats.earnedCredits.toFixed(2)}</p>
+        <p>{term.overallStats.totalCredits.toFixed(2)}</p>
+        <p>{term.overallStats.gpaCredits.toFixed(2)}</p>
+        <p>{term.overallStats.qualityPoints.toFixed(2)}</p>
+        <p>{term.overallStats.gpa.toFixed(4)}</p>
         <p>{term.overallStats.classRank}</p>
         <p>{term.overallStats.classSize}</p>
       </div> */}

@@ -150,7 +150,7 @@ def get_transcript(conn, username):
     course_dict = {
         "coursecode" : row["department"] + str(row["coursecode"]),
         "title" : row["title"],
-        "subtype" : "course",
+        "subtype" : "Course",
         "grade" : grade_to_letter(row["coursegrade"]) if row["coursegrade"] is not None else 0.0,  ##must be retured in a letter
         "credits" : row["credits"],
         "qualityPoints" : float(row["credits"]) * float(row["coursegrade"] if row["coursegrade"] is not None else 0.0)

@@ -138,76 +138,76 @@ function AddCoursePage() {
   return (
     <>
     <div className="AddCoursePage-wrapper">
-    {showPopup && (
-    <div className="popup-overlay">
-      {popupMessage}
-    </div>
-    )}
-    <Navbar />
-    
-    <div className='split'>
-      <div className='display'>
-        <div className="add-courses">
-          {courses === null ? (
-            <p>Loading courses...</p>
-          ) : courses.length === 0 ? (
-          <p>No results found</p>
-        ) : (
-            courses.map((course: BaseCourseData) => (
-              <div key={course.id} className = 'course-card'>
-                <div className ='card-left'>
-                  <h2
-                  onClick={() => toCourseInfo(course.id)}
-                  style={{ cursor: "pointer"}}
-                  >
-                    {course.department}{course.coursecode}: {course.title}
-                  </h2>
-                  
-            
-
-                </div> {/* card-left */}
-                <div className = 'card-right'>
-                  <div className='card-column'>
-                  </div>
-                  <div className='card-column'>
-                    <h3>{course.credits}</h3> 
-                    <p>Credit{course.credits == 1 ? "" : "s"}</p>
-                  </div>
-                  <div className='card-column'>
-                    {course.fee && (
-                      <div>
-                        <h3>${course.fee}</h3> 
-                        <p>Fees</p>
-                      </div>
-                    )}
-                    {!course.fee && (
-                      <div>
-                        <h3>None</h3>
-                        <p>Fees</p>
-                      </div>
-                    )}
-                  </div>
-                  <div className='card-column'>
-        
-                    <button type="button" onClick={() => handleAddCourseClick(course)}>
-                        Add
-                    </button>
+      {showPopup && (
+      <div className="popup-overlay">
+        {popupMessage}
+      </div>
+      )}
+      <Navbar />
+      <h1 className='add-course-header'> Add Courses </h1>
+      <div className='split'>
+        <div className='display'>
+          <div className="add-courses">
+            {courses === null ? (
+              <p>Loading courses...</p>
+            ) : courses.length === 0 ? (
+            <p>No results found</p>
+          ) : (
+              courses.map((course: BaseCourseData) => (
+                <div key={course.id} className = 'course-card'>
+                  <div className ='card-left'>
+                    <h2
+                    onClick={() => toCourseInfo(course.id)}
+                    style={{ cursor: "pointer"}}
+                    >
+                      {course.department}{course.coursecode}: {course.title}
+                    </h2>
                     
-                  </div>
-                
-                </div> 
-              </div> /* course-card */
-          ))
-        )}
-        <AddCourseModal
-                isOpen={isModalOpen}
-                onConfirm={(addCourseData) => handleConfirmAddCourse(addCourseData)}
-                onCancel={handleCancelAddCourse}
-        />
-        </div> {/* courses  */}
-        
-      </div> {/* display */}
-    </div> {/* split */}
+              
+
+                  </div> {/* card-left */}
+                  <div className = 'card-right'>
+                    <div className='card-column'>
+                    </div>
+                    <div className='card-column'>
+                      <h3>{course.credits}</h3> 
+                      <p>Credit{course.credits == 1 ? "" : "s"}</p>
+                    </div>
+                    <div className='card-column'>
+                      {course.fee && (
+                        <div>
+                          <h3>${course.fee}</h3> 
+                          <p>Fees</p>
+                        </div>
+                      )}
+                      {!course.fee && (
+                        <div>
+                          <h3>None</h3>
+                          <p>Fees</p>
+                        </div>
+                      )}
+                    </div>
+                    <div className='card-column'>
+          
+                      <button type="button" onClick={() => handleAddCourseClick(course)}>
+                          Add
+                      </button>
+                      
+                    </div>
+                  
+                  </div> 
+                </div> /* course-card */
+            ))
+          )}
+          <AddCourseModal
+                  isOpen={isModalOpen}
+                  onConfirm={(addCourseData) => handleConfirmAddCourse(addCourseData)}
+                  onCancel={handleCancelAddCourse}
+          />
+          </div> {/* courses  */}
+          
+        </div> {/* display */}
+      </div> {/* split */}
     
     </div> {/* wrapper */}
     </>

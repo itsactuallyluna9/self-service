@@ -5,28 +5,22 @@ import { useState }from 'react'
 interface CourseData {
   department: string
   coursecode: number
-  professor: string
-  session: string
   coursetypes: string
   credits: number
   description: string
   fee: number
   prereqs: string
-  seats: number
   title: string
 }
 
 function CreateCoursePage() {
   const [department, setDepartment] = useState('')
   const [courseCode, setCourseCode] = useState('')
-  const [professor, setProfessor] = useState('')
-  const [block, setBlock] = useState('')
   const [attributes, setAttributes] = useState('')
   const [credits, setCredits] = useState('')
   const [description, setDescription] = useState('')
   const [fee, setFee] = useState('')
   const [prereqs, setPrereqs] = useState('')
-  const [seats, setSeats] = useState('')
   const [title, setTitle] = useState('')
   const [error, setError] = useState('')
 
@@ -34,7 +28,7 @@ function CreateCoursePage() {
     e.preventDefault()
     setError('')
 
-    if (department == '' || courseCode == '' || professor == '' || block == '' || credits == '' || seats == '' || description == '' || title == '') {
+    if (department == '' || courseCode == '' || credits == '' || description == '' || title == '') {
       setError("Please enter all required fields")
       return
     }
@@ -42,20 +36,17 @@ function CreateCoursePage() {
     const course: CourseData = {
       department: department,
       coursecode: Number(courseCode),
-      professor: professor,
-      session: "Block " + block,
       coursetypes: attributes,
       credits: Number(credits),
       description: description,
       fee: Number(fee),
       prereqs: prereqs,
-      seats: Number(seats),
       title: title,
     }
     console.log(JSON.stringify(course))
     console.log(course)
     try {
-      const response = await fetch('https://10.101.128.72:6001/api/courses/create', {
+      const response = await fetch('https://10.101.128.72:6001/api/courses/create_new_course', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,35 +97,13 @@ function CreateCoursePage() {
           <div className="course-code">
           <label htmlFor="courseCode">Course Code:</label>
           <input
-            type='text'
+            type='number'
             name='courseCode'
             id='courseCode'
             value={courseCode}
             placeholder='Required'
             onChange = {(e) => setCourseCode(e.target.value)}
           />
-          </div>
-          <div className="professor">
-            <label htmlFor="professor">Professor:</label>
-            <input
-              type='text'
-              name='professor'
-              id='professor'
-              value={professor}
-              placeholder='Required'
-              onChange = {(e) => setProfessor(e.target.value)}
-            />
-          </div>
-          <div className="block">
-            <label htmlFor="block">Block:</label>
-            <input
-              type='text'
-              name='block'
-              id='block'
-              value={block}
-              placeholder='Required'
-              onChange = {(e) => setBlock(e.target.value)}
-            />
           </div>
         </div>
         <div className="row">
@@ -165,7 +134,7 @@ function CreateCoursePage() {
           <div className="credits">
             <label htmlFor="credits">Credits:</label>
             <input
-              type='text'
+              type='number'
               name='credits'
               id='credits'
               value={credits}
@@ -176,22 +145,11 @@ function CreateCoursePage() {
           <div className="fees">
             <label htmlFor="fee">Fees:</label>
             <input
-              type='text'
+              type='number'
               name='fee'
               id='fee'
               value={fee}
               onChange = {(e) => setFee(e.target.value)}
-            />
-          </div>
-          <div className="seats">
-            <label htmlFor="seats">Seats:</label>
-            <input
-              type='text'
-              name='seats'
-              id='seats'
-              value={seats}
-              placeholder='Required'
-              onChange = {(e) => setSeats(e.target.value)}
             />
           </div>
         </div>

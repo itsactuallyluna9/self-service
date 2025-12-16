@@ -2,30 +2,75 @@ import { useState, useEffect } from 'react';
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import '../cssFiles/AddCourse.css'
+import AddCourseModal from '../components/AddCoursePopup';
 
-interface CourseData {
+interface BaseCourseData {
   id: number;
-  department: string;
-  title: string;
-  professor: string;
-  academicyear: string;
-  blocknum: string;
-  openseats: number;
+  department: string | null;
+  title: string | null;
   credits: number;
   fee: number | null;
   coursecode: number;
 }
 
+interface AddCourseData {
+  course_id: number;
+  professor: string;
+  academicyear: number | "";
+  session: string;
+  totalseats: number | null;
+}
+
+interface CourseData {
+  course_id: number;
+  professor: string;
+  session: string;
+  totalseats: number | null;
+}
+
+
+
+
 function AddCoursePage() {
-    // State to track added courses to prevent duplicates. CarterLampe 12/5/2025.
-    const [addedCourses, setAddedCourses] = useState<number[]>([]);
-
-
-    const [showPopup, setShowPopup] = useState(false)
-    const [popupMessage, setPopupMessage] = useState("")
-    const [courses, setCourses] = useState<CourseData[]| null>(null);
     const nav = useNavigate()
     const location = useLocation()
+
+    // State for popup message. CarterLampe 12/16/2025.
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupMessage, setPopupMessage] = useState("")
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // State for all course data. CarterLampe 12/16/2025.
+    const [courses, setCourses] = useState<BaseCourseData[]| null>(null);
+    
+    //State for current selected course to add. CarterLampe 12/16/2025.
+    const [selectedCourse, setSelectedCourse] = useState<BaseCourseData | null>(null);
+
+    // Handlers for Add Course Modal. CarterLampe 12/16/2025.
+    const handleAddCourseClick = (course: BaseCourseData) => {
+      setSelectedCourse(course);
+      setIsModalOpen(true);
+    };
+
+    // Confirm adding course from modal. CarterLampe 12/16/2025.
+    const handleConfirmAddCourse = (addCourseData: AddCourseData) => {
+      // Update selected course with modal data. CarterLampe 12/16/2025.
+      if (addCourseData){
+        const course = {
+          course_id: selectedCourse ? selectedCourse.id : 0,
+          totalseats: Number(addCourseData.totalseats),
+          professor: addCourseData.professor,
+          blocknum: addCourseData.session,
+          session: addCourseData.session,
+        };
+        handleAdd(course, addCourseData.academicyear)
+        }
+        setIsModalOpen(false);
+      }
+    
+    const handleCancelAddCourse = () => {
+        setIsModalOpen(false);
+    }
 
     const handleClearFilter = () => {
       // Reload the page to clear filters
@@ -34,23 +79,19 @@ function AddCoursePage() {
       )
     }
 
-    const handleAdd = async (course: CourseData) => {
-        setPopupMessage(`${course.department}${course.coursecode} added!`);
-        setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 2000);
-        console.log(course.id)
+    const handleAdd = async (course: CourseData, academicyear: number | "") => {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
-            const response = await fetch('TODO: Backend API for adding course', {
+            const response = await fetch('https://10.101.128.72:6001/courses/add_offer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: course.id }),
+            body: JSON.stringify({ course, academicyear }),
             })
             
-            // Dummy response for testing. CarterLampe 12/1/2025.
+            // Dummy response for testing. CarterLampe 12/6/2025.
             // const response = {
             //     ok: true,
             //     json: async () => ({
@@ -76,9 +117,6 @@ function AddCoursePage() {
         catch (err) {
             console.error('Adding course error:', err);
         }
-
-        // Prevent adding the same course multiple times. CarterLampe 12/5/2025.
-        setAddedCourses(prev => [...prev, course.id]);
     };
 
   useEffect(() => {
@@ -91,7 +129,7 @@ function AddCoursePage() {
       async function loadCourses() {
         try {
         //  Fetch call to backend course data API endpoint. CarterLampe 12/1/2025
-        const response = await fetch('https://10.101.128.72:6001/api/courses');
+        const response = await fetch('https://10.101.128.72:6001/api/courses/catalog');
         
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); 
 
@@ -110,7 +148,7 @@ function AddCoursePage() {
   }, [location.state]);
 
   const toCourseInfo = (id: number) => {
-    nav('/CourseInfo',{state:{code:id}});
+    nav('/addCourseInfo',{state:{code:id}});
   };
 
   return (
@@ -125,17 +163,13 @@ function AddCoursePage() {
     
     <div className='split'>
       <div className='display'>
-        <div className= "filter-button-container">
-          <button className= "filter-button" onClick={() => nav("/Filter", { state: { String: "/AddCoursePage/" } })}>Filter Courses</button>
-          <button className= "clear-filter-button" onClick={handleClearFilter}>Clear Filter</button>
-        </div> {/* filter-button-container */}
         <div className="courses">
           {courses === null ? (
             <p>Loading courses...</p>
           ) : courses.length === 0 ? (
           <p>No results found</p>
         ) : (
-            courses.map((course: CourseData) => (
+            courses.map((course: BaseCourseData) => (
               <div key={course.id} className = 'course-card'>
                 <div className ='card-left'>
                   <h2
@@ -145,48 +179,52 @@ function AddCoursePage() {
                     {course.department}{course.coursecode}: {course.title}
                   </h2>
                   
+            
 
                 </div> {/* card-left */}
                 <div className = 'card-right'>
                   <div className='card-column'>
-                    <p>{course.professor}</p>
                   </div>
                   <div className='card-column'>
                     <h3>{course.credits}</h3> 
                     <p>Credit{course.credits == 1 ? "" : "s"}</p>
                   </div>
                   <div className='card-column'>
-                    <h3>{course.openseats}</h3> 
-                    <p>Seats Left</p>
-                  </div>
-                  <div className='card-column'>
-                    {course.fee !== null && (
+                    {course.fee && (
                       <div>
                         <h3>${course.fee}</h3> 
-                        <p>Applicable fees</p>
+                        <p>Fees</p>
+                      </div>
+                    )}
+                    {!course.fee && (
+                      <div>
+                        <h3>None</h3>
+                        <p>Fees</p>
                       </div>
                     )}
                   </div>
                   <div className='card-column'>
-                    {/* Disable "Add Course" button if course already added. CarterLampe 12/5/2025. */}
-                    {addedCourses.includes(course.id) ? (
-                    <button disabled style={{ opacity: 0.5 }}>
-                        Added
-                    </button>
-                    ) : (
-                    <button type="button" onClick={() => handleAdd(course)}>
+        
+                    <button type="button" onClick={() => handleAddCourseClick(course)}>
                         Add
                     </button>
-                    )}
+                    
                   </div>
+                
                 </div> 
               </div> /* course-card */
           ))
         )}
+        <AddCourseModal
+                isOpen={isModalOpen}
+                onConfirm={(addCourseData) => handleConfirmAddCourse(addCourseData)}
+                onCancel={handleCancelAddCourse}
+        />
         </div> {/* courses  */}
         
       </div> {/* display */}
     </div> {/* split */}
+    
     </div> {/* wrapper */}
     </>
   );

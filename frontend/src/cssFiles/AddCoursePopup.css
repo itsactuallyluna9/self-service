@@ -1,0 +1,134 @@
+
+
+
+/* Transparent overlay */
+.addcourse-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+/* Modal container */
+.addcourse-modal-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 560px;
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(135, 7, 167, 0.3);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+/* Modal form layout */
+.addcourse-modal-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Select dropdown */
+.addcourse-modal-fields select {
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  color: black;
+}
+
+/* Input fields layout */
+.addcourse-input-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+
+/* Focus states */
+.addcourse-input-fields input:focus,
+.addcourse-modal-fields select:focus {
+  outline: none;
+  border-color: #523178;
+}
+
+/* Confirmation text */
+.addcourse-modal-content p {
+  margin: 18px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Buttons container */
+.addcourse-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Cancel button */
+.addcourse-cancel-button {
+  background: #e5e7eb;
+  color: #111827;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.addcourse-cancel-button:hover {
+  background: #d1d5db;
+}
+
+/* Confirm button */
+.addcourse-confirm-button {
+  background: #523178;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.addcourse-confirm-button:hover {
+  background: #1d4ed8;
+}
+.addcourse-input-fields input {
+  color: black;
+  background: white;
+  border: 1px solid #ccc;
+}
+.addcourse-input-fields, .addcourse-session-select label {
+  color: black
+}
+
+/* Fade-in animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile layout */
+@media (max-width: 480px) {
+  .addcourse-modal-content {
+    margin: 0 16px;
+  }
+
+  .addcourse-input-fields {
+    grid-template-columns: 1fr;
+  }
+}

@@ -9,6 +9,6 @@ def view_finances(username):
         cursor.execute('SELECT * FROM FINANCE_DATA WHERE username = ?',(username, ))
 
         finances = cursor.fetchall()
-    return jsonify({"courses": finances, "success": True})
+    return jsonify(finances)
 
 # returns entire table

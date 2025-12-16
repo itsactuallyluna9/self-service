@@ -1,139 +1,147 @@
-/* Chat GPT helped make this pixel perfect */
+/* ChatGPT helped make this pixel perfect, I created the base file for this */
 
 /* Page wrapper */
 .create-course {
-    position: relative;
-    top: 90px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: #ffffff;
-  }
-  
-  /* Card */
-  .create-course form {
-    width: 88%;
-    max-width: 1450px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 40px 50px 35px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
-  
-  /* Title */
-  .create-course h1 {
-    text-align: center;
-    font-size: 2.4rem;
-    font-weight: 700;
-    color: #000;
-    margin-bottom: 20px;
-  }
-  
-  /* Rows */
-  .row {
-    display: flex;
-    width: 100%;
-    gap: 30px;
-  }
-  
-  /* First row (4 equal fields) */
-  .department,
-  .course-code,
-  .professor,
-  .block {
-    width: 25%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Second row (2 wide fields) */
-  .attributes,
-  .prereqs {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Third row (3 equal fields) */
-  .credits,
-  .fees,
-  .seats {
-    width: 33.333%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Description */
-  .description {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Labels */
-  .create-course label {
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: #333;
-    white-space: nowrap;
-  }
-  
-  /* Inputs & textarea */
-  .create-course input,
-  .create-course textarea {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 0.95rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #000;
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-  
-  .create-course textarea {
-    height: 170px;
-    resize: none;
-    font-style: 'ariel';
-  }
-  
-  /* Focus state */
-  .create-course input:focus,
-  .create-course textarea:focus {
-    border-color: #523178;
-  }
-  
-  /* Submit button */
-  .create-course button {
-    margin-top: 10px;
-    width: 100%;
-    padding: 12px 0;
-    background-color: #523178;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 500;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .create-course button:hover {
-    background-color: #432660;
-  }
-  .create-course p {
-    color: red;
-    align-self: center;
-    margin: 0px;
-  }
-.CreateCoursePage-wrapper {
-  display: flex;
-  width: 80%;
   position: relative;
-  margin-top: 100px;
+  top: 90px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+/* Card */
+.create-course form {
+  width: 88%;
+  max-width: 1450px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 40px 50px 35px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Title */
+.create-course h1 {
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+/* Rows */
+.row {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+}
+
+/* Full-width title field */
+.title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Two-column rows */
+.department,
+.course-code {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wide text rows */
+.attributes,
+.prereqs {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Credits / Fees row */
+.credits,
+.fees {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Description */
+.description {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.create-course label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* Inputs */
+.create-course input,
+.create-course textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+/* Placeholder styling */
+.create-course input::placeholder,
+.create-course textarea::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Focus */
+.create-course input:focus,
+.create-course textarea:focus {
+  border-color: #523178;
+}
+
+/* Textarea sizing */
+.create-course textarea {
+  height: 180px;
+  resize: none;
+}
+
+/* Error message */
+.create-course p {
+  color: #c0392b;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: -10px;
+}
+
+/* Submit button */
+.create-course button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px 0;
+  background-color: #523178;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.create-course button:hover {
+  background-color: #432660;
 }

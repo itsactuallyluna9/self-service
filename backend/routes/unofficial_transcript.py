@@ -16,7 +16,7 @@ def get_student_fullname(conn, username):
   if row == None:
     return None
 
-  return row
+  return row["fullname"]
 
 def get_programs(conn, username):
   query = f"SELECT ACADEMIC_PROGRAMS.degree, ACADEMIC_PROGRAMS.curriculum, STUDENT_STUDY_FIELD.degreeaward, STUDENTS.dategranted FROM USERS JOIN STUDENTS ON USERS.userid = STUDENTS.studentid JOIN STUDENT_STUDY_FIELD ON STUDENTS.studentid = STUDENT_STUDY_FIELD.studentid JOIN ACADEMIC_PROGRAMS ON STUDENT_STUDY_FIELD.programid = ACADEMIC_PROGRAMS.programid WHERE username = ?;"
@@ -57,14 +57,14 @@ def calculate_overall_gpa(conn, username):
 
    #execute the query and fetch the results 
    with conn.cursor() as cursor:
-     cursor.execute(query, (username))
+     cursor.execute(query, (username,))
      overall_gpa = cursor.fetchone()[0]
     
     # return None if user does not have GPA otherwise return the GPA
    if overall_gpa == None:
       return None
    else:
-      return overall_gpa
+      return float(overall_gpa)
    
 #This function retrives the gpa of a user in the specific semester 
 def calculate_gpa_per_semester(conn, username, academicyear, semester):
@@ -92,7 +92,7 @@ def calculate_gpa_per_semester(conn, username, academicyear, semester):
 # This function will be used in get_ranscript to convert grade from float to a letter
 def grade_to_letter(grade):
     if grade is None:
-        return None
+        return " "
 
     if grade >= 4.0:
         return "A"
@@ -123,6 +123,7 @@ def get_transcript(conn, username):
     rows = cursor.fetchall()
   #create transcript
   transcript = []
+
   #take row one at a time and append to transcript
   for row in rows:
     # make sure if the academic year is in transcript already
@@ -143,15 +144,19 @@ def get_transcript(conn, username):
       #append year_dict to transcript    
       transcript.append(year_dict)
     
+    
+
     #creater dictionary of a course
     course_dict = {
-        "course" : row["department"] + row["coursecode"],
+        "coursecode" : row["department"] + str(row["coursecode"]),
         "title" : row["title"],
-        "subtype" : row["coursetypes"],
-        "grade" : grade_to_letter(row["coursegrade"]),  ##must be retured in a letter
+        "subtype" : "course",
+        "grade" : grade_to_letter(row["coursegrade"]) if row["coursegrade"] is not None else 0.0,  ##must be retured in a letter
         "credits" : row["credits"],
-        "qualityPoints" : row["credits"] * row["grade"]
+        "qualityPoints" : float(row["credits"]) * float(row["coursegrade"] if row["coursegrade"] is not None else 0.0)
     }
+
+    print(f"course_dict: {course_dict}")
 
     if row["session"] in ["Block 1", "Block 2", "Block 3", "Block 4", "Adjunct Fall"]:
       semester_name = "Fall"
@@ -164,7 +169,8 @@ def get_transcript(conn, username):
            if t["term"] == semester_name:
               t["courses"].append(course_dict)
               break
-    return transcript
+           
+  return transcript
 
     
   
@@ -174,11 +180,13 @@ def get_transcript(conn, username):
 def unofficial_transcript():
   data = request.get_json()
   username = data.get("username")
+  print(f"From frontend username: {username}")
   
   conn = get_db()
 
   #student data
   fullname = get_student_fullname(conn, username)
+
   if fullname == None:
     return jsonify({"error" : "Student Not Found", "success": False}), 400
   
@@ -187,21 +195,24 @@ def unofficial_transcript():
 
   # overall gpa
   overall_gpa = calculate_overall_gpa(conn, username)
+  print(f"overall GPA type: {type(overall_gpa)}")
 
   #total credit
   total_credit = calc_total_credit(conn, username)
 
   #transcript
   transcript = get_transcript(conn, username)
-
+  # print(f"transctipt: {transcript}")
   #put all of them together
   transcript_data = {
     "username" : username,
     "fullname" : fullname,
-    "program" : program,
-    "overllCredits" : total_credit,
+    "programs" : program,
+    "overallCredits" : total_credit,
     "overallGPA": overall_gpa,
     "transcript": transcript
   }
+
+  
 
   return jsonify(transcript_data)

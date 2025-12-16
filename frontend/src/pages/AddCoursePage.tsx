@@ -2,30 +2,90 @@ import { useState, useEffect } from 'react';
 import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import '../cssFiles/AddCourse.css'
+import AddCourseModal from '../components/AddCoursePopup';
 
-interface CourseData {
+interface BaseCourseData {
   id: number;
-  department: string;
-  title: string;
-  professor: string;
-  academicyear: string;
-  blocknum: string;
-  openseats: number;
+  department: string | null;
+  title: string | null;
   credits: number;
   fee: number | null;
   coursecode: number;
 }
 
+interface AddCourseData {
+  professor: string;
+  academicyear: number | "";
+  blocknum: string;
+  openseats: number | "";
+  session: string;
+  totalseats: number | null;
+}
+
+interface CourseData {
+  id: number;
+  department: string | null;
+  title: string | null;
+  credits: number;
+  fee: number | null;
+  coursecode: number;
+  totalseats: number | null;
+  professor: string;
+  academicyear: number | "";
+  blocknum: string;
+  openseats: number | "";
+  session: string;
+}
+
+
+
 function AddCoursePage() {
-    // State to track added courses to prevent duplicates. CarterLampe 12/5/2025.
-    const [addedCourses, setAddedCourses] = useState<number[]>([]);
-
-
-    const [showPopup, setShowPopup] = useState(false)
-    const [popupMessage, setPopupMessage] = useState("")
-    const [courses, setCourses] = useState<CourseData[]| null>(null);
     const nav = useNavigate()
     const location = useLocation()
+
+    // State for popup message. CarterLampe 12/16/2025.
+    const [showPopup, setShowPopup] = useState(false)
+    const [popupMessage, setPopupMessage] = useState("")
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // State for all course data. CarterLampe 12/16/2025.
+    const [courses, setCourses] = useState<BaseCourseData[]| null>(null);
+    
+    //State for current selected course to add. CarterLampe 12/16/2025.
+    const [selectedCourse, setSelectedCourse] = useState<BaseCourseData | null>(null);
+
+    // Handlers for Add Course Modal. CarterLampe 12/16/2025.
+    const handleAddCourseClick = (course: BaseCourseData) => {
+      setSelectedCourse(course);
+      setIsModalOpen(true);
+    };
+
+    // Confirm adding course from modal. CarterLampe 12/16/2025.
+    const handleConfirmAddCourse = (addCourseData: AddCourseData) => {
+      // Update selected course with modal data. CarterLampe 12/16/2025.
+      if (addCourseData){
+        const course = {
+          id: selectedCourse!.id,
+          department: selectedCourse!.department,
+          title: selectedCourse!.title,
+          credits: selectedCourse!.credits,
+          fee: selectedCourse!.fee,
+          coursecode: selectedCourse!.coursecode,
+          totalseats: Number(addCourseData.totalseats),
+          professor: addCourseData.professor,
+          academicyear: addCourseData.academicyear,
+          blocknum: addCourseData.session,
+          openseats: Number(addCourseData.openseats),
+          session: addCourseData.session,
+        };
+        handleAdd(course)
+        }
+        setIsModalOpen(false);
+      }
+    
+    const handleCancelAddCourse = () => {
+        setIsModalOpen(false);
+    }
 
     const handleClearFilter = () => {
       // Reload the page to clear filters
@@ -38,7 +98,6 @@ function AddCoursePage() {
         setPopupMessage(`${course.department}${course.coursecode} added!`);
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 2000);
-        console.log(course.id)
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
@@ -50,7 +109,7 @@ function AddCoursePage() {
             body: JSON.stringify({ id: course.id }),
             })
             
-            // Dummy response for testing. CarterLampe 12/1/2025.
+            // Dummy response for testing. CarterLampe 12/6/2025.
             // const response = {
             //     ok: true,
             //     json: async () => ({
@@ -76,9 +135,6 @@ function AddCoursePage() {
         catch (err) {
             console.error('Adding course error:', err);
         }
-
-        // Prevent adding the same course multiple times. CarterLampe 12/5/2025.
-        setAddedCourses(prev => [...prev, course.id]);
     };
 
   useEffect(() => {
@@ -135,7 +191,7 @@ function AddCoursePage() {
           ) : courses.length === 0 ? (
           <p>No results found</p>
         ) : (
-            courses.map((course: CourseData) => (
+            courses.map((course: BaseCourseData) => (
               <div key={course.id} className = 'course-card'>
                 <div className ='card-left'>
                   <h2
@@ -144,7 +200,21 @@ function AddCoursePage() {
                   >
                     {course.department}{course.coursecode}: {course.title}
                   </h2>
+                  <p>Year: {course.academicyear} |
                   
+                    Term: {Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
+                    ? "Fall"
+                    : Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
+                    ? "Spring"
+                    : course.blocknum.includes("Fall")
+                    ? "Fall"
+                    : course.blocknum.includes("Spring")
+                    ? "Spring"
+                    : ""}
+                  </p>
+                  {course.blocknum !== null && (
+                    <p>{course.blocknum}</p>
+                  )}
 
                 </div> {/* card-left */}
                 <div className = 'card-right'>
@@ -168,25 +238,27 @@ function AddCoursePage() {
                     )}
                   </div>
                   <div className='card-column'>
-                    {/* Disable "Add Course" button if course already added. CarterLampe 12/5/2025. */}
-                    {addedCourses.includes(course.id) ? (
-                    <button disabled style={{ opacity: 0.5 }}>
-                        Added
-                    </button>
-                    ) : (
-                    <button type="button" onClick={() => handleAdd(course)}>
+        
+                    <button type="button" onClick={() => handleAddCourseClick(course)}>
                         Add
                     </button>
-                    )}
+                    
                   </div>
+                
                 </div> 
               </div> /* course-card */
           ))
         )}
+        <AddCourseModal
+                isOpen={isModalOpen}
+                onConfirm={(addCourseData) => handleConfirmAddCourse(addCourseData)}
+                onCancel={handleCancelAddCourse}
+        />
         </div> {/* courses  */}
         
       </div> {/* display */}
     </div> {/* split */}
+    
     </div> {/* wrapper */}
     </>
   );

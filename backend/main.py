@@ -6,7 +6,7 @@ import traceback
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from backend import db
-from backend.routes import all_courses, auth, cart, filter_support, user_courses, unofficial_transcript
+from backend.routes import all_courses, auth, cart, filter_support, finances, user_courses, unofficial_transcript
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
@@ -32,6 +32,7 @@ def create_app():
     app.register_blueprint(filter_support.bp, url_prefix='/api')
     app.register_blueprint(cart.bp, url_prefix='/api')
     app.register_blueprint(unofficial_transcript.bp, url_prefix='/api')
+    app.register_blueprint(finances.bp, url_prefix='/api')
 
     @app.get('/')
     def index():

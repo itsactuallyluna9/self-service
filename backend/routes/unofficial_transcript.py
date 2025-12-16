@@ -6,7 +6,7 @@ from datetime import date
 bp = Blueprint('unofficial_transcript', __name__)
 
 def get_student_fullname(conn, username):
-  query = f"SELECT fullname FROM STUDENTS JOIN USERS ON STUDENTS.id = USERS.userid WHERE username=?;"
+  query = f"SELECT fullname FROM STUDENTS JOIN USERS ON STUDENTS.studentid = USERS.userid WHERE username=?;"
 
   with conn.cursor(dictionary=True) as cursor:
     cursor.execute(query, (username,))
@@ -77,7 +77,7 @@ def calculate_gpa_per_semester(conn, username, academicyear, semester):
        return None
     
     #SQL query
-    query = f"SELECT AVG(coursegrade) FROM COURSE_OFFER JOIN REGISTERED_COURSES ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE REGISTERED_COURSES.userName = ? and COURSE_OFFER academicyear = ? and COURSE_OFFER.session IN (?);"
+    query = f"SELECT AVG(coursegrade) FROM COURSE_OFFER JOIN REGISTERED_COURSES ON COURSE_OFFER.id = REGISTERED_COURSES.keycode WHERE REGISTERED_COURSES.userName = ? and COURSE_OFFER.academicyear = ? and COURSE_OFFER.session IN (?);"
 
     #fetch GPA store to a variable
     with conn.cursor() as cursor:

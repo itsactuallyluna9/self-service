@@ -26,6 +26,8 @@ export const register = async (
             return true;
         }
 
+       // data.waitlist_position = number 
+
         console.error("Registration failed:", data);
         return false;
     } catch (err) {

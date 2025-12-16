@@ -1,11 +1,13 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 
 from backend.db import get_db
 
 bp = Blueprint('cart', __name__)
 
+# saves a class to the cart
 
-@bp.get('cart/cart_save/<string:username>')
+
+@bp.get('/cart/cart_save/<string:username>')
 def cart_save(user_id, course_id):
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute(
@@ -14,7 +16,10 @@ def cart_save(user_id, course_id):
     return jsonify({"success": True, "cart": "saved"})
 
 
-@bp.get('cart/cart_load/<string:username')
+# loads courses that were saved onto a users cart
+
+
+@bp.get('/cart/cart_load/<string:username>')
 def cart_load(user_id):
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute(
@@ -25,7 +30,11 @@ def cart_load(user_id):
 
     return jsonify({"success": True, "cart": rows})
 
-@bp.get('cart/remove/<string:username')
+
+# removes a course from a users cart
+
+
+@bp.get('/cart/remove/<string:username>')
 def remove_class(user_id, course_id):
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute("DELETE FROM CART_SAVE WHERE userid = ? AND course = ?",

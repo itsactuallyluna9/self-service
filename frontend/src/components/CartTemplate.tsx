@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router'
 import register from './Register'
 import TextPopup from "./TextPopup";
 
-
+//replacing missing data with -1, will never happen because you cannot add courses with missing data in them
 
 const CartTemplate = () => {
   const [showPopup, setShowPopup] = useState(false)
@@ -66,23 +66,25 @@ const handleRegister = async (e: React.FormEvent) => {
               
               <div key={course.id}>
                 <div
-                  className={`courseDisplay ${
-                    removingIds.includes(course.coursecode) ? "removing" : ""
+                  className={`${course.openseats == 0 ? "courseDisplay" : "waitlistDisplay"} ${
+                    removingIds.includes(course.coursecode ?? -1) ? "removing" : ""
                   }`}
                 >
                   
                   <form>
                     <h2
-                      onClick={() => toCourseInfo(course.coursecode)}
+                      onClick={() => toCourseInfo(course.coursecode ?? -1)}
                       style={{ cursor: "pointer" }}
                     >
                       {course.department}
                       {course.coursecode}: {course.title}
+                      {course.openseats == 0 ? "" : "  (Waitlist)"}
                     </h2>
+                    
                     <div className="buttonRow">
                       <button
                         type="button"
-                        onClick={() => handleRemove(course.coursecode)}
+                        onClick={() => handleRemove(course.coursecode ?? -1)}
                       >
                         Remove
                       </button>

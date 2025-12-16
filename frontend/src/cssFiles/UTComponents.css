@@ -1,6 +1,6 @@
 
 .ut-term {
-  margin: 20px 0;
+  margin: 40px 0;
 }
 
 .ut-term > h1 {
@@ -19,13 +19,6 @@
   padding: 10px 15px;
 }
 
-.ut-term-header p {
-  flex: 1; 
-  margin: 0;
-  padding: 0 5px;
-  text-align: left;
-  font-size: 14px;
-}
 
 .ut-term-stats {
   display: flex;
@@ -44,7 +37,6 @@
 
 .ut-course {
   display: flex;
-  flex-direction: row; 
   align-items: center; 
   padding: 10px 15px;
   border-bottom: 1px solid #ccc;
@@ -52,7 +44,6 @@
 }
 
 .ut-course p {
-  flex: 1;
   margin: 0;
   padding: 0 5px;
   font-size: 14px;
@@ -63,3 +54,21 @@
   text-overflow: ellipsis; 
 }
 
+.col-title {
+  flex: 2.8; 
+  white-space: normal;
+}
+
+.col-program {
+  flex: 3; 
+  white-space: normal;
+}
+
+.col-mid {
+  flex: 1.2; 
+  white-space: normal;
+}
+
+.col {
+  flex: 1;
+}

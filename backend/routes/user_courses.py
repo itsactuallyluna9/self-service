@@ -52,14 +52,13 @@ def drop_registered_course(username, course_id):
                 'UPDATE COURSE_OFFER SET openseats = openseats + 1 WHERE id = ?;',
                 (course_id,),
             )
-            conn.commit()
             if username in get_waitlist(course_id):
                 cursor.execute(
                     'UPDATE COURSE_OFFER SET waitcount = waitcount - 1 WHERE id = ?;',
                     (course_id,),
                 )
-                conn.commit()
 
+        conn.commit()
         return jsonify({'success': deleted > 0})
     
 #This function checks if given courses offered at the same block 
@@ -111,7 +110,7 @@ def check_session_conflicts(conn, courses_to_register, username):
     return False
 
 
-@bp.post('/courses/create/')
+@bp.post('/courses/create')
 def create_course():
     data = request.json
     coursecode = data['coursecode']
@@ -122,17 +121,17 @@ def create_course():
     description = data['description']
     prereqs = data.get('prereqs')
     coursetypes = data.get('coursetypes')
-    conn = get_db()
-    with conn.cursor(dictionary=True) as cursor:
+    with get_db().cursor(dictionary=True) as cursor:
         cursor.execute(
             'INSERT INTO COURSE_DATA(coursecode, title, credits, department, fee, description, prereqs, coursetypes)'
             'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',(coursecode, title, credits, department, fee, description, prereqs, coursetypes))
+        get_db().commit()
+        course_id = cursor.lastrowid
 
-        conn.commit()
-    return jsonify({"success": True})
+    return jsonify({"success": True, "id": course_id})
 
 
-@bp.post('/courses/list_course/')
+@bp.post('/courses/list_course')
 def list_course():
     data = request.json
     academicyear = data['academicyear']
@@ -145,11 +144,11 @@ def list_course():
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute('INSERT INTO COURSE_OFFER(academicyear, openseats, totalseats, waitcount, session, professor, courseid) '
                        'SELECT ?, ?, ?, ?, ?, ?, id FROM COURSE_DATA WHERE id = ?',(academicyear,openseats,totalseats,waitcount,session,professor,course_id))
-
+        get_db().commit()
     return jsonify({"success": True, "listed_course": course_id})
 
 
-@bp.post('/register_courses/')
+@bp.post('/register_courses')
 def registering_courses():
     # get data from frontend in JSON
     data = request.get_json()
@@ -181,7 +180,7 @@ def registering_courses():
 
                 conn.commit() # commit the change
 
-                if seats > 0:
+                if seats[0] > 0:
                     print(f"{username} is registered to {course}")
                     cursor.execute(
                         'UPDATE COURSE_OFFER SET openseats = openseats - 1 WHERE id = ?;',
@@ -199,7 +198,7 @@ def registering_courses():
                     #call function for calculating spot on waitlist
                     waitlist_position = get_waitlist_position(username, course)
 
-                return jsonify({"success": True, "waitlist_position": waitlist_position})
+            return jsonify({"success": True })
 
     except Exception as e:
         conn.rollback() #rollback if there is any problem

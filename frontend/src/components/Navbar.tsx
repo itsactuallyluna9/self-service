@@ -39,7 +39,7 @@ const Navbar = () => {
                     <>
                         <a href="/CourseInformationPage">Courses</a>
                         <a href="/RegisteredCourses">My Schedule</a>
-                        <a href="/FinancialStatement">Financial Statement</a>
+                        <a href="/FinancialBalance">Financial Balance</a>
                         <a href="/UnofficialTranscript">Unofficial Transcript</a>
                     </>
                 )}

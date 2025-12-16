@@ -3,18 +3,17 @@ import { type UTCourse} from '../../data/UnofficialTranscriptData'
 
 interface UTCourseProps {
   course: UTCourse;
-  keyId: string;
 }
 
-const Course = ({ course, keyId }: UTCourseProps) => {
+const Course = ({ course }: UTCourseProps) => {
   return (
-    <div key={keyId} className="ut-course">
-      <p>{course.coursecode}</p>
-      <p>{course.title}</p>
-      <p>{course.subtype}</p>
-      <p>{course.grade}</p>
-      <p>{course.credits}</p>
-      <p>{course.qualityPoints}</p>
+    <div className="ut-course">
+      <p className="col">{course.coursecode}</p>
+      <p className="col-title">{course.title}</p>
+      <p className="col">{course.subtype}</p>
+      <p className="col">{course.grade}</p>
+      <p className="col">{course.credits != null ? course.credits.toFixed(2) : "0.00"}</p>
+      <p className="col">{course.qualityPoints != null ? course.qualityPoints.toFixed(2) : "0.00"}</p>
     </div>
   );
 };

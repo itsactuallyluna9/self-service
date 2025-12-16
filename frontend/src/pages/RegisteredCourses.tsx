@@ -131,6 +131,7 @@ function DisplayRegisteredCourses() {
     return (
     <>
     <Navbar />
+    <div className='registered-courses-wrapper'>
     <div className='display'>
       <div className="courses">
         {courses.length === 0 ? (
@@ -200,6 +201,7 @@ function DisplayRegisteredCourses() {
       )}
       </div>
 
+    </div>
     </div>
     </>
   );

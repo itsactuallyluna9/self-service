@@ -92,6 +92,13 @@
   padding: 10px;
 }
 
+.signin h2 {
+  font-size: 35px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #444;
+  text-align: center;
+}
 
 
 html {

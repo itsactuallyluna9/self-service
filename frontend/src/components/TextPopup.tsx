@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-
+import '../cssFiles/CourseInformationPage.css'
 
 interface TextPopupProps {
   message: string;

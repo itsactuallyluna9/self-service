@@ -57,7 +57,7 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                         { data.openseats && data.openseats > 0 && (
                             <>
                                 <p>Seats: {data.totalseats && data.totalseats} {!data.totalseats && "Data Missing"} 
-                                | Seats Left: {data.openseats && data.openseats} {!data.openseats && "Data Missing"}</p>
+                                | {data.openseats && data.openseats} {!data.openseats && "Data Missing"}Seats Left</p>
                             </>
                         )}
                         {data.openseats && data.openseats <= 0 && (

@@ -34,7 +34,7 @@ function DisplayCourses() {
     const [popupMessage, setPopupMessage] = useState("")
 
     const [courses, setCourses] = useState<CourseData[]| null>(null);
-    const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
+    const {  AddCourseToCart } = useCart();
     const [cartButtonText, setCartButtonText] = useState("Add to cart")
     const [canAddCart, setCanAddCart] = useState(true) 
     const nav = useNavigate()

@@ -170,7 +170,7 @@ def get_transcript(conn, username):
   
 
 # check unofficial_transcript.JSON
-@bp.post('/unofficial_transcript/')
+@bp.post('/unofficial_transcript')
 def unofficial_transcript():
   data = request.get_json()
   username = data.get("username")

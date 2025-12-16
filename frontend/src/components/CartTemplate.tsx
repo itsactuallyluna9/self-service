@@ -5,10 +5,15 @@ import { useState } from "react";
 import '../cssFiles/CartTemplate.css'
 import {useNavigate} from 'react-router'
 import register from './Register'
+import TextPopup from "./TextPopup";
 
 
 
 const CartTemplate = () => {
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupMessage, setPopupMessage] = useState("")
+  const [popupTrigger, setPopupTrigger] = useState(0);
+
   const [error, setError] = useState('')
   const { cartCourses, RemoveCourseFromCart } = useCart();
   const nav = useNavigate();
@@ -20,12 +25,14 @@ const CartTemplate = () => {
 const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();   // stops reload
     if (await register(localStorage.getItem('UserID'), cartCourses.map(course => course.id))) {
-      setError("Registration Successful!");
+
+
+      setPopupMessage(`Registration Successful!`);
       localStorage.setItem('cart', '')
-      nav('/RegisteredCourses')
     } else {
-      setError("Registration Failed. Please try again.");
+      setPopupMessage("Registration Failed. Please try again.");
     }
+    setShowPopup(true);
 };
 
   const handleRemove = (courseCode: number) => {
@@ -41,6 +48,14 @@ const handleRegister = async (e: React.FormEvent) => {
 
   return (
     <div className="cartDisplay">
+      
+      <TextPopup 
+        key={popupMessage}
+        isVisible={showPopup} 
+        message= {popupMessage}
+        onClose={() => setShowPopup(false)} 
+      />
+
       <form onSubmit={handleRegister}>
         <h1>Cart</h1>
         <div className="courseBlock">

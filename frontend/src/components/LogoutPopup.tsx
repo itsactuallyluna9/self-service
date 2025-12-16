@@ -15,7 +15,7 @@ const LogoutModal = ({ isOpen, onConfirm, onCancel }: LogoutModalProps) => {
     return null;
   }
 
-  return ReactDOM.createPortal(
+  return ReactDOM.createPortal( // used to render popup to separate DOM node so it will be on top of everything else
     <div className="modal-overlay" onClick={onCancel}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <p>Are you sure you want to sign out of your account?</p>

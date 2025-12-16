@@ -87,13 +87,6 @@ function AddCoursePage() {
         setIsModalOpen(false);
     }
 
-    const handleClearFilter = () => {
-      // Reload the page to clear filters
-      return(
-        nav('/AddCoursePage/')
-      )
-    }
-
     const handleAdd = async (course: CourseData) => {
         setPopupMessage(`${course.department}${course.coursecode} added!`);
         setShowPopup(true);
@@ -101,7 +94,7 @@ function AddCoursePage() {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
-            const response = await fetch('TODO: Backend API for adding course', {
+            const response = await fetch('https://10.101.128.72:6001/api/courses/catalog', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

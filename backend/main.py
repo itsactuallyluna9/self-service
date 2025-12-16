@@ -42,6 +42,7 @@ def create_app():
     # return {"success": False, "error": str(e)}...
     @app.errorhandler(Exception)
     def handle_exception(e):
+        # if 
         response = {
             "success": False,
             "message": str(e),

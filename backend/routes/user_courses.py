@@ -137,7 +137,7 @@ def add_offer():
     academicyear = data['academicyear']
     openseats = data['openseats']
     totalseats = data['totalseats']
-    waitcount = data['waitcount']
+    waitcount = 0
     session = data['session']
     professor = data['professor']
     course_id = data['course_id']

@@ -92,7 +92,7 @@ def calculate_gpa_per_semester(conn, username, academicyear, semester):
 # This function will be used in get_ranscript to convert grade from float to a letter
 def grade_to_letter(grade):
     if grade is None:
-        return None
+        return " "
 
     if grade >= 4.0:
         return "A"

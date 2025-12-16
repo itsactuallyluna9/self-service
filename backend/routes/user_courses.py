@@ -135,7 +135,7 @@ def create_course():
 def add_offer():
     data = request.json
     academicyear = data['academicyear']
-    openseats = data['openseats']
+    openseats = data['totalseats']
     totalseats = data['totalseats']
     waitcount = 0
     session = data['session']

@@ -19,12 +19,6 @@
   padding: 10px 15px;
 }
 
-.ut-term-header p {
-  margin: 0;
-  padding: 0 5px;
-  text-align: left;
-  font-size: 14px;
-}
 
 .ut-term-stats {
   display: flex;

@@ -48,7 +48,7 @@ function AddCoursePage() {
 
     // Confirm adding course from modal. CarterLampe 12/16/2025.
     const handleConfirmAddCourse = (addCourseData: AddCourseData) => {
-        handleAdd( addCourseData.academicyear, addCourseData.totalseats, addCourseData.professor, addCourseData.session, addCourseData.course_id);
+        handleAdd( addCourseData.academicyear, addCourseData.totalseats, addCourseData.professor, addCourseData.session, selectedCourse ? selectedCourse.id : 0);
         setIsModalOpen(false);
       }
     

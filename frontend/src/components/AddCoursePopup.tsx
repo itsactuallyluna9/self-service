@@ -53,11 +53,6 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
         fetchDropdowns();
     }, []);
 
-
-
-
-
-
   const [addCourseData, setAddCourseData] = React.useState<AddCourseData>({
     course_id: 0,
     academicyear: "",

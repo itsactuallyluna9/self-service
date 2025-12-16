@@ -106,6 +106,9 @@
   background: white;
   border: 1px solid #ccc;
 }
+.addcourse-input-fields, .addcourse-session-select label {
+  color: black
+}
 
 /* Fade-in animation */
 @keyframes modalFadeIn {

@@ -121,7 +121,7 @@
 
 /* Error message */
 .create-course p {
-  color: #c0392b;
+  color: rgb(70, 70, 70);
   font-size: 0.95rem;
   text-align: center;
   margin-top: -10px;

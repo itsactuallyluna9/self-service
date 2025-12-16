@@ -147,7 +147,7 @@ function AddCoursePage() {
     
     <div className='split'>
       <div className='display'>
-        <div className="courses">
+        <div className="add-courses">
           {courses === null ? (
             <p>Loading courses...</p>
           ) : courses.length === 0 ? (

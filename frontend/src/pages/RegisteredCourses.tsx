@@ -174,8 +174,8 @@ function DisplayRegisteredCourses() {
                   <div className='card-column'>
                     {course.waitlist_position == null ? (
                       <>
-                        <h3>Seats Left</h3>
                         <p>{course.openseats}</p>
+                        <h3>Seats Left</h3>
                       </>
                     ) : (
                       <>

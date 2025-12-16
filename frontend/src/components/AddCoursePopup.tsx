@@ -109,8 +109,8 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
 
             <label>Year:</label>
             <select
-              value={addCourseData.professor}
-              onChange={(e) => setAddCourseData({ ...addCourseData, professor: e.target.value })}
+              value={addCourseData.academicyear}
+              onChange={(e) => setAddCourseData({ ...addCourseData, academicyear: Number(e.target.value) })}
             >
                 <option value="">Select Year</option>
                 <option value="2021">2021</option>

@@ -77,7 +77,7 @@ function AddCoursePage() {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
-            const response = await fetch('TODO: Backend API for adding course', {
+            const response = await fetch('https://10.101.128.72:6001/courses/add_offer', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

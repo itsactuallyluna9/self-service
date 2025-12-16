@@ -60,11 +60,11 @@ function PasswordReset() {
                     setIsDisabled(true)
                     //setIsVisible(false)
                 }
-                else {
+            }
+            else {
                 console.log("Password change failed.", data);
                 setError("Username or password is incorrect.")
                 }
-            }
         }
         catch (err) {
             setError('An error occurred. Please try again.');

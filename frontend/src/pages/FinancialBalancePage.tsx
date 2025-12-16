@@ -37,11 +37,11 @@ function FinancialBalance() {
     });
 
    const handleChangePeriod = (newperiod: string) => {
-	setSelection(newperiod);
+	setSelection(newperiod); // Sets the period of data we are looking at
 
 	const selected = financialData.find(item => item.period === newperiod);
 	if (selected) {
-		setCurrentData(selected);
+		setCurrentData(selected); // Sets the current data we can see
 	}
     };
 
@@ -52,6 +52,8 @@ function FinancialBalance() {
         try {
         //  Fetch call to backend financial data API endpoint. CarterLampe 12/1/2025
         // const response = await fetch("TODO: API Endpoint for financial data");
+
+        // Mocked response for development purposes. CarterLampe 12/1/2025
         const response = {
             ok: true,
             json: async () => ([
@@ -101,8 +103,8 @@ function FinancialBalance() {
           <h1>An Error Occurred, Please Try Again Later</h1>
         )
         }
-    setFinancialData(fetchedData);
-    setCurrentData(fetchedData.find(item => item.period === selection) || fetchedData[0]);
+    setFinancialData(fetchedData); // Set total financial data when fetched
+    setCurrentData(fetchedData.find(item => item.period === selection) || fetchedData[0]); // set the current data to the default
 
     }
     loadFinancialInformation();
@@ -123,6 +125,7 @@ function FinancialBalance() {
                         <p>Period: </p>
                         <select name="period" id="period-select" onChange={(e) => handleChangePeriod(e.target.value)}>
                             ({financialData.map((item) => (
+                                // create a dropdown for each year available to us
                                 <option key={item.period} value={item.period}>{item.period}</option>
                             ))})
                         </select>

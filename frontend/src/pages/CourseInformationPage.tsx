@@ -4,6 +4,7 @@ import {useNavigate, useLocation} from 'react-router'
 import Navbar from '../components/Navbar' 
 import { useCart } from '../components/CartContext';
 import CartTemplate from '../components/CartTemplate'
+import TextPopup from '../components/TextPopup';
 
 
 interface CourseData {
@@ -31,6 +32,7 @@ interface CartProps { // edit later to have full info
 function DisplayCourses() {
     const [showPopup, setShowPopup] = useState(false)
     const [popupMessage, setPopupMessage] = useState("")
+
     const [courses, setCourses] = useState<CourseData[]| null>(null);
     const { cartCourses, RemoveCourseFromCart, AddCourseToCart } = useCart();
     const [cartButtonText, setCartButtonText] = useState("Add to cart")
@@ -58,15 +60,10 @@ function DisplayCourses() {
 
      if (result) {
       setPopupMessage(`${data.department}${data.coursecode} added to cart!`);
-      setShowPopup(true);
-
-      // Auto-close popup after 2 seconds
-      setTimeout(() => setShowPopup(false), 2000);
     } else {
       setPopupMessage(`Already in cart!`);
-      setShowPopup(true);
-      setTimeout(() => setShowPopup(false), 2000);
     }
+    setShowPopup(true);
   };
 
     
@@ -108,11 +105,14 @@ function DisplayCourses() {
   return (
     <>
     <div className="CourseInformationPage-wrapper">
-    {showPopup && (
-    <div className="popup-overlay">
-      {popupMessage}
-    </div>
-    )}
+      
+   <TextPopup 
+        key={popupMessage}
+        isVisible={showPopup} 
+        message= {popupMessage}
+        onClose={() => setShowPopup(false)} 
+      />
+
     <Navbar />
     
     <div className='split'>

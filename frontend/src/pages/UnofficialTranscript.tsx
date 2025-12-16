@@ -12,7 +12,7 @@ function UnofficialTranscript() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const USE_MOCK = false; // Set to true to use mock data
+  const USE_MOCK = true;
 
   useEffect(() => {
     const UserID = localStorage.getItem('UserID');
@@ -35,7 +35,7 @@ function UnofficialTranscript() {
 
     const fetchTranscript = async () => {
     try {
-      const res = await fetch("https://10.101.128.72:6001/api/unofficial_transcript/",
+      const res = await fetch("https://10.101.128.72:6001/api/unofficial_transcript",
         {
           method: "POST",
           headers: {
@@ -89,12 +89,12 @@ function UnofficialTranscript() {
         </div>
       )}
 
-      {/* ✅ Only show "no transcript" if no error and no data */}
+      {/* Only show "no transcript" if no error and no data */}
       {!loading && !error && !utData && (
         <p className="message">There is no unofficial transcript available</p>
       )}
 
-      {/* ✅ Only show transcript if no error */}
+      {/* Only show transcript if no error */}
       {!loading && !error && utData && (
         <Transcript utData={utData} />
       )}

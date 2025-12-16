@@ -7,7 +7,7 @@ CREATE TABLE FINANCE_DATA(
     tuition INT NOT NULL,
     roomboard INT NOT NULL,
     payperiod VARCHAR(20), -- i.e. fall2025
-    userid INT NOT NULL,
-    FOREIGN KEY (userid) REFERENCES USERS(userid)
+    username VARCHAR(50) NOT NULL,
+    FOREIGN KEY (username) REFERENCES USERS(username)
 );
 

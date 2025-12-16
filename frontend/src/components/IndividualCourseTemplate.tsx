@@ -82,8 +82,6 @@ const IndividualCourseTemplate = (data: CourseProps) => {
                         <p>Prerequisites: {data.prereqs ? data.prereqs : 'None'}</p>
                         <p>Department: {data.department} </p>
                         <p>Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
-                        <p>Department: {data.department} </p>
-                        <p>Course Type: {data.coursetypes ? data.coursetypes : 'None'}</p>
                         <p>Fees: {data.fee ? `$${data.fee}` : 'None'}</p>
                         <p>Credits: {data.credits && data.credits} {!data.credits && "Data Missing"}</p>
                     </div>

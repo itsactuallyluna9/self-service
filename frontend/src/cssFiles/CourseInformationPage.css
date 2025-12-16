@@ -1,19 +1,22 @@
+.CourseInformationPage-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: clip; /* Prevents invisible overflows from blocking clicks */
+}
+
 .CourseInformationPage-wrapper .split {
   display: flex;
-  width: 80%;
-  position: relative;
-  margin-top: 100px;
-  
+  width: 100%;
+  max-width: 1400px;
+  margin: 100px auto 0;
+  gap: 40px;
 }
 
 .CourseInformationPage-wrapper .display {
   display: flex;
   flex-direction: column;
-  flex: 1;     
-  z-index: 1;
-  position: relative;
-  left: 30px;
-  margin: 25px;
+  flex: 1;
+  margin: 0;
   align-items: center;
 }
 
@@ -22,12 +25,13 @@
   flex-direction: column;
   width: 100%;
   gap: 15px;
-  margin: 25px
+  max-width: none; /* allow full stretch */
+  margin: 0;
   
 }
 
 .CourseInformationPage-wrapper .courses .course-card {
-  width: 125%;
+  width: 100%;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -100,6 +104,7 @@
   display: flex;
   gap: 20px;
   align-items: left;
+  margin-bottom: 20px;
 }
 
  .CourseInformationPage-wrapper .filter-button-container button {
@@ -131,15 +136,12 @@
 }
 
 
- .CourseInformationPage-wrapper .course-right {
-  width: 300px;
+.CourseInformationPage-wrapper .course-right {
+  width: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
   align-self: flex-start;
-  top : 100px;
-  left: 200px;
 }
 
  .CourseInformationPage-wrapper .courses .course-card button {

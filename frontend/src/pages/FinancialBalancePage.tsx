@@ -45,6 +45,12 @@ function FinancialBalance() {
 	}
     };
 
+    const formatCurrency = (value: number) =>
+    value.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    });
+
 
     useEffect(() => {
         async function loadFinancialInformation() {
@@ -119,7 +125,7 @@ function FinancialBalance() {
         
         <Navbar />
         <div className="financial-balance-wrapper">
-            <div className="financial-information">\
+            <div className="financial-information">
                 <div className="title-header">
                     <div className="title-header-left">
                         <h1>Financial Balance </h1>
@@ -139,27 +145,35 @@ function FinancialBalance() {
                 </div>    
                 
                 <div className="balance">
-                    <p>${currentData.balance.toFixed(2)}</p>
+                <p>{formatCurrency(currentData.balance)}</p>
                 </div>
+
                 <div className="financial-details">
-                    <div className="details-header">
-                        <p><strong>Type</strong></p> <strong><p>Amount</p></strong>
+                   <div className="details-header">
+                    <p>Fees:</p>
+                    <p>{formatCurrency(currentData.fees)}</p>
                     </div>
+
                     <div className="details-header">
-                        <p>Fees:</p> <p>${currentData.fees.toFixed(2)}</p>
+                    <p>Financial Aid:</p>
+                    <p>{formatCurrency(currentData.financeaid)}</p>
                     </div>
+
                     <div className="details-header">
-                        <p>Financial Aid:</p> <p>${currentData.financeaid.toFixed(2)}</p>
+                    <p>Payments:</p>
+                    <p>{formatCurrency(currentData.payments)}</p>
                     </div>
+
                     <div className="details-header">
-                        <p>Payments:</p> <p>${currentData.payments.toFixed(2)}</p>
+                    <p>Tuition:</p>
+                    <p>{formatCurrency(currentData.tuition)}</p>
                     </div>
-                    <div className="details-header">
-                        <p>Tuition:</p> <p>${currentData.tuition.toFixed(2)}</p>
-                    </div>
+
                     <div className="details-header-bottom">
-                        <p>Room and Board:</p> <p>${currentData.roomboard.toFixed(2)}</p>
+                    <p>Room and Board:</p>
+                    <p>{formatCurrency(currentData.roomboard)}</p>
                     </div>
+
                 </div>
             </div>
 

@@ -32,6 +32,8 @@ function CreateCoursePage() {
       setError("Please enter all required fields")
       return
     }
+    else (
+    setError("Successfully created course"))
 
     const course: CourseData = {
       department: department,

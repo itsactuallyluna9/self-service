@@ -1,8 +1,8 @@
 
 .cartDisplay {
   height: auto;
-  width: 100%;      
-  margin: -110px auto;
+  width: 50%;      
+  margin: -10px auto;
   display: flex;
   flex-direction: column;
   gap: 20px;

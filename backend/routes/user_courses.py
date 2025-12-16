@@ -145,6 +145,7 @@ def list_course():
         cursor.execute('INSERT INTO COURSE_OFFER(academicyear, openseats, totalseats, waitcount, session, professor, courseid) '
                        'SELECT ?, ?, ?, ?, ?, ?, id FROM COURSE_DATA WHERE id = ?',(academicyear,openseats,totalseats,waitcount,session,professor,course_id))
 
+    get_db().commit()
     return jsonify({"success": True, "listed_course": course_id})
 
 

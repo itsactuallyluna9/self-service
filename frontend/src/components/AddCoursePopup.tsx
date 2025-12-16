@@ -130,14 +130,6 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
               onChange={handleNumberChange("totalseats")}
             />
 
-            <label>Open Seats:</label>
-            <input
-              type="number"
-              placeholder="Open Seats"
-              value={addCourseData.openseats}
-              onChange={handleNumberChange("openseats")}
-            />
-
           </div>
 
         </div>

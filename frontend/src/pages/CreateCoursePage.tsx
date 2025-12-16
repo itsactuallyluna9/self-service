@@ -97,7 +97,7 @@ function CreateCoursePage() {
           <div className="course-code">
           <label htmlFor="courseCode">Course Code:</label>
           <input
-            type='text'
+            type='number'
             name='courseCode'
             id='courseCode'
             value={courseCode}
@@ -134,7 +134,7 @@ function CreateCoursePage() {
           <div className="credits">
             <label htmlFor="credits">Credits:</label>
             <input
-              type='text'
+              type='number'
               name='credits'
               id='credits'
               value={credits}
@@ -145,7 +145,7 @@ function CreateCoursePage() {
           <div className="fees">
             <label htmlFor="fee">Fees:</label>
             <input
-              type='text'
+              type='number'
               name='fee'
               id='fee'
               value={fee}

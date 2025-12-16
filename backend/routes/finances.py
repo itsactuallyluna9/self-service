@@ -1,9 +1,7 @@
 from flask import Blueprint, jsonify
 from backend.db import get_db
 
-bp = Blueprint('Finances', __name__)
-
-
+bp = Blueprint('finances', __name__)
 
 @bp.get('/finances/view/<string:username>')
 def view_finances(username):

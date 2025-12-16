@@ -6,7 +6,7 @@ interface CourseData {
   department: string
   coursecode: number
   professor: string
-  session: number
+  session: string
   coursetypes: string
   credits: number
   description: string
@@ -43,7 +43,7 @@ function CreateCoursePage() {
       department: department,
       coursecode: Number(courseCode),
       professor: professor,
-      session: Number(block),
+      session: "Block " + block,
       coursetypes: attributes,
       credits: Number(credits),
       description: description,
@@ -64,13 +64,13 @@ function CreateCoursePage() {
             mode: 'cors',
             redirect: 'error'
             })
-      console.log("Response:" + response.ok)
+      console.log("Response: " + response.ok)
       if (!response.ok){
         throw new Error('Failed to create a course')
       }
       return await response.json()
     } catch(err) {
-      console.log('An Error Has Occurred' + err)
+      console.log('An Error Has Occurred ' + err)
       setError('An Error Has Occurred, Please Try Again Later')
     }
   }

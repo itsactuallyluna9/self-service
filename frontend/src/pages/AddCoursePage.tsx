@@ -38,6 +38,7 @@ function AddCoursePage() {
         setPopupMessage(`${course.department}${course.coursecode} added!`);
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 2000);
+        console.log(course.id)
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
@@ -143,21 +144,7 @@ function AddCoursePage() {
                   >
                     {course.department}{course.coursecode}: {course.title}
                   </h2>
-                  <p>Year: {course.academicyear} |
                   
-                    Term: {Number(course.blocknum.split(" ")[1]) >= 1 && Number(course.blocknum.split(" ")[1]) <= 4
-                    ? "Fall"
-                    : Number(course.blocknum.split(" ")[1]) >= 5 && Number(course.blocknum.split(" ")[1]) <= 8
-                    ? "Spring"
-                    : course.blocknum.includes("Fall")
-                    ? "Fall"
-                    : course.blocknum.includes("Spring")
-                    ? "Spring"
-                    : ""}
-                  </p>
-                  {course.blocknum !== null && (
-                    <p>{course.blocknum}</p>
-                  )}
 
                 </div> {/* card-left */}
                 <div className = 'card-right'>

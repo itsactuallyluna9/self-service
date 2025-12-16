@@ -110,7 +110,7 @@ def check_session_conflicts(conn, courses_to_register, username):
     return False
 
 
-@bp.post('/courses/create')
+@bp.post('/courses/create_new_course')
 def create_course():
     data = request.json
     coursecode = data['coursecode']
@@ -125,14 +125,14 @@ def create_course():
         cursor.execute(
             'INSERT INTO COURSE_DATA(coursecode, title, credits, department, fee, description, prereqs, coursetypes)'
             'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',(coursecode, title, credits, department, fee, description, prereqs, coursetypes))
+        get_db().commit()
         course_id = cursor.lastrowid
-    get_db().commit()
 
     return jsonify({"success": True, "id": course_id})
 
 
-@bp.post('/courses/list_course')
-def list_course():
+@bp.post('/courses/add_offer')
+def add_offer():
     data = request.json
     academicyear = data['academicyear']
     openseats = data['openseats']
@@ -144,9 +144,50 @@ def list_course():
     with get_db().cursor(dictionary=True) as cursor:
         cursor.execute('INSERT INTO COURSE_OFFER(academicyear, openseats, totalseats, waitcount, session, professor, courseid) '
                        'SELECT ?, ?, ?, ?, ?, ?, id FROM COURSE_DATA WHERE id = ?',(academicyear,openseats,totalseats,waitcount,session,professor,course_id))
-
-    get_db().commit()
+        get_db().commit()
     return jsonify({"success": True, "listed_course": course_id})
+
+@bp.get('/courses/catalog')
+def list_course_catalog():
+    with get_db().cursor(dictionary=True) as cursor:
+        cursor.execute("""
+            SELECT
+                id,
+                coursecode,
+                title,
+                credits,
+                department,
+                fee,
+                description,
+                prereqs,
+                coursetypes
+            FROM COURSE_DATA
+            ORDER BY department ASC, coursecode ASC;
+        """)
+        courses = cursor.fetchall()
+        return jsonify({"courses": courses, "success": True})
+    
+@bp.get('/courses/catalog/<int:course_id>')
+def list_course_from_catalog(course_id):
+    with get_db().cursor(dictionary=True) as cursor:
+        cursor.execute("""
+            SELECT
+                id,
+                coursecode,
+                title,
+                credits,
+                department,
+                fee,
+                description,
+                prereqs,
+                coursetypes
+            FROM COURSE_DATA
+            WHERE id = ?
+            LIMIT 1;
+        """, (course_id,))
+        course = cursor.fetchone()
+        return jsonify({"course": course, "success": True})
+
 
 
 @bp.post('/register_courses')

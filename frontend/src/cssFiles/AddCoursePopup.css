@@ -37,9 +37,12 @@
   height: 40px;
   padding: 0 10px;
   border-radius: 6px;
-  border: 1px solid #ccc;
   font-size: 14px;
   width: 100%;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  color: black;
 }
 
 /* Input fields layout */
@@ -97,6 +100,11 @@
 
 .addcourse-confirm-button:hover {
   background: #1d4ed8;
+}
+.addcourse-input-fields input {
+  color: black;
+  background: white;
+  border: 1px solid #ccc;
 }
 
 /* Fade-in animation */

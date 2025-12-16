@@ -151,10 +151,16 @@ function AddCoursePage() {
                     <p>Credit{course.credits == 1 ? "" : "s"}</p>
                   </div>
                   <div className='card-column'>
-                    {course.fee !== null && (
+                    {course.fee && (
                       <div>
                         <h3>${course.fee}</h3> 
-                        <p>Applicable fees</p>
+                        <p>Fees</p>
+                      </div>
+                    )}
+                    {!course.fee && (
+                      <div>
+                        <h3>None</h3>
+                        <p>Fees</p>
                       </div>
                     )}
                   </div>

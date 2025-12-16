@@ -93,7 +93,6 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
                 <option value="Summer">Summer</option>
               
             </select>
-
             <label>Professor:</label>
             <select
               value={addCourseData.professor}

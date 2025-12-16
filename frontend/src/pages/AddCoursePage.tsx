@@ -21,12 +21,6 @@ interface AddCourseData {
   totalseats: number | null;
 }
 
-interface CourseData {
-  course_id: number;
-  professor: string;
-  session: string;
-  totalseats: number | null;
-}
 
 
 
@@ -54,17 +48,7 @@ function AddCoursePage() {
 
     // Confirm adding course from modal. CarterLampe 12/16/2025.
     const handleConfirmAddCourse = (addCourseData: AddCourseData) => {
-      // Update selected course with modal data. CarterLampe 12/16/2025.
-      if (addCourseData){
-        const course = {
-          course_id: selectedCourse ? selectedCourse.id : 0,
-          totalseats: Number(addCourseData.totalseats),
-          professor: addCourseData.professor,
-          blocknum: addCourseData.session,
-          session: addCourseData.session,
-        };
-        handleAdd(course, addCourseData.academicyear)
-        }
+        handleAdd( addCourseData.academicyear, addCourseData.totalseats, addCourseData.professor, addCourseData.session, addCourseData.course_id);
         setIsModalOpen(false);
       }
     
@@ -79,7 +63,7 @@ function AddCoursePage() {
       )
     }
 
-    const handleAdd = async (course: CourseData, academicyear: number | "") => {
+    const handleAdd = async (academicyear: number | "", totalseats: number | null, professor: string, session: string, course_id: number) => {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
@@ -88,7 +72,7 @@ function AddCoursePage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ course, academicyear }),
+            body: JSON.stringify({ academicyear, totalseats, professor, session, course_id}),
             })
             
             // Dummy response for testing. CarterLampe 12/6/2025.

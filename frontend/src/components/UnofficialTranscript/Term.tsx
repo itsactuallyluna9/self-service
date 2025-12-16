@@ -8,9 +8,12 @@ interface UTTermProps {
 }
 
 const Term = ({ term, year }: UTTermProps) => {
+  if (!term.courses || term.courses.length === 0) {
+    return null;
+  }
   return (
     <div className="ut-term">
-      <p><strong>{year} {term.term}</strong></p>
+      <p className='ut-term-title'><strong>{year} {term.term}</strong></p>
       <div className="ut-term-header">
         <p className="col">Course</p>	
         <p className="col-title">Title</p>	

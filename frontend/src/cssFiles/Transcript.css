@@ -29,3 +29,7 @@
 .ut-right {
     text-align: right;
 }
+
+.ut-right p {
+    font-size: 1rem;
+}

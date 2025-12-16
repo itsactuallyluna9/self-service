@@ -3,7 +3,11 @@
   margin: 40px 0;
 }
 
-.ut-term > h1 {
+.ut-term-title {
+  margin: 0;
+}
+
+.ut-term h1 {
   font-size: 20px;
   margin-bottom: 10px;
   color: #333;
@@ -15,8 +19,15 @@
   justify-content: space-between;
   font-weight: 600;
   border-bottom: 1px solid #ccc;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   padding: 10px 15px;
+}
+
+.ut-term-header p {
+  margin: 0;
+  font-size: 0.8rem; 
+  font-weight: 800;
+  color: #555555;
 }
 
 

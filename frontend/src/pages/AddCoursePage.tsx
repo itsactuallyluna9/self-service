@@ -17,25 +17,10 @@ interface AddCourseData {
   professor: string;
   academicyear: number | "";
   blocknum: string;
-  openseats: number | "";
   session: string;
   totalseats: number | null;
 }
 
-interface CourseData {
-  id: number;
-  department: string | null;
-  title: string | null;
-  credits: number;
-  fee: number | null;
-  coursecode: number;
-  totalseats: number | null;
-  professor: string;
-  academicyear: number | "";
-  blocknum: string;
-  openseats: number | "";
-  session: string;
-}
 
 
 
@@ -65,17 +50,11 @@ function AddCoursePage() {
       // Update selected course with modal data. CarterLampe 12/16/2025.
       if (addCourseData){
         const course = {
-          id: selectedCourse!.id,
-          department: selectedCourse!.department,
-          title: selectedCourse!.title,
-          credits: selectedCourse!.credits,
-          fee: selectedCourse!.fee,
           coursecode: selectedCourse!.coursecode,
           totalseats: Number(addCourseData.totalseats),
           professor: addCourseData.professor,
           academicyear: addCourseData.academicyear,
           blocknum: addCourseData.session,
-          openseats: Number(addCourseData.openseats),
           session: addCourseData.session,
         };
         handleAdd(course)
@@ -87,10 +66,14 @@ function AddCoursePage() {
         setIsModalOpen(false);
     }
 
-    const handleAdd = async (course: CourseData) => {
-        setPopupMessage(`${course.department}${course.coursecode} added!`);
-        setShowPopup(true);
-        setTimeout(() => setShowPopup(false), 2000);
+    const handleClearFilter = () => {
+      // Reload the page to clear filters
+      return(
+        nav('/AddCoursePage/')
+      )
+    }
+
+    const handleAdd = async (course: AddCourseData) => {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
@@ -99,7 +82,7 @@ function AddCoursePage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: course.id }),
+            body: JSON.stringify({ course }),
             })
             
             // Dummy response for testing. CarterLampe 12/6/2025.

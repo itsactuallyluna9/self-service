@@ -14,9 +14,9 @@ interface BaseCourseData {
 }
 
 interface AddCourseData {
+  course_id: number;
   professor: string;
   academicyear: number | "";
-  blocknum: string;
   session: string;
   totalseats: number | null;
 }
@@ -50,7 +50,7 @@ function AddCoursePage() {
       // Update selected course with modal data. CarterLampe 12/16/2025.
       if (addCourseData){
         const course = {
-          coursecode: selectedCourse!.coursecode,
+          course_id: addCourseData.course_id,
           totalseats: Number(addCourseData.totalseats),
           professor: addCourseData.professor,
           academicyear: addCourseData.academicyear,

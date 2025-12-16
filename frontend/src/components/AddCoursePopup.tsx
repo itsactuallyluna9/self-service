@@ -9,10 +9,9 @@ interface AddCourseModalProps {
 }
 
 interface AddCourseData {
+  course_id: number;
   professor: string;
   academicyear: number | "";
-  blocknum: string;
-  openseats: number | "";
   session: string;
   totalseats: number | null;
 }
@@ -60,11 +59,10 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
 
 
   const [addCourseData, setAddCourseData] = React.useState<AddCourseData>({
+    course_id: 0,
     academicyear: "",
-    openseats: "",
     session: "",
     professor: "",
-    blocknum: "",
     totalseats: null,
   });
 

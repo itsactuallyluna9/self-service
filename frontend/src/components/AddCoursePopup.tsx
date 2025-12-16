@@ -41,7 +41,7 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
                 setDepartments(await deptResponse.json() || []);
                 const profResponse = await fetch("https://10.101.128.72:6001/api/filter/options/professors");
                 setProfessors(await profResponse.json() || []);
-                const yearResponse = await fetch("https://10.101.128.72:6001/api/filter/options/years");
+                const yearResponse = await fetch("https://10.101.128.72:6001/api/filter/options/academic_years");
                 setYears(await yearResponse.json() || []);
                 const blockResponse = await fetch("https://10.101.128.72:6001/api/filter/options/blocks");
                 setBlocks(await blockResponse.json() || []);
@@ -110,13 +110,10 @@ const AddCourseModal = ({ isOpen, onConfirm, onCancel }: AddCourseModalProps) =>
               value={addCourseData.academicyear}
               onChange={(e) => setAddCourseData({ ...addCourseData, academicyear: Number(e.target.value) })}
             >
-                <option value="">Select Year</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
+                <option value="">Select</option>
+                {years.map((years) => (
+            <option key={years} value={years}>{years}</option>
+                ))}
             </select>
 
           </div>

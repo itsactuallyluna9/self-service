@@ -14,10 +14,13 @@ DROP TABLE IF EXISTS USERS;
 -- Create base tables (no dependencies)
 SOURCE tables/users_data.sql;
 SOURCE tables/courses_data.sql;
+SOURCE tables/student_data.sql;
+SOURCE tables/academic_programs.sql;
 
 -- Create tables with one level of dependencies
 SOURCE tables/course_offerings.sql;
 SOURCE tables/finance_data.sql;
+SOURCE tables/student_study_field.sql;
 
 -- Create tables with two levels of dependencies
 SOURCE tables/cart_save.sql;

@@ -78,7 +78,7 @@ const handleRegister = async (e: React.FormEvent) => {
                     >
                       {course.department}
                       {course.coursecode}: {course.title}
-                      {course.openseats == 0 ? "" : "  (Waitlist)"}
+                      {course.openseats == 0  && "(Waitlist)"}
                     </h2>
                     
                     <div className="buttonRow">

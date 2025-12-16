@@ -21,6 +21,13 @@ interface AddCourseData {
   totalseats: number | null;
 }
 
+interface CourseData {
+  course_id: number;
+  professor: string;
+  session: string;
+  totalseats: number | null;
+}
+
 
 
 
@@ -50,14 +57,13 @@ function AddCoursePage() {
       // Update selected course with modal data. CarterLampe 12/16/2025.
       if (addCourseData){
         const course = {
-          course_id: addCourseData.course_id,
+          course_id: selectedCourse ? selectedCourse.id : 0,
           totalseats: Number(addCourseData.totalseats),
           professor: addCourseData.professor,
-          academicyear: addCourseData.academicyear,
           blocknum: addCourseData.session,
           session: addCourseData.session,
         };
-        handleAdd(course)
+        handleAdd(course, addCourseData.academicyear)
         }
         setIsModalOpen(false);
       }
@@ -73,7 +79,7 @@ function AddCoursePage() {
       )
     }
 
-    const handleAdd = async (course: AddCourseData) => {
+    const handleAdd = async (course: CourseData, academicyear: number | "") => {
 
         try{
             // Fetch call to backend login API endpoint. CarterLampe 12/1/2025.
@@ -82,7 +88,7 @@ function AddCoursePage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ course }),
+            body: JSON.stringify({ course, academicyear }),
             })
             
             // Dummy response for testing. CarterLampe 12/6/2025.

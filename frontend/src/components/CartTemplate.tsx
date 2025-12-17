@@ -12,7 +12,6 @@ import TextPopup from "./TextPopup";
 const CartTemplate = () => {
   const [showPopup, setShowPopup] = useState(false)
   const [popupMessage, setPopupMessage] = useState("")
-  const [popupTrigger, setPopupTrigger] = useState(0);
 
   const [error, setError] = useState('')
   const { cartCourses, RemoveCourseFromCart } = useCart();

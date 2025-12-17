@@ -3,7 +3,8 @@ import '../cssFiles/IndividualCourseTemplate.css'
 import Logo from '../assets/Cornell_logo.png'
 import { useNavigate }  from 'react-router'
 import register from './Register'
-
+import TextPopup from "./TextPopup";
+import { useState } from 'react'
 
 interface CourseProps {
     academicyear: number | null,
@@ -26,6 +27,10 @@ interface CourseProps {
 
 
 const IndividualCourseTemplate = (data: CourseProps) => {
+
+    const [showPopup, setShowPopup] = useState(false)
+      const [popupMessage, setPopupMessage] = useState("")
+
     const nav = useNavigate()
     const registerCourse = async (code : number) => {
         const courses = [code]
@@ -33,16 +38,23 @@ const IndividualCourseTemplate = (data: CourseProps) => {
         const result = await reply
         if (result === true) {
             console.log("success removal")
-            nav('/RegisteredCourses')
+            setPopupMessage(`Registration Successful!`);
         }
         else {
             console.log("false removal")
-            //setError("Registration Failed. Please try again.")
+            setPopupMessage("Registration Failed. Please try again.");
         }
+        setShowPopup(true);
     }
 
     return (
         <div className='ind'>
+            <TextPopup 
+            key={popupMessage}
+            isVisible={showPopup} 
+            message= {popupMessage}
+            onClose={() => setShowPopup(false)} 
+            />
             <form>
                 <img src={Logo} alt="Logo" />
                 <h2>{data.department}{data.coursecode}: {data.title}</h2>

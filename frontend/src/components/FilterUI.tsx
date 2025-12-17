@@ -51,7 +51,7 @@ function FilterUI({ filters, setFilters, professors, departments, attributes, bl
           <option value="">Select</option>
           <option value="Fall">Fall</option>
           <option value="Spring">Spring</option>
-          <option value="Summer">Summer</option>
+          {/* <option value="Summer">Summer</option> */}
         </select>
       </div>
 

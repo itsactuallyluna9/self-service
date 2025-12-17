@@ -13,7 +13,8 @@
   color: #333;
 }
 
-.ut-term-header {
+.ut-term-header,
+.ut-course {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -30,39 +31,12 @@
   color: #555555;
 }
 
-
-.ut-term-stats {
-  display: flex;
-  flex-direction: row; 
-  justify-content: space-between;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 8px;
-}
-.ut-term-stats p {
-  flex: 1; 
-  margin: 0;
-  padding: 0 5px;
-  text-align: left;
-  font-size: 14px;
-}
-
-.ut-course {
-  display: flex;
-  align-items: center; 
-  padding: 10px 15px;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 8px;
-}
-
 .ut-course p {
   margin: 0;
-  padding: 0 5px;
   font-size: 14px;
   font-weight: 500;
   text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; 
+  white-space: normal;
 }
 
 .col-title {

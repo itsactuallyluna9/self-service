@@ -13,7 +13,8 @@ const Term = ({ term, year }: UTTermProps) => {
   }
   return (
     <div className="ut-term">
-      <p className='ut-term-title'><strong>Academic Year {year} - {term.term}</strong></p>
+      <p className='ut-term-title'><strong>{term.term === "Spring" ? ` ${year + 1} ${term.term}` : `${year} ${term.term}`}</strong></p>
+
       <div className="ut-term-header">
         <p className="col">Course</p>	
         <p className="col-title">Title</p>	

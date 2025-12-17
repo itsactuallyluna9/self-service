@@ -26,6 +26,13 @@ interface AddCourseData {
 
 
 function AddCoursePage() {
+
+      if (
+      localStorage.getItem('UserType') != 'REGISTRAR'){
+        return (
+          <p>Access restricted</p>
+        )
+      }
     const nav = useNavigate()
     const location = useLocation()
 

@@ -105,8 +105,8 @@ function DisplayCourses() {
   return (
     <>
     <div className="CourseInformationPage-wrapper">
-      
-   <TextPopup 
+    
+    <TextPopup 
         key={popupMessage}
         isVisible={showPopup} 
         message= {popupMessage}

@@ -17,7 +17,10 @@ function App() {
     <>
       <Navbar />
     <div className='welcome-message'>
-      <h1>Welcome to Self Service</h1>
+      <h1>Welcome to Cornell College Self-Service!</h1>
+      {localStorage.getItem('UserID') && (
+      <h2>You are currently signed in as: {localStorage.getItem('UserID')}</h2>
+      )}
     </div>
     </>
   )

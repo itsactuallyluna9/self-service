@@ -14,6 +14,14 @@ interface CourseData {
 }
 
 function CreateCoursePage() {
+  
+  if (
+      localStorage.getItem('UserType') != 'REGISTRAR'){
+        return (
+          <p>Access restricted</p>
+        )
+      }
+
   const [department, setDepartment] = useState('')
   const [courseCode, setCourseCode] = useState('')
   const [attributes, setAttributes] = useState('')

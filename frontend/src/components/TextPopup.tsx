@@ -16,7 +16,7 @@ const TextPopup = ({ message, isVisible, onClose }: TextPopupProps) => {
   if (isVisible) {
     const timer = setTimeout(() => {
       onClose();
-    }, 2000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }

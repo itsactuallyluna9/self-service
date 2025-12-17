@@ -1,8 +1,12 @@
 h1 {
-     color: black;
+     color: #523178;
+     text-align: center;
+}
+h2 {
+     color: #7d7d7d;
      text-align: center;
 }
 .welcome-message {
      position: relative;
-     top: 100px;
+     top: 200px
 }

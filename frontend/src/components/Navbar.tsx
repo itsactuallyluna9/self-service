@@ -15,7 +15,7 @@ const Navbar = () => {
     }
     const handleConfirmSignOut = () => {
         // Implement signout logic here. CarterLampe 12/5/2025.
-        localStorage.removeItem('UserId');
+        localStorage.removeItem('UserID');
         localStorage.removeItem('UserType')
         console.log("User signed out.")
         return navigate('/SignIn/')
@@ -54,9 +54,16 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-right">
+                {localStorage.getItem('UserID') && (
                 <button className="signout-button" onClick={handleSignOutClicked}>
                 Sign Out
                 </button>
+                )}
+                {!localStorage.getItem('UserID') && (
+                <button className="signout-button" onClick={handleConfirmSignOut}>
+                Sign In
+                </button>
+                )}
             </div>
             <LogoutModal
                 isOpen={isModalOpen}

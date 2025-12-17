@@ -51,8 +51,8 @@ export interface UT {
 
 // Mock Unofficial Transcript Data
 const mockUT: UT = {
-  username: "ksaho27",
-  fullname: "Kaede Saho",
+  username: "user123",
+  fullname: "First Last",
   programs: [
     {
       program: "Undergraduate",
